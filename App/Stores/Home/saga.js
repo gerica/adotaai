@@ -1,13 +1,13 @@
 import { takeLatest, all } from 'redux-saga/effects';
-import { StartupTypes } from './actions';
+import { HomeTypes } from './actions';
 
 // eslint-disable-next-line require-yield
-function* hello() {
+function* initSaga() {
     console.log('está no saga do home');
 }
 
 export function* watchTakeLatest() {
-    yield takeLatest(StartupTypes.STARTUP, hello);
+    yield takeLatest(HomeTypes.INIT_REDUCER, initSaga);
 }
 
 export default function* homeSaga() {

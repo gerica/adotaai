@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button } from 'react-native';
-import { connect, compose } from 'react-redux';
+import { connect } from 'react-redux';
+import HomeActions from '../../Stores/Home/actions';
 
 // import injectReducer from '../../utils/injectReducer';
 // import injectSaga from '../../utils/injectSaga';
 import { ApplicationStyles } from '../../theme';
 // import reducer from './reducer';
 // import saga from './saga';
-import StartupActions from './actions';
+
 
 const styles = {
     container: {
@@ -23,9 +24,9 @@ class HomePage extends Component {
     }
     onPressLearnMore = () => {
         console.log('está no componente');
-        const { startup } = this.props;
+        const { initReducer } = this.props;
         this.setState({ isShowingText: !this.state.isShowingText });
-        startup();
+        initReducer();
     }
 
     render() {
@@ -51,13 +52,13 @@ class HomePage extends Component {
 
 
 HomePage.propTypes = {
-    startup: PropTypes.func,
+    initReducer: PropTypes.func,
 };
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-    startup: () => dispatch(StartupActions.startup()),
+    initReducer: () => dispatch(HomeActions.initReducer()),
 });
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);

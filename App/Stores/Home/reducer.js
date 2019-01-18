@@ -1,17 +1,18 @@
 import { createReducer } from 'reduxsauce';
 import { fromJS } from 'immutable';
-import { StartupTypes } from './actions';
+import { HomeTypes } from './actions';
 
 const INITIAL_STATE = fromJS({
     obj: null,
 });
 
-const metodoTeste = (state) => {
+export const initReducer = (state = INITIAL_STATE) => {
     console.log('está no reducer');
     return state.set('obj', { nome: 'rogerio' });
 };
 
-export const reducer = createReducer(INITIAL_STATE, {
-    [StartupTypes.STARTUP]: metodoTeste,
+const homeReducer = createReducer(INITIAL_STATE, {
+    [HomeTypes.INIT_REDUCER]: initReducer,
 });
 
+export default homeReducer;

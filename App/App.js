@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
 
-import store from './Store';
+import configureStore from './Stores';
 import HomePage from './Containers/Home';
 // import configureStore from './utils/configureStore';
 
 // const store = configureStore();
 
 type Props = {};
+const store = configureStore();
 export default class App extends Component<Props> {
   render() {
     return (
