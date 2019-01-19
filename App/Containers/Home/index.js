@@ -15,6 +15,8 @@ import {
     Text,
     Footer,
     FooterTab,
+    Card,
+    CardItem,
 } from 'native-base';
 import HomeActions from '../../Stores/Home/actions';
 
@@ -33,7 +35,7 @@ import HomeActions from '../../Stores/Home/actions';
 
 class HomePage extends Component {
 
-    onPressLearnMore = () => {
+    onToggleDrawer = () => {
         // console.log('está no componente');
         const { initReducer } = this.props;
         initReducer();
@@ -45,19 +47,28 @@ class HomePage extends Component {
             <Container>
                 <Header>
                     <Left>
-                        <Button transparent>
+                        <Button
+                            transparent
+                            onPress={this.onToggleDrawer}
+                        >
                             <Icon name='menu' />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Header</Title>
+                        <Title>Adota ai!</Title>
                     </Body>
                     <Right />
                 </Header>
                 <Content>
-                    <Icon name='home' />
-                    <Icon ios='ios-menu' android="md-menu" style={{ fontSize: 20, color: 'red' }} />
-                    <Icon type="FontAwesome" name="home" />
+                    <Card>
+                        <CardItem>
+                            <Icon active name="logo-googleplus" />
+                            <Text>Google Plus</Text>
+                            <Right>
+                                <Icon name="arrow-forward" />
+                            </Right>
+                        </CardItem>
+                    </Card>
                 </Content>
                 <Footer>
                     <FooterTab>
