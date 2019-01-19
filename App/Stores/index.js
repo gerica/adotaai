@@ -1,19 +1,21 @@
-/**
- * Create the store with asynchronously loaded reducers
- */
-
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import appSagas from './rootSagas';
 import createReducer from './rootReducers';
+import { appNavigatorMiddleware } from '../Containers/Navigator/appNavigatorOpen';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore() {
-    // Create the store with two middlewares
-    // 1. sagaMiddleware: Makes redux-sagas work
-    // 2. routerMiddleware: Syncs the location/URL path to the state
-    const middlewares = [sagaMiddleware];
+    /* ------------- Redux Configuration ------------- */
+    const middlewares = [];
+
+    /* ------------- Navigation Middleware ------------ */
+    middlewares.push(appNavigatorMiddleware);
+
+    /* ------------- Saga Middleware ------------- */
+
+    middlewares.push(sagaMiddleware);
 
     const enhancers = [applyMiddleware(...middlewares)];
 

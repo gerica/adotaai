@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Fonts from './Theme/Fonts';
 import ApplicationStyles from './Theme/ApplicationStyles';
 import configureStore from './Stores';
-import HomePage from './Containers/Home';
-// import configureStore from './utils/configureStore';
-
-// const store = configureStore();
+import AppWithNavigationState from './Containers/Navigator/appNavigatorOpen';
+// import Details from './Containers/Details';
+// import HomePage from './Containers/Home';
 
 type Props = {};
 const store = configureStore();
@@ -17,8 +16,9 @@ export default class App extends Component<Props> {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Text style={styles.welcome}>Teste 25</Text>
-          <HomePage />
+          {/* <HomePage /> */}
+          <AppWithNavigationState />
+          {/* <Details /> */}
         </View>
       </Provider>
     );
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 5,
   },
-})
+});

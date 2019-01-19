@@ -6,7 +6,7 @@ import HomeActions from '../../Stores/Home/actions';
 
 // import injectReducer from '../../utils/injectReducer';
 // import injectSaga from '../../utils/injectSaga';
-import { ApplicationStyles } from '../../theme';
+import ApplicationStyles from '../../Theme/ApplicationStyles';
 // import reducer from './reducer';
 // import saga from './saga';
 
@@ -18,30 +18,23 @@ const styles = {
 };
 
 class HomePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isShowingText: true };
-    }
+
     onPressLearnMore = () => {
-        console.log('está no componente');
+        // console.log('está no componente');
         const { initReducer } = this.props;
-        this.setState({ isShowingText: !this.state.isShowingText });
         initReducer();
+        this.props.navigation.navigate('detailStack');
     }
 
     render() {
-        const { isShowingText } = this.state;
         return (
             <View style={styles.container}>
-                {isShowingText ?
-                    < Text >
-                        Tela inicial Vamos ver tudo isso junto
+                < Text >
+                    Tela inicial Vamos ver tudo isso junto
                     </Text>
-                    : null
-                }
                 <Button
                     onPress={this.onPressLearnMore}
-                    title="Toggle Texto"
+                    title="Ir para outra tela"
                     color="#841584"
                     accessibilityLabel="Learn more about this purple button"
                 />

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
 import homeReducer from './Home/reducer';
+import navReducer from './Navigator';
 
 /**
  * Creates the main reducer with the asynchronously loaded ones
@@ -8,6 +9,7 @@ import homeReducer from './Home/reducer';
 export default function createReducer() {
     return combineReducers({
         form: reduxFormReducer,
-        homeReducer,
+        home: homeReducer,
+        nav: navReducer,
     });
 }
