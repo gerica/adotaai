@@ -16,8 +16,8 @@ const styles = {
 class DetailsPage extends Component {
 
     backPage = () => {
-        console.log(this.props);
-        this.props.navigation.goBack();
+        // this.props.navigation.goBack();
+        this.props.navigation.toggleDrawer();
     }
 
     render() {

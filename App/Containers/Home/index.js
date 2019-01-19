@@ -23,7 +23,8 @@ class HomePage extends Component {
         // console.log('está no componente');
         const { initReducer } = this.props;
         initReducer();
-        this.props.navigation.navigate('detailStack');
+        // this.props.navigation.navigate('detailStack');
+        this.props.navigation.toggleDrawer();
     }
 
     render() {

@@ -28,7 +28,7 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     ...ApplicationStyles.screen.container,
-    margin: 30,
+    margin: '1%',
     flex: 1,
     justifyContent: 'center',
   },
