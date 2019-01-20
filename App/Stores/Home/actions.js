@@ -7,6 +7,9 @@ const { Types, Creators } = createActions({
     requestWithDefaultValues: { username: 'guest', password: null },
     logout: null,
     initReducer: null,
+    fetchDoadores: null,
+    fetchDoadoresSuccess: ['listaDoadores'],
+    fetchDoadoresFailure: ['errorMessage'],
 });
 
 export const HomeTypes = Types;

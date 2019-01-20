@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
 import {
     Container,
     Header,
@@ -22,19 +21,6 @@ import {
 } from 'native-base';
 import HomeActions from '../../Stores/Home/actions';
 
-// import injectReducer from '../../utils/injectReducer';
-// import injectSaga from '../../utils/injectSaga';
-// import ApplicationStyles from '../../Theme/ApplicationStyles';
-// import reducer from './reducer';
-// import saga from './saga';
-
-
-// const styles = {
-//     container: {
-//         ...ApplicationStyles.screen.container,
-//     },
-// };
-
 class HomePage extends Component {
     constructor(props) {
         super(props);
@@ -42,11 +28,23 @@ class HomePage extends Component {
     }
 
     componentWillMount() {
-        const filePath = 'racas/Akita-2-100x100.jpg';
-        const ref = firebase.storage().ref(filePath);
-        ref.getDownloadURL().then((url) => {
-            this.setState({ uriDog: url });
-        });
+        const { fetchDoadores } = this.props;
+        // console.log(fetchDoadores);
+        fetchDoadores();
+        // const filePath = 'racas/Akita-2-100x100.jpg';
+        // const ref = firebase.storage().ref(filePath);
+        // ref.getDownloadURL().then((url) => {
+        //     this.setState({ uriDog: url });
+        // });
+
+        // const ref = firebase.database().ref('listaDoacao');
+        // firebase.database().ref('listaDoacao/').once('value', (snapshot) => {
+        //     // console.log(snapshot);
+        //     // console.log(snapshot.val());
+        //     const data = snapshot.val();
+        //     const items = Object.values(data);
+        //     this.setState({ items });
+        // });
     }
 
     onToggleDrawer = () => {
@@ -57,6 +55,7 @@ class HomePage extends Component {
         this.props.navigation.toggleDrawer();
     }
     render() {
+        console.log(this.state);
         return (
             <Container>
                 <Header>
@@ -114,12 +113,14 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
     initReducer: PropTypes.func,
+    fetchDoadores: PropTypes.func,
 };
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
     initReducer: () => dispatch(HomeActions.initReducer()),
+    fetchDoadores: () => dispatch(HomeActions.fetchDoadores()),
 });
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);
