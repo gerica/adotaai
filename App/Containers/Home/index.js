@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'react-native-firebase';
 import {
     Container,
     Header,
@@ -17,6 +18,7 @@ import {
     FooterTab,
     Card,
     CardItem,
+    Thumbnail
 } from 'native-base';
 import HomeActions from '../../Stores/Home/actions';
 
@@ -34,6 +36,18 @@ import HomeActions from '../../Stores/Home/actions';
 // };
 
 class HomePage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { uriDog: false };
+    }
+
+    componentWillMount() {
+        const filePath = 'racas/Akita-2-100x100.jpg';
+        const ref = firebase.storage().ref(filePath);
+        ref.getDownloadURL().then((url) => {
+            this.setState({ uriDog: url });
+        });
+    }
 
     onToggleDrawer = () => {
         // console.log('está no componente');
@@ -62,7 +76,10 @@ class HomePage extends Component {
                 <Content>
                     <Card>
                         <CardItem>
-                            <Icon active name="logo-googleplus" />
+                            {/* <Icon active name="logo-googleplus" /> */}
+                            {this.state.uriDog ?
+                                <Thumbnail source={{ uri: this.state.uriDog }} />
+                                : null}
                             <Text>Google Plus</Text>
                             <Right>
                                 <Icon name="arrow-forward" />
