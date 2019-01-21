@@ -17,9 +17,12 @@ import {
     FooterTab,
     Card,
     CardItem,
+    Spinner,
     Thumbnail
 } from 'native-base';
+import { createStructuredSelector } from 'reselect';
 import HomeActions from '../../Stores/Home/actions';
+import * as selectors from '../../Stores/Home/selector';
 
 class HomePage extends Component {
     constructor(props) {
@@ -29,33 +32,62 @@ class HomePage extends Component {
 
     componentWillMount() {
         const { fetchDoadores } = this.props;
-        // console.log(fetchDoadores);
         fetchDoadores();
-        // const filePath = 'racas/Akita-2-100x100.jpg';
-        // const ref = firebase.storage().ref(filePath);
-        // ref.getDownloadURL().then((url) => {
-        //     this.setState({ uriDog: url });
-        // });
-
-        // const ref = firebase.database().ref('listaDoacao');
-        // firebase.database().ref('listaDoacao/').once('value', (snapshot) => {
-        //     // console.log(snapshot);
-        //     // console.log(snapshot.val());
-        //     const data = snapshot.val();
-        //     const items = Object.values(data);
-        //     this.setState({ items });
-        // });
     }
 
     onToggleDrawer = () => {
-        // console.log('está no componente');
         const { initReducer } = this.props;
         initReducer();
         // this.props.navigation.navigate('detailStack');
         this.props.navigation.toggleDrawer();
     }
+
+    getImagemPet(filePath) {
+        const { getImagemPet, imagemPet } = this.props;
+        if (imagemPet) {
+            const temp = imagemPet.find((e) => e.key === filePath);
+            if (temp) {
+                return temp.img;
+            }
+            // return null;
+        }
+        getImagemPet(filePath);
+        return null;
+    }
+
+    // getImagemPet(filePath) {
+    // const { imagemPet } = this.props;
+    // if (imagemPet) {
+    //     return imagemPet.find((e) => e.filePath === filePath);
+    // }
+    // return null;
+    // getImagemPet(filePath);
+    // }
+
     render() {
-        console.log(this.state);
+        const { loading, listaDoadores } = this.props;
+        if (loading) {
+            return <Spinner />;
+        }
+        let cards;
+
+        if (listaDoadores) {
+            cards = listaDoadores.map((obj, key) =>
+                <Card key={key}>
+                    <CardItem>
+                        {/* <Icon active name="logo-googleplus" /> */}
+                        {
+                            this.getImagemPet(obj.imagen) ?
+                                <Thumbnail source={{ uri: this.getImagemPet(obj.imagen) }} /> : null
+                        }
+                        <Text>{obj.pessoaDoadora}</Text>
+                        <Right>
+                            <Icon name="arrow-forward" />
+                        </Right>
+                    </CardItem>
+                </Card>
+            );
+        }
         return (
             <Container>
                 <Header>
@@ -73,18 +105,7 @@ class HomePage extends Component {
                     <Right />
                 </Header>
                 <Content>
-                    <Card>
-                        <CardItem>
-                            {/* <Icon active name="logo-googleplus" /> */}
-                            {this.state.uriDog ?
-                                <Thumbnail source={{ uri: this.state.uriDog }} />
-                                : null}
-                            <Text>Google Plus</Text>
-                            <Right>
-                                <Icon name="arrow-forward" />
-                            </Right>
-                        </CardItem>
-                    </Card>
+                    {cards}
                 </Content>
                 <Footer>
                     <FooterTab>
@@ -114,13 +135,36 @@ class HomePage extends Component {
 HomePage.propTypes = {
     initReducer: PropTypes.func,
     fetchDoadores: PropTypes.func,
+    getImagemPet: PropTypes.func,
+    loading: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.bool
+    ]),
+    listaDoadores: PropTypes.array,
+    imagemPet: PropTypes.array,
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = createStructuredSelector({
+    listaDoadores: selectors.selectorListaDoadores(),
+    // form: selectors.selectorForm(),
+    // form: selectors.selectorForm(),
+    loading: selectors.selectorLoading(),
+    imagemPet: selectors.selectorImagemPet(),
+});
+
+// function mapStateToProps(state) {
+//     console.log('estou no state to props');
+//     console.log(state);
+//     console.log('-------');
+//     return {
+//         nameAsProps: state.username,
+//     };
+// }
 
 const mapDispatchToProps = (dispatch) => ({
     initReducer: () => dispatch(HomeActions.initReducer()),
     fetchDoadores: () => dispatch(HomeActions.fetchDoadores()),
+    getImagemPet: (filePath) => dispatch(HomeActions.getImagemPet(filePath)),
 });
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -7,5 +7,6 @@ export default function* rootSaga() {
     yield all([
         homeSaga.watchTakeLatest(),
         homeSaga.watchFetchDoadores(),
+        homeSaga.watchgetImagemPet(),
     ]);
 }
