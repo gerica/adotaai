@@ -20,20 +20,38 @@ import {
     Spinner,
     Thumbnail
 } from 'native-base';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStructuredSelector } from 'reselect';
+import Reactotron from 'reactotron-react-native';
 import HomeActions from '../../Stores/Home/actions';
 import * as selectors from '../../Stores/Home/selector';
 
 class HomePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { uriDog: false };
-    }
-
     componentWillMount() {
         const { fetchDoadores } = this.props;
         fetchDoadores();
+        Reactotron.log('chamou o will mount');
     }
+
+    componentWillUpdate(nextProps) {
+        const { listaDoadores, changeLoading, loading, getImagemPet } = nextProps;
+
+        // console.log('--------');
+        // console.log(listaDoadores);
+        if (listaDoadores && loading) {
+            let completGetUrlImagens = true;
+            for (const obj of listaDoadores) {
+                Reactotron.log(obj);
+                if (!obj.imagemUrl) {
+                    completGetUrlImagens = false;
+                    getImagemPet(obj);
+                }
+            }
+            // console.log(completGetUrlImagens);
+            changeLoading(completGetUrlImagens);
+        }
+    }
+
 
     onToggleDrawer = () => {
         const { initReducer } = this.props;
@@ -42,45 +60,24 @@ class HomePage extends Component {
         this.props.navigation.toggleDrawer();
     }
 
-    getImagemPet(filePath) {
-        const { getImagemPet, imagemPet } = this.props;
-        if (imagemPet) {
-            const temp = imagemPet.find((e) => e.key === filePath);
-            if (temp) {
-                return temp.img;
-            }
-            // return null;
-        }
-        getImagemPet(filePath);
-        return null;
-    }
-
-    // getImagemPet(filePath) {
-    // const { imagemPet } = this.props;
-    // if (imagemPet) {
-    //     return imagemPet.find((e) => e.filePath === filePath);
-    // }
-    // return null;
-    // getImagemPet(filePath);
-    // }
-
     render() {
         const { loading, listaDoadores } = this.props;
-        if (loading) {
-            return <Spinner />;
-        }
         let cards;
 
         if (listaDoadores) {
             cards = listaDoadores.map((obj, key) =>
                 <Card key={key}>
                     <CardItem>
-                        {/* <Icon active name="logo-googleplus" /> */}
                         {
-                            this.getImagemPet(obj.imagen) ?
-                                <Thumbnail source={{ uri: this.getImagemPet(obj.imagen) }} /> : null
+                            obj.imagemUrl === 'não encontrado' ?
+                                <MaterialIcons
+                                    name="pets"
+                                    size={30}
+                                    style={{ margin: 12 }}
+                                /> :
+                                <Thumbnail source={{ uri: obj.imagemUrl }} />
                         }
-                        <Text>{obj.pessoaDoadora}</Text>
+                        <Text style={{ paddingLeft: 10 }}>{obj.pessoaDoadora}</Text>
                         <Right>
                             <Icon name="arrow-forward" />
                         </Right>
@@ -88,6 +85,9 @@ class HomePage extends Component {
                 </Card>
             );
         }
+        // if (loading) {
+        //     return <Spinner />;
+        // }
         return (
             <Container>
                 <Header>
@@ -105,7 +105,7 @@ class HomePage extends Component {
                     <Right />
                 </Header>
                 <Content>
-                    {cards}
+                    {loading ? <Spinner /> : cards}
                 </Content>
                 <Footer>
                     <FooterTab>
@@ -136,6 +136,7 @@ HomePage.propTypes = {
     initReducer: PropTypes.func,
     fetchDoadores: PropTypes.func,
     getImagemPet: PropTypes.func,
+    changeLoading: PropTypes.func,
     loading: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool
@@ -164,7 +165,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
     initReducer: () => dispatch(HomeActions.initReducer()),
     fetchDoadores: () => dispatch(HomeActions.fetchDoadores()),
-    getImagemPet: (filePath) => dispatch(HomeActions.getImagemPet(filePath)),
+    getImagemPet: (obj) => dispatch(HomeActions.getImagemPet(obj)),
+    changeLoading: (value) => dispatch(HomeActions.changeLoading(value)),
 });
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);

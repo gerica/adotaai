@@ -10,9 +10,10 @@ const { Types, Creators } = createActions({
     fetchDoadores: null,
     fetchDoadoresSuccess: ['listaDoadores'],
     fetchDoadoresFailure: ['errorMessage'],
-    getImagemPet: ['filePath'],
+    getImagemPet: ['object'],
     getImagemPetSuccess: ['key', 'imagemPet'],
-    getImagemPetFailure: ['errorMessage'],
+    getImagemPetFailure: ['key', 'errorMessage'],
+    changeLoading: ['loading'],
 });
 
 export const HomeTypes = Types;

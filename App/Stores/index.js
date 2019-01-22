@@ -1,8 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import appSagas from './rootSagas';
 import createReducer from './rootReducers';
 import { appNavigatorMiddleware } from '../Containers/Navigator/appNavigatorOpen';
+import { reactotron } from '../App';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,7 +20,7 @@ export default function configureStore() {
 
     const enhancers = [applyMiddleware(...middlewares)];
 
-    const store = createStore(createReducer(), compose(...enhancers));
+    const store = reactotron.createStore(createReducer(), compose(...enhancers));
 
     // Extensions
     store.runSaga = sagaMiddleware.run;

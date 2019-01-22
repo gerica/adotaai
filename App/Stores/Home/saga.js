@@ -1,4 +1,4 @@
-import { takeLatest, all, call, put } from 'redux-saga/effects';
+import { takeLatest, all, call, put, takeEvery } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import HomeActions, { HomeTypes } from './actions';
 
@@ -9,11 +9,11 @@ function* initSaga() {
 
 function* getImagemPet(payload) {
     try {
-        const ref = firebase.storage().ref(payload.filePath);
+        const ref = firebase.storage().ref(payload.object.imagem);
         const response = yield call([ref, ref.getDownloadURL]);
-        yield put(HomeActions.getImagemPetSuccess(payload.filePath, response));
+        yield put(HomeActions.getImagemPetSuccess(payload.object.pessoaDoadora, response));
     } catch (err) {
-        yield put(HomeActions.getImagemPetFailure(err));
+        yield put(HomeActions.getImagemPetFailure(payload.object.pessoaDoadora, err));
     }
 }
 
@@ -35,11 +35,11 @@ export function* watchTakeLatest() {
 }
 
 export function* watchFetchDoadores() {
-    yield takeLatest(HomeTypes.FETCH_DOADORES, fetchDoadores);
+    yield takeEvery(HomeTypes.FETCH_DOADORES, fetchDoadores);
 }
 
 export function* watchgetImagemPet() {
-    yield takeLatest(HomeTypes.GET_IMAGEM_PET, getImagemPet);
+    yield takeEvery(HomeTypes.GET_IMAGEM_PET, getImagemPet);
 }
 
 export default function* homeSaga() {
