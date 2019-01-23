@@ -1,6 +1,7 @@
 import { takeLatest, all, call, put, takeEvery } from 'redux-saga/effects';
 import firebase from 'react-native-firebase';
 import HomeActions, { HomeTypes } from './actions';
+import FbListaDoacao from '../../Service/FbListaDoacao';
 
 // eslint-disable-next-line require-yield
 function* initSaga() {
@@ -19,11 +20,7 @@ function* getImagemPet(payload) {
 
 function* fetchDoadores() {
     try {
-        const ref = firebase.database().ref('listaDoacao/');
-
-        const snap = yield call([ref, ref.once], 'value');
-        const val = snap.val();
-        const values = val || {};
+        const values = yield call([FbListaDoacao, FbListaDoacao.fetchAll]);
         yield put(HomeActions.fetchDoadoresSuccess(values));
     } catch (err) {
         yield put(HomeActions.fetchDoadoresFailure(err));
