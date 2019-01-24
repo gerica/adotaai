@@ -1,3 +1,9 @@
 {
-    "extends": "rallycoding"
+    "extends": "rallycoding",
+    "rules": {
+        "max-len": [
+            "error",
+            250
+        ]
+    }
 }

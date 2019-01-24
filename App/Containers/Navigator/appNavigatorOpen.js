@@ -13,20 +13,15 @@ import SideMenu from './sideMenu';
 
 // Manifest of possible screens
 export const stackNavigatorApp = createStackNavigator({
-    loginStack: { screen: HomePage },
+    homeStack: { screen: HomePage },
     detailStack: { screen: DetailsPage }
     // drawerStack: { screen: DrawerNavigation }
-}, {
-        // Default config for all screens
-        headerMode: 'none',
-        title: 'Main',
-        initialRouteName: 'loginStack'
-    });
+});
 
 
 export const drawerAppNavigator = createDrawerNavigator({
-    Home: { screen: HomePage },
-    Details: { screen: DetailsPage },
+    Home: { screen: stackNavigatorApp },
+    // Details: { screen: DetailsPage },
 }, {
         contentComponent: SideMenu,
         contentOptions: {

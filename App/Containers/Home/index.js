@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { View, Text, Button } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
-    Header,
-    Title,
     Content,
     Button,
     Icon,
-    Left,
     Right,
-    Body,
     Text,
-    Footer,
-    FooterTab,
     Card,
     CardItem,
     Spinner,
@@ -27,6 +21,32 @@ import HomeActions from '../../Stores/Home/actions';
 import * as selectors from '../../Stores/Home/selector';
 
 class HomePage extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <Text style={{ color: '#fff' }}>Adota ai</Text>,
+        headerStyle: {
+            backgroundColor: '#2f8fcc',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerLeft:
+            <View >
+                <TouchableHighlight
+                    onPress={() => navigation.toggleDrawer()}
+                    underlayColor={'#e5e5e5'}
+                >
+                    <MaterialIcons
+                        name="menu"
+                        size={35}
+                        color={'#fff'}
+                        style={{ marginRight: 5 }}
+                    />
+                </TouchableHighlight>
+            </View>
+    });
+
     componentWillMount() {
         const { fetchDoadores } = this.props;
         fetchDoadores();
@@ -56,7 +76,7 @@ class HomePage extends Component {
     onToggleDrawer = () => {
         const { initReducer } = this.props;
         initReducer();
-        // this.props.navigation.navigate('detailStack');
+        this.props.navigation.navigate('detailStack');
         this.props.navigation.toggleDrawer();
     }
 
@@ -79,7 +99,13 @@ class HomePage extends Component {
                         }
                         <Text style={{ paddingLeft: 10 }}>{obj.pessoaDoadora}</Text>
                         <Right>
-                            <Icon name="arrow-forward" />
+                            {/* <Button transparent >
+                                <Icon name="arrow-forward" />
+                            </Button> */}
+                            <Button iconRight rounded info onPress={() => this.props.navigation.navigate('detailStack', { doador: obj })}>
+                                <Text>Ver</Text>
+                                <Icon name="arrow-forward" />
+                            </Button>
                         </Right>
                     </CardItem>
                 </Card>
@@ -90,45 +116,12 @@ class HomePage extends Component {
         // }
         return (
             <Container>
-                <Header>
-                    <Left>
-                        <Button
-                            transparent
-                            onPress={this.onToggleDrawer}
-                        >
-                            <Icon name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Adota ai!</Title>
-                    </Body>
-                    <Right />
-                </Header>
                 <Content>
                     {loading ? <Spinner /> : cards}
                 </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button full>
-                            <Text>Footer</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
         );
     }
-    // render() {
-    //     return (
-    //         <View style={styles.container}>
-    //             <Button
-    //                 onPress={this.onPressLearnMore}
-    //                 title="Ir para outra tela"
-    //                 color="#841584"
-    //                 accessibilityLabel="Learn more about this purple button"
-    //             />
-    //         </View >
-    //     );
-    // }
 }
 
 
