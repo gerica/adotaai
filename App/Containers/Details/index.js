@@ -2,23 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableHighlight, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, } from 'native-base';
-
+import { Container, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right, Text } from 'native-base';
 
 import HomeActions from '../../Stores/Home/actions';
-import ApplicationStyles from '../../Theme/ApplicationStyles';
 
-
-const styles = {
-    container: {
-        ...ApplicationStyles.screen.container,
-    },
-};
+import { InfoReacao, Title, Subtitle } from './styles';
+import { TextHeader } from '../styles';
+import { getNaoDefinido } from '../../Assets/Images';
 
 class DetailsPage extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text style={{ color: '#fff' }}>Voltar</Text>,
+        headerTitle: <TextHeader style={{ color: '#fff' }}>Voltar</TextHeader>,
         headerStyle: {
             backgroundColor: '#2f8fcc',
         },
@@ -44,7 +39,6 @@ class DetailsPage extends Component {
     render() {
         const { navigation } = this.props;
         const doador = navigation.getParam('doador');
-        console.log(doador);
         return (
             <Container>
                 <Content>
@@ -53,30 +47,34 @@ class DetailsPage extends Component {
                             <Left>
                                 <Thumbnail source={{ uri: doador.imagemUrl }} />
                                 <Body>
-                                    <Text>{doador.descricao}</Text>
-                                    <Text note>{doador.pessoaDoadora}</Text>
+                                    <Title>{doador.descricao}</Title>
+                                    <Subtitle note>{doador.pessoaDoadora}</Subtitle>
                                 </Body>
                             </Left>
+                            <Right>
+                                <InfoReacao>11h atrás</InfoReacao>
+                            </Right>
                         </CardItem>
                         <CardItem cardBody>
-                            <Image source={{ uri: doador.imagemUrl }} style={{ height: 425, width: null, flex: 1 }} />
+                            <Image source={getNaoDefinido()} style={{ width: null, flex: 1 }} />
                         </CardItem>
                         <CardItem>
                             <Left>
                                 <Button transparent>
                                     <Icon active name="thumbs-up" />
-                                    <Text>12 Gostou</Text>
+                                    <InfoReacao>12 </InfoReacao>
+                                </Button>
+                                <Button transparent>
+                                    <Icon active name="chatbubbles" />
+                                    <InfoReacao>4 Comentários</InfoReacao>
                                 </Button>
                             </Left>
                             <Body>
-                                <Button transparent>
-                                    <Icon active name="chatbubbles" />
-                                    <Text>4 Coment.</Text>
+                                <Button block success>
+                                    <Text>Adotar</Text>
                                 </Button>
                             </Body>
-                            <Right>
-                                <Text>11h atrás</Text>
-                            </Right>
+
                         </CardItem>
                     </Card>
                 </Content>

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableHighlight } from 'react-native';
@@ -12,18 +13,22 @@ import {
     Card,
     CardItem,
     Spinner,
-    Thumbnail
+    Thumbnail,
+
 } from 'native-base';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStructuredSelector } from 'reselect';
 import Reactotron from 'reactotron-react-native';
 import HomeActions from '../../Stores/Home/actions';
 import * as selectors from '../../Stores/Home/selector';
+import { TextItem } from './styles';
+import { TextHeader } from '../styles';
+import { getMiniatura } from '../../Assets/Images';
 
 class HomePage extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text style={{ color: '#fff' }}>Adota ai</Text>,
+        headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
         headerStyle: {
             backgroundColor: '#2f8fcc',
         },
@@ -53,31 +58,19 @@ class HomePage extends Component {
         Reactotron.log('chamou o will mount');
     }
 
-    componentWillUpdate(nextProps) {
-        const { listaDoadores, changeLoading, loading, getImagemPet } = nextProps;
-
-        // console.log('--------');
-        // console.log(listaDoadores);
-        if (listaDoadores && loading) {
-            let completGetUrlImagens = true;
-            for (const obj of listaDoadores) {
-                Reactotron.log(obj);
-                if (!obj.imagemUrl) {
-                    completGetUrlImagens = false;
-                    getImagemPet(obj);
-                }
-            }
-            // console.log(completGetUrlImagens);
-            changeLoading(completGetUrlImagens);
-        }
-    }
-
-
     onToggleDrawer = () => {
         const { initReducer } = this.props;
         initReducer();
         this.props.navigation.navigate('detailStack');
         this.props.navigation.toggleDrawer();
+    }
+
+    getThumbnail(doador) {
+        const objImg = getMiniatura(doador.imagem);
+        if (objImg) {
+            return <Thumbnail source={objImg.uri} />;
+        }
+        return <MaterialIcons name="pets" size={30} style={{ margin: 12 }} />;
     }
 
     render() {
@@ -88,16 +81,8 @@ class HomePage extends Component {
             cards = listaDoadores.map((obj, key) =>
                 <Card key={key}>
                     <CardItem>
-                        {
-                            obj.imagemUrl === 'não encontrado' ?
-                                <MaterialIcons
-                                    name="pets"
-                                    size={30}
-                                    style={{ margin: 12 }}
-                                /> :
-                                <Thumbnail source={{ uri: obj.imagemUrl }} />
-                        }
-                        <Text style={{ paddingLeft: 10 }}>{obj.pessoaDoadora}</Text>
+                        {this.getThumbnail(obj)}
+                        <TextItem>{obj.pessoaDoadora}</TextItem>
                         <Right>
                             {/* <Button transparent >
                                 <Icon name="arrow-forward" />

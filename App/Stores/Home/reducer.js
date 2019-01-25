@@ -22,7 +22,7 @@ export const changeLoading = (state = INITIAL_STATE, { loading }) => state.set('
 export const fetchDoadoresLoading = (state = INITIAL_STATE) => state.set('loading', true);
 
 export const fetchDoadoresSuccess = (state = INITIAL_STATE, { listaDoadores }) =>
-    state.set('listaDoadores', listaDoadores);
+    state.set('listaDoadores', listaDoadores).set('loading', false);
 export const fetchDoadoresFailure = (state = INITIAL_STATE, { errorMessage }) => state.set('errorMessage', errorMessage);
 
 export const getImagemPetLoading = (state = INITIAL_STATE) => state;
