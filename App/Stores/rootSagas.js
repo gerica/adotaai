@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 import * as homeSaga from './Home/saga';
+import * as loginSaga from './Login/saga';
 
 // notice how we now only export the rootSaga
 // single entry point to start all Sagas at once
@@ -8,5 +9,6 @@ export default function* rootSaga() {
         homeSaga.watchTakeLatest(),
         homeSaga.watchFetchDoadores(),
         homeSaga.watchgetImagemPet(),
+        loginSaga.watchLoginRequest(),
     ]);
 }

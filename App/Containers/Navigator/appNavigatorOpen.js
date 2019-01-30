@@ -9,19 +9,25 @@ import {
 
 import HomePage from '../Home';
 import DetailsPage from '../Details';
+import LoginPage from '../Login';
 import SideMenu from './sideMenu';
 
 // Manifest of possible screens
-export const stackNavigatorApp = createStackNavigator({
+export const stackHome = createStackNavigator({
     homeStack: { screen: HomePage },
     detailStack: { screen: DetailsPage }
     // drawerStack: { screen: DrawerNavigation }
 });
 
+// Manifest of possible screens
+export const stackLogin = createStackNavigator({
+    loginStack: { screen: LoginPage },
+});
+
 
 export const drawerAppNavigator = createDrawerNavigator({
-    Home: { screen: stackNavigatorApp },
-    // Details: { screen: DetailsPage },
+    Home: { screen: stackHome },
+    Login: { screen: stackLogin },
 }, {
         contentComponent: SideMenu,
         contentOptions: {
