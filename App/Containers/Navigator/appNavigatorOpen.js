@@ -55,4 +55,6 @@ const mapStateToProps = (state) => ({
 });
 
 const AppWithNavigationState = connect(mapStateToProps)(App);
+
+
 export default AppWithNavigationState;

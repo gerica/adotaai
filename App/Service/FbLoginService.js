@@ -2,15 +2,13 @@ import firebase from 'react-native-firebase';
 
 class FbLoginService {
     async login({ email, password }) {
-        console.log(email);
-        console.log(password);
+        let user = null;
         try {
-            const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-            console.log(user);
+            user = await firebase.auth().signInWithEmailAndPassword(email, password);
         } catch (err) {
-            console.log(err);
             throw err;
         }
+        return user;
     }
 }
 export default new FbLoginService();

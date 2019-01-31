@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Reactotron from 'reactotron-react-native';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import { reactotronRedux } from 'reactotron-redux';
 
 
 import Fonts from './Theme/Fonts';
 import ApplicationStyles from './Theme/ApplicationStyles';
 import configureStore from './Stores';
-import AppWithNavigationState from './Containers/Navigator/appNavigatorOpen';
+import NavigatorPage from './Containers/Navigator';
 
 export const reactotron = Reactotron
   .configure({
@@ -22,21 +21,19 @@ export const reactotron = Reactotron
   .use(reactotronRedux())
   .connect();
 
-// import Details from './Containers/Details';
-// import HomePage from './Containers/Home';
-
 type Props = {};
-const store = configureStore();
+const { store, persistor } = configureStore();
 export default class App extends Component<Props> {
   render() {
     // Reactotron.log('hello rendering world');
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          {/* <HomePage /> */}
-          <AppWithNavigationState />
-          {/* <Details /> */}
-        </View>
+        <PersistGate loading={null} persistor={persistor}>
+          <View style={styles.container}>
+            {/* <AppWithNavigationState /> */}
+            <NavigatorPage />
+          </View>
+        </PersistGate>
       </Provider>
     );
   }

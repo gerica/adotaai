@@ -13,7 +13,7 @@ const INITIAL_STATE = fromJS({
 
 export const loginRequest = (state = INITIAL_STATE) => state.set('loading', true);
 
-export const loginSuccess = (state = INITIAL_STATE, { usuario }) => state.set('usuario', usuario).set('loading', false).set('errorMessage', null);
+export const loginSuccess = (state = INITIAL_STATE) => state.set('loading', false).set('errorMessage', null);
 
 export const loginFailure = (state = INITIAL_STATE, payload) => state.set('errorMessage', payload.error).set('loading', false);
 

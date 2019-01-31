@@ -1,11 +1,20 @@
 import { applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import appSagas from './rootSagas';
 import createReducer from './rootReducers';
 import { appNavigatorMiddleware } from '../Containers/Navigator/appNavigatorOpen';
 import { reactotron } from '../App';
 
 const sagaMiddleware = createSagaMiddleware();
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    stateReconciler: autoMergeLevel2
+};
 
 export default function configureStore() {
     /* ------------- Redux Configuration ------------- */
@@ -20,7 +29,11 @@ export default function configureStore() {
 
     const enhancers = [applyMiddleware(...middlewares)];
 
-    const store = reactotron.createStore(createReducer(), compose(...enhancers));
+    // Redux persist
+    const persistedReducer = persistReducer(persistConfig, createReducer());
+
+    const store = reactotron.createStore(persistedReducer, compose(...enhancers));
+    const persistor = persistStore(store);
 
     // Extensions
     store.runSaga = sagaMiddleware.run;
@@ -29,5 +42,5 @@ export default function configureStore() {
     // Run App sagas globaly
     store.runSaga(appSagas);
 
-    return store;
+    return { store, persistor };
 }
