@@ -9,7 +9,7 @@ import { reactotronRedux } from 'reactotron-redux';
 import Fonts from './Theme/Fonts';
 import ApplicationStyles from './Theme/ApplicationStyles';
 import configureStore from './Stores';
-import NavigatorPage from './Containers/Navigator';
+import AppNavigator from './Containers/Navigator';
 
 export const reactotron = Reactotron
   .configure({
@@ -30,8 +30,7 @@ export default class App extends Component<Props> {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <View style={styles.container}>
-            {/* <AppWithNavigationState /> */}
-            <NavigatorPage />
+            <AppNavigator />
           </View>
         </PersistGate>
       </Provider>

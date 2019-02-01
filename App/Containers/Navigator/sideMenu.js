@@ -2,6 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { DrawerItems, NavigationActions } from 'react-navigation';
 import { ScrollView, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import * as selectorsSession from '../../Stores/Session/selector';
+
 
 class SideMenu extends Component {
     navigateToScreen = (route) => () => {
@@ -12,13 +16,21 @@ class SideMenu extends Component {
     }
 
     render() {
+        const { items, user, ...rest } = this.props;
+        let filteredItems;
+        // console.log(user.user.email);
+        if (user) {
+            filteredItems = items.filter(item => item.key !== 'Login');
+        } else {
+            filteredItems = items.filter(item => item.key !== 'Logout');
+        }
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <DrawerItems {...this.props} />
+                    <DrawerItems items={filteredItems} {...rest} />
                 </ScrollView>
                 <View style={styles.footerContainer}>
-                    <Text>Adota ai!</Text>
+                    {user ? <Text>{user.user.email}</Text> : <Text>Adota ai!</Text>}
                 </View>
             </View>
         );
@@ -40,4 +52,9 @@ SideMenu.propTypes = {
     navigation: PropTypes.object
 };
 
-export default SideMenu;
+const mapStateToProps = createStructuredSelector({
+    user: selectorsSession.selectorSessionUser(),
+});
+
+export default connect(mapStateToProps, null)(SideMenu);
+

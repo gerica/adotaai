@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import appSagas from './rootSagas';
 import createReducer from './rootReducers';
-import { appNavigatorMiddleware } from '../Containers/Navigator/appNavigatorOpen';
+import { appNavigatorMiddleware } from '../Containers/Navigator';
 import { reactotron } from '../App';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -13,6 +13,7 @@ const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
     key: 'root',
     storage,
+    blacklist: ['nav', 'form'],
     stateReconciler: autoMergeLevel2
 };
 

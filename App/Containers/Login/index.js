@@ -21,6 +21,7 @@ import LoginActions from '../../Stores/Login/actions';
 import * as selectors from '../../Stores/Login/selector';
 import Toast from '../../Components/toast/Toast';
 import { createValidator, required, email, minLengthPassword } from '../../Utils/validation';
+import * as selectorsSession from '../../Stores/Session/selector';
 
 class LoginPage extends Component {
 
@@ -49,38 +50,23 @@ class LoginPage extends Component {
             </View>
     });
 
-    // login = () => {
-    //     const { email, password } = this.state;
-    //     console.log(email);
-    //     console.log(password);
-    //     try {
-    //         const user = firebase.auth().signInWithEmailAndPassword(email, password)
-    //             .then((output) => {
-    //                 console.log('sucesso');
-    //                 console.log(output);
-    //                 this.setState({ isAuthenicated: true });
-    //             })
-    //             .catch((err) => {
-    //                 console.log('erro');
-    //                 console.log(err);
-    //             });
+    shouldComponentUpdate(nextProps) {
+        const { user, navigation } = nextProps;
+        if (user) {
+            this.props.reset();
+            navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
+            return false;
+        }
+        return true;
+    }
 
-    //         // console.log(user);
-    //     } catch (err) {
-    //         console.log('erro 1');
-    //         console.log(err);
-    //     }
-    // }
     onSubmit = (values) => {
         const { onLogin } = this.props;
         onLogin(values);
     }
 
     render() {
-        const { handleSubmit, loading, errorMessage, pristine, reset, submitting } = this.props;
-        // console.log(pristine);
-        // console.log(reset);
-        // console.log(submitting);
+        const { handleSubmit, loading, errorMessage } = this.props;
         if (loading) {
             return (
                 <ContainerLogin>
@@ -89,10 +75,10 @@ class LoginPage extends Component {
             );
         }
 
+
         return (
             <ContainerLogin>
                 {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
-
                 <View>
                     <Label>E-mail</Label>
                     <Field
@@ -108,13 +94,9 @@ class LoginPage extends Component {
                         secureTextEntry
                     />
                 </View>
-
                 <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
                     <Text>Entrar</Text>
                 </Button>
-                {/* <ButtonPrimary /> */}
-
-
             </ContainerLogin >
         );
     }
@@ -131,11 +113,16 @@ LoginPage.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
+    user: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
 };
 
 const mapStateToProps = createStructuredSelector({
     loading: selectors.selectorLoading(),
     errorMessage: selectors.selectorErrorMessage(),
+    user: selectorsSession.selectorSessionUser(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -148,24 +135,4 @@ const validate = createValidator({
 });
 
 const loginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
-export default reduxForm(
-    {
-        form: 'loginPage',
-        validate,
-        // validate: (values) => {
-        //     const errors = {};
-        //     // errors.email = !values.email
-        //     //     ? 'Email field is required'
-        //     //     : !emailRegex.test(values.email)
-        //     //         ? 'Email format is invalid'
-        //     //         : undefined;
-
-        //     errors.password = !values.password
-        //         ? 'Password field is required'
-        //         : values.password.length < 8
-        //             ? 'Password must be at least 8 characters long'
-        //             : undefined;
-
-        //     return errors;
-        // }
-    })(loginPage);
+export default reduxForm({ form: 'loginPage', validate, })(loginPage);

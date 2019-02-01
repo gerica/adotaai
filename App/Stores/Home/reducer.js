@@ -1,16 +1,16 @@
 /* eslint-disable max-len */
 import { createReducer } from 'reduxsauce';
-import { fromJS } from 'immutable';
+// import { fromJS } from 'immutable';
 // import Reactotron from 'reactotron-react-native';
 // import { concat } from 'lodash';
 import { HomeTypes } from './actions';
 
-const INITIAL_STATE = fromJS({
+const INITIAL_STATE = {
     loading: false,
     listaDoadores: null,
     errorMessage: null,
     imagemPet: null,
-});
+};
 
 export const initReducer = (state = INITIAL_STATE) => {
     console.log('está no reducer');
@@ -19,10 +19,10 @@ export const initReducer = (state = INITIAL_STATE) => {
 
 export const changeLoading = (state = INITIAL_STATE, { loading }) => state.set('loading', loading);
 
-export const fetchDoadoresLoading = (state = INITIAL_STATE) => state.set('loading', true);
+export const fetchDoadoresLoading = (state = INITIAL_STATE) => ({ ...state, loadin: true });
 
-export const fetchDoadoresSuccess = (state = INITIAL_STATE, { listaDoadores }) =>
-    state.set('listaDoadores', listaDoadores).set('loading', false);
+export const fetchDoadoresSuccess = (state = INITIAL_STATE, { listaDoadores }) => ({ ...state, listaDoadores, loading: false });
+
 export const fetchDoadoresFailure = (state = INITIAL_STATE, { errorMessage }) => state.set('errorMessage', errorMessage);
 
 export const getImagemPetLoading = (state = INITIAL_STATE) => state;

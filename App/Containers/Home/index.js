@@ -24,6 +24,7 @@ import * as selectors from '../../Stores/Home/selector';
 import { TextItem } from './styles';
 import { TextHeader } from '../styles';
 import { getMiniatura } from '../../Assets/Images';
+import Toast from '../../Components/toast/Toast';
 
 class HomePage extends Component {
 
@@ -58,13 +59,6 @@ class HomePage extends Component {
         Reactotron.log('chamou o will mount');
     }
 
-    onToggleDrawer = () => {
-        const { initReducer } = this.props;
-        initReducer();
-        this.props.navigation.navigate('detailStack');
-        this.props.navigation.toggleDrawer();
-    }
-
     getThumbnail(doador) {
         const objImg = getMiniatura(doador.imagem);
         if (objImg) {
@@ -74,7 +68,9 @@ class HomePage extends Component {
     }
 
     render() {
-        const { loading, listaDoadores } = this.props;
+        const { loading, listaDoadores, navigation } = this.props;
+        const msgToast = navigation.getParam('msg');
+        console.log(msgToast);
         let cards;
 
         if (listaDoadores) {
@@ -84,9 +80,6 @@ class HomePage extends Component {
                         {this.getThumbnail(obj)}
                         <TextItem>{obj.pessoaDoadora}</TextItem>
                         <Right>
-                            {/* <Button transparent >
-                                <Icon name="arrow-forward" />
-                            </Button> */}
                             <Button iconRight rounded info onPress={() => this.props.navigation.navigate('detailStack', { doador: obj })}>
                                 <Text>Ver</Text>
                                 <Icon name="arrow-forward" />
@@ -96,11 +89,9 @@ class HomePage extends Component {
                 </Card>
             );
         }
-        // if (loading) {
-        //     return <Spinner />;
-        // }
         return (
             <Container>
+                {msgToast ? <Toast visible message={msgToast} /> : null}
                 <Content>
                     {loading ? <Spinner /> : cards}
                 </Content>
