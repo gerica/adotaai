@@ -4,6 +4,7 @@ import homeReducer from './Home/reducer';
 import navReducer from './Navigator';
 import loginReducer from './Login/reducer';
 import sessionReducer from './Session/reducer';
+import perfilReducer from './Perfil/reducer';
 
 /**
  * Creates the main reducer with the asynchronously loaded ones
@@ -15,5 +16,6 @@ export default function createReducer() {
         nav: navReducer,
         login: loginReducer,
         session: sessionReducer,
+        perfil: perfilReducer,
     });
 }

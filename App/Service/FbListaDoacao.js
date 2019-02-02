@@ -4,6 +4,11 @@ class FbListaDoacao {
     constructor() {
         this.ref = firebase.firestore().collection('listaDoacao');
     }
+    async save(payload) {
+        const result = await this.ref.add(payload);
+        return result;
+    }
+
     async load(id) {
         const doc = await this.ref.doc(id).get();
         if (doc.exists) {
