@@ -15,4 +15,5 @@ export default {
   error: '#dc3545',
   background: '#F5FCFF',
   buttons: '#f7f7f7',
+  black: '#808080',
 };

@@ -22,7 +22,17 @@ class SideMenu extends Component {
         if (user) {
             filteredItems = items.filter(item => item.key !== 'Login');
         } else {
-            filteredItems = items.filter(item => item.key !== 'Logout');
+            filteredItems = items.filter(item => {
+                switch (item.key) {
+                    case 'Logout':
+                        return false;
+                    case 'Perfil':
+                        return false;
+
+                    default:
+                        return true;
+                }
+            });
         }
         return (
             <View style={styles.container}>
