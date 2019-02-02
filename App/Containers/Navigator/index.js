@@ -35,6 +35,10 @@ export const stackLogout = createStackNavigator({
     logoutStack: { screen: LogoutPage },
 });
 
+const stackCadastroPet = createStackNavigator({
+    cadastroStack: { screen: CadastroPetPage },
+});
+
 const tabsPerfil = createBottomTabNavigator({
     Perfil: {
         screen: createStackNavigator({
@@ -59,9 +63,7 @@ const tabsPerfil = createBottomTabNavigator({
         },
     },
     Cadastro: {
-        screen: createStackNavigator({
-            cadastroStack: { screen: CadastroPetPage },
-        }),
+        screen: stackCadastroPet,
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
@@ -88,6 +90,7 @@ export const drawerAppNavigator = createDrawerNavigator({
     Home: { screen: stackHome },
     Login: { screen: stackLogin },
     Perfil: { screen: tabsPerfil },
+    Cadastro: { screen: stackCadastroPet },
     Logout: { screen: stackLogout },
 }, {
         contentComponent: SideMenu,

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableHighlight } from 'react-native';
 import {
-    Label,
     Spinner,
     Text,
     Button,
@@ -16,12 +15,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Field, reduxForm } from 'redux-form';
 import { TextHeader } from '../styles';
 import { ContainerLogin } from './styles';
-import TextInputRedux from '../../Components/input/TextInputRedux';
 import LoginActions from '../../Stores/Login/actions';
 import * as selectors from '../../Stores/Login/selector';
 import Toast from '../../Components/toast/Toast';
 import { createValidator, required, email, minLengthPassword } from '../../Utils/validation';
 import * as selectorsSession from '../../Stores/Session/selector';
+import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
 
 class LoginPage extends Component {
 
@@ -63,6 +62,7 @@ class LoginPage extends Component {
     onSubmit = (values) => {
         const { onLogin } = this.props;
         onLogin(values);
+        // console.log(values);
     }
 
     render() {
@@ -79,21 +79,8 @@ class LoginPage extends Component {
         return (
             <ContainerLogin>
                 {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
-                <View>
-                    <Label>E-mail</Label>
-                    <Field
-                        name={'email'}
-                        component={TextInputRedux}
-                    />
-                </View>
-                <View>
-                    <Label>Senha</Label>
-                    <Field
-                        name={'password'}
-                        component={TextInputRedux}
-                        secureTextEntry
-                    />
-                </View>
+                <Field name='email' label='E-mail' component={TextInputBaseRedux} />
+                <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
                 <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
                     <Text>Entrar</Text>
                 </Button>

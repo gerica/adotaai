@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableHighlight, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Card, CardItem, Button, Icon, Left, Body, Right } from 'native-base';
 import { createStructuredSelector } from 'reselect';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Card, CardItem, Button, Icon, Left, Body, Right } from 'native-base';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import HomeActions from '../../Stores/Home/actions';
 import { TextHeader } from '../styles';
-import { ContainerPerfil } from './styles';
+import { ContainerPerfil, Info, TextPerfil } from './styles';
+import Colors from '../../Theme/Colors';
 
 class PerfilPage extends Component {
 
@@ -39,25 +40,42 @@ class PerfilPage extends Component {
     });
 
     backPage = () => {
-        // this.props.navigation.goBack();
         this.props.navigation.toggleDrawer();
     }
 
     render() {
-        // const { navigation } = this.props;
+        const { user } = this.props;
+        // console.log(user);
         return (
             <ContainerPerfil>
+                {/* <Info>
+                    <TextPerfil>Nome: {user.user.name}</TextPerfil>
+                    <TextPerfil>E-mail: {user.user.email}</TextPerfil>
+                    <TextPerfil>Contato: {user.user.tel}</TextPerfil>
+                </Info>
+                <ButtonPrimary /> */}
+
                 <Card>
+                    <CardItem cardBody>
+                        <Info>
+                            <TextPerfil>Nome: {user.user.name}</TextPerfil>
+                            <TextPerfil>E-mail: {user.user.email}</TextPerfil>
+                            <TextPerfil>Contato: {user.user.tel}</TextPerfil>
+                        </Info>
+                    </CardItem>
                     <CardItem>
-                        <Body>
-                            <Text>Info usuário</Text>
-                            <Button block success>
-                                <Text>Adotar</Text>
+                        <Left>
+
+                        </Left>
+                        <Right>
+                            <Button block light>
+                                <Text style={{ color: Colors.black, fontWeight: 'bold' }}>Editar</Text>
                             </Button>
-                        </Body>
+                        </Right>
 
                     </CardItem>
                 </Card>
+
             </ContainerPerfil>
         );
     }

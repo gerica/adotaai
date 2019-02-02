@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableNativeFeedback, Text, View } from 'react-native';
+// import styled from 'styled-components/native';
 import Colors from '../../Theme/Colors';
 
 export default class ButtonPrimary extends Component {
@@ -9,9 +10,9 @@ export default class ButtonPrimary extends Component {
             <TouchableNativeFeedback
                 onPress={() => console.log('teste')}
                 background={TouchableNativeFeedback.SelectableBackground()}
-                style={styles.con}
+                style={styles.container}
             >
-                <View style={styles.container}>
+                <View style={styles.button}>
                     <Text style={{ margin: 30 }}>Button</Text>
                 </View>
             </TouchableNativeFeedback>
@@ -32,11 +33,4 @@ const styles = {
         backgroundColor: '#DDDDDD',
         padding: 10
     },
-    countContainer: {
-        alignItems: 'center',
-        padding: 10
-    },
-    countText: {
-        color: '#FF00FF'
-    }
 };
