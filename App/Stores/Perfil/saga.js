@@ -4,8 +4,7 @@ import FbListaDoacao from '../../Service/FbListaDoacao';
 
 function* doacaoRequest(action) {
     try {
-        console.log(action);
-        // const values = yield call([FbListaDoacao, FbListaDoacao.save], payload);
+        yield call([FbListaDoacao, FbListaDoacao.save], action.payload);
         yield put(PerfilActions.doacaoSuccess());
     } catch (err) {
         yield put(PerfilActions.doacaoFailure(err));

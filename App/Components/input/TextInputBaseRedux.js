@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View } from 'react-native';
 import { Label, Item, Input, Text } from 'native-base';
 import { TextError } from './styles';
@@ -14,9 +14,15 @@ export default function TextInputBaseRedux(props) {
     // if (error !== undefined) {
     //     hasError = true;
     // }
+    const viewErrorWarning = (
+        <View style={{ marginBottom: 10 }}>
+            {((error && <TextError>{error}</TextError>) ||
+                (warning && <Text>{warning}</Text>))}
+        </View>
+    );
 
     return (
-        <View style={{ marginTop: 10 }}>
+        <Fragment>
             <Item floatingLabel>
                 <Label>{label}</Label>
                 <Input
@@ -29,9 +35,7 @@ export default function TextInputBaseRedux(props) {
                     style={defaultStyle}
                 />
             </Item>
-            {touched &&
-                ((error && <TextError>{error}</TextError>) ||
-                    (warning && <Text>{warning}</Text>))}
-        </View>
+            {touched && viewErrorWarning}
+        </Fragment>
     );
 }

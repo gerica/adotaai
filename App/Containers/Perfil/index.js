@@ -4,7 +4,7 @@ import { View, TouchableHighlight, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Card, CardItem, Button, Icon, Left, Body, Right } from 'native-base';
+import { Card, CardItem, Button, Left, Right } from 'native-base';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import HomeActions from '../../Stores/Home/actions';
@@ -64,9 +64,7 @@ class PerfilPage extends Component {
                         </Info>
                     </CardItem>
                     <CardItem>
-                        <Left>
-
-                        </Left>
+                        <Left />
                         <Right>
                             <Button block light>
                                 <Text style={{ color: Colors.black, fontWeight: 'bold' }}>Editar</Text>
@@ -87,6 +85,8 @@ PerfilPage.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
+    errorMessage: PropTypes.string,
+    message: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({

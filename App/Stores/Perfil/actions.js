@@ -4,6 +4,7 @@ const { Types, Creators } = createActions({
     doacaoRequest: ['payload'],
     doacaoSuccess: ['payload'],
     doacaoFailure: ['error'],
+    resetRedux: [],
 });
 
 export const PerfilTypes = Types;

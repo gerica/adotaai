@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Item, Text, Picker, Icon, Label } from 'native-base';
@@ -14,8 +14,14 @@ export default function PickerRedux(props) {
     if (itens) {
         pickerItem = itens.map((e, i) => <Picker.Item key={i} label={e.label} value={e.value} />);
     }
+    const viewErrorWarning = (
+        <View style={{ marginBottom: 10 }}>
+            {((error && <TextError>{error}</TextError>) ||
+                (warning && <Text>{warning}</Text>))}
+        </View>
+    );
     return (
-        <View>
+        <Fragment>
             <Item picker>
                 <Label>{label}:</Label>
                 <Picker
@@ -29,10 +35,8 @@ export default function PickerRedux(props) {
                     {pickerItem}
                 </Picker>
             </Item>
-            {touched &&
-                ((error && <TextError>{error}</TextError>) ||
-                    (warning && <Text>{warning}</Text>))}
-        </View>
+            {touched && viewErrorWarning}
+        </Fragment>
     );
 }
 

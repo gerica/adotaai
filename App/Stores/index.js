@@ -13,7 +13,7 @@ const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['nav', 'form'],
+    blacklist: ['nav', 'form', 'perfil'],
     stateReconciler: autoMergeLevel2
 };
 

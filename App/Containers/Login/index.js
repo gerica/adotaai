@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableHighlight } from 'react-native';
 import {
+    Card,
+    CardItem,
+    Body,
     Spinner,
     Text,
     Button,
@@ -78,13 +81,20 @@ class LoginPage extends Component {
 
         return (
             <ContainerLogin>
-                {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
-                <Field name='email' label='E-mail' component={TextInputBaseRedux} />
-                <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
-                <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
-                    <Text>Entrar</Text>
-                </Button>
+                <Card>
+                    <CardItem>
+                        <Body>
+                            {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
+                            <Field name='email' label='E-mail' component={TextInputBaseRedux} />
+                            <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
+                            <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
+                                <Text>Entrar</Text>
+                            </Button>
+                        </Body>
+                    </CardItem>
+                </Card>
             </ContainerLogin >
+
         );
     }
 }
