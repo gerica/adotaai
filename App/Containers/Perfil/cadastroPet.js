@@ -15,13 +15,12 @@ import { ContainerPetCadastro } from './styles';
 import { createValidator, required, } from '../../Utils/validation';
 import PickerRedux from '../../Components/input/PickerRedux';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
-import racasCaoJson from '../../Utils/racasCao';
-import racasGatoJson from '../../Utils/racasGato';
+import racasCao from '../../Assets/Images/racasCao';
+import racasGato from '../../Assets/Images/racasGato';
 import * as selectors from '../../Stores/Perfil/selector';
 import Toast from '../../Components/toast/Toast';
+import { tipos } from '../../Assets/Images';
 
-
-const tipos = ['cao', 'gato'];
 class CadastroPetPage extends Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -58,7 +57,6 @@ class CadastroPetPage extends Component {
             vermifugado: 'nao',
             porte: 'medio',
             raca: 'Selecione',
-            imagem: null,
         };
         // this.onChangeTipo = this.onChangeTipo.bind(this);
     }
@@ -80,8 +78,7 @@ class CadastroPetPage extends Component {
                 castrado: 'nao',
                 vermifugado: 'nao',
                 porte: 'medio',
-                raca: 'Selecione',
-                imagem: null
+                raca: 'Selecione'
             });
             // navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
             // const resetAction = NavigationActions.reset({
@@ -109,7 +106,7 @@ class CadastroPetPage extends Component {
     // }
 
     onSubmit = (values) => {
-        const { tipo, sexo, castrado, vermifugado, porte, raca, imagem } = this.state;
+        const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
         const { doacaoRequest } = this.props;
         const newObj = {
             createdAt: new Date(),
@@ -122,7 +119,6 @@ class CadastroPetPage extends Component {
             vermifugado,
             porte,
             raca,
-            imagem,
         };
         // console.log(newObj);
         doacaoRequest(newObj);
@@ -149,22 +145,12 @@ class CadastroPetPage extends Component {
     }
 
     onChangeRaca = (value) => {
-        let imagem;
-        let tempImagem;
-        if (this.state.tipo === tipos[0]) {
-            tempImagem = racasCaoJson.find((e) => e.raca === value);
-        } else if (this.state.tipo === tipos[1]) {
-            tempImagem = racasGatoJson.find((e) => e.raca === value);
-        }
-        if (tempImagem) {
-            imagem = tempImagem.img;
-        }
-        this.setState({ raca: value, imagem });
+        this.setState({ raca: value });
     }
 
     getRacas() {
         if (this.state.tipo === tipos[0]) {
-            const itensRaca = racasCaoJson.map((e) => ({ label: e.raca, value: e.raca }));
+            const itensRaca = racasCao.map((e) => ({ label: e.raca, value: e.raca }));
             return (<Field
                 name='raca'
                 label='Raça'
@@ -174,7 +160,7 @@ class CadastroPetPage extends Component {
                 onValueChange={this.onChangeRaca}
             />);
         } else if (this.state.tipo === tipos[1]) {
-            const itensRaca = racasGatoJson.map((e) => ({ label: e.raca, value: e.raca }));
+            const itensRaca = racasGato.map((e) => ({ label: e.raca, value: e.raca }));
             return (<Field
                 name='raca'
                 label='Raça'

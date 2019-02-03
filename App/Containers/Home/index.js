@@ -60,9 +60,9 @@ class HomePage extends Component {
     }
 
     getThumbnail(doador) {
-        const objImg = getMiniatura(doador.imagem);
+        const objImg = getMiniatura(doador);
         if (objImg) {
-            return <Thumbnail source={objImg.uri} />;
+            return <Thumbnail source={objImg.img} />;
         }
         return <MaterialIcons name="pets" size={30} style={{ margin: 12 }} />;
     }
