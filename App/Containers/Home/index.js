@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -70,7 +70,7 @@ class HomePage extends Component {
     render() {
         const { loading, listaDoadores, navigation } = this.props;
         const msgToast = navigation.getParam('msg');
-        console.log(msgToast);
+        // console.log(msgToast);
         let cards;
 
         if (listaDoadores) {
@@ -90,12 +90,14 @@ class HomePage extends Component {
             );
         }
         return (
-            <Container>
-                {msgToast ? <Toast visible message={msgToast} /> : null}
-                <Content>
-                    {loading ? <Spinner /> : cards}
-                </Content>
-            </Container>
+            <ScrollView>
+                <Container>
+                    {msgToast ? <Toast visible message={msgToast} /> : null}
+                    <Content>
+                        {loading ? <Spinner /> : cards}
+                    </Content>
+                </Container>
+            </ScrollView>
         );
     }
 }

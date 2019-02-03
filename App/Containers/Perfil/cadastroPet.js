@@ -6,6 +6,7 @@ import { Button, Spinner, Card, CardItem, Body } from 'native-base';
 import { createStructuredSelector } from 'reselect';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Field, reduxForm } from 'redux-form';
+// import { NavigationActions, StackActions } from 'react-navigation';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import PerfilActions from '../../Stores/Perfil/actions';
@@ -57,25 +58,58 @@ class CadastroPetPage extends Component {
             vermifugado: 'nao',
             porte: 'medio',
             raca: 'Selecione',
+            imagem: null,
         };
         // this.onChangeTipo = this.onChangeTipo.bind(this);
     }
 
     componentWillMount() {
-        console.log('ira montar');
         const { reset, resetRedux } = this.props;
         reset();
         resetRedux();
     }
 
-    componentDidUpdate() {
-        const { resetRedux } = this.props;
-        // reset();
-        resetRedux();
+    shouldComponentUpdate(nextProps) {
+        const { message, resetRedux } = nextProps;
+        if (message) {
+            this.props.reset();
+            resetRedux();
+            this.setState({
+                tipo: tipos[0],
+                sexo: 'macho',
+                castrado: 'nao',
+                vermifugado: 'nao',
+                porte: 'medio',
+                raca: 'Selecione',
+                imagem: null
+            });
+            // navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
+            // const resetAction = NavigationActions.reset({
+            //     index: 0,
+            //     actions: [
+            //         NavigationActions.navigate({ routeName: 'stackHome' })
+            //     ]
+            // });
+            // navigation.dispatch(resetAction);
+            // navigation.reset([NavigationActions.navigate({ routeName: 'cadastroStack' })], 0);
+            // const resetAction = StackActions.reset({
+            //     index: 0,
+            //     actions: [NavigationActions.navigate({ routeName: 'cadastroStack' })],
+            // });
+            // navigation.dispatch(resetAction);
+
+            return true;
+        }
+        return true;
     }
 
+    // componentDidUpdate() {
+    //     const { resetRedux } = this.props;
+    //     resetRedux();
+    // }
+
     onSubmit = (values) => {
-        const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
+        const { tipo, sexo, castrado, vermifugado, porte, raca, imagem } = this.state;
         const { doacaoRequest } = this.props;
         const newObj = {
             createdAt: new Date(),
@@ -87,8 +121,10 @@ class CadastroPetPage extends Component {
             castrado,
             vermifugado,
             porte,
-            raca
+            raca,
+            imagem,
         };
+        // console.log(newObj);
         doacaoRequest(newObj);
     }
 
@@ -113,7 +149,17 @@ class CadastroPetPage extends Component {
     }
 
     onChangeRaca = (value) => {
-        this.setState({ raca: value });
+        let imagem;
+        let tempImagem;
+        if (this.state.tipo === tipos[0]) {
+            tempImagem = racasCaoJson.find((e) => e.raca === value);
+        } else if (this.state.tipo === tipos[1]) {
+            tempImagem = racasGatoJson.find((e) => e.raca === value);
+        }
+        if (tempImagem) {
+            imagem = tempImagem.img;
+        }
+        this.setState({ raca: value, imagem });
     }
 
     getRacas() {
