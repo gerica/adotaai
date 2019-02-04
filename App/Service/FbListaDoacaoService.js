@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase';
 
-class FbListaDoacao {
+class FbListaDoacaoService {
     constructor() {
         this.ref = firebase.firestore().collection('listaDoacao');
     }
@@ -32,4 +32,4 @@ class FbListaDoacao {
         return result;
     }
 }
-export default new FbListaDoacao();
+export default new FbListaDoacaoService();

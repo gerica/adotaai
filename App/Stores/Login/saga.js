@@ -1,11 +1,11 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 import LoginActions, { LoginTypes } from './actions';
 import SessionActions from '../Session/actions';
-import FbLoginService from '../../Service/FbLoginService';
+import FbSessionService from '../../Service/FbSessionService';
 
 function* loginRequest(payload) {
     try {
-        const values = yield call([FbLoginService, FbLoginService.login], payload);
+        const values = yield call([FbSessionService, FbSessionService.login], payload);
         yield put(SessionActions.addUser(values));
         yield put(LoginActions.loginSuccess());
     } catch (err) {
