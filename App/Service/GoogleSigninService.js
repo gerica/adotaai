@@ -20,7 +20,7 @@ class GoogleSigninService {
 
     async signOut() {
         try {
-            if (this.isSignedIn()) {
+            if (await this.isSignedIn()) {
                 await GoogleSignin.revokeAccess();
                 await GoogleSignin.signOut();
             }

@@ -9,7 +9,6 @@ function* signOutRequest() {
         yield call([GoogleSigninService, GoogleSigninService.signOut]);
         yield put(SessionActions.signOutSuccess());
     } catch (err) {
-        console.log({ err });
         yield put(SessionActions.signOutFailure(err));
     }
 }

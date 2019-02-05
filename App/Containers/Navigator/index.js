@@ -21,9 +21,8 @@ import Colors from '../../Theme/Colors';
 
 // Manifest of possible screens
 export const stackHome = createStackNavigator({
-    homeStack: { screen: HomePage },
+    homeStack: { screen: HomePage, key: 'teste' },
     detailStack: { screen: DetailsPage }
-    // drawerStack: { screen: DrawerNavigation }
 });
 
 // Manifest of possible screens

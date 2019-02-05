@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { NavigationEvents } from 'react-navigation';
 import { View, TouchableHighlight, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -67,10 +68,28 @@ class HomePage extends Component {
         return <MaterialIcons name="pets" size={30} style={{ margin: 12 }} />;
     }
 
-    render() {
-        const { loading, listaDoadores, navigation } = this.props;
-        const msgToast = navigation.getParam('msg');
+    componentFocus = ({ action: { type } }) => {
+        const { navigation } = this.props;
         // console.log(msgToast);
+        if (type && type === 'Navigation/NAVIGATE') {
+            console.log(navigation.state);
+            const msgToast = navigation.getParam('msg');
+            console.log(msgToast);
+            if (msgToast) {
+                Toast({ visible: true, message: msgToast });
+                // ToastAndroid.showWithGravityAndOffset(
+                //     msgToast,
+                //     ToastAndroid.LONG,
+                //     ToastAndroid.BOTTOM,
+                //     25,
+                //     50,
+                // );
+            }
+        }
+    }
+
+    render() {
+        const { loading, listaDoadores } = this.props;
         let cards;
 
         if (listaDoadores) {
@@ -91,8 +110,10 @@ class HomePage extends Component {
         }
         return (
             <ScrollView>
+                <NavigationEvents
+                    onWillFocus={payload => this.componentFocus(payload)}
+                />
                 <Container>
-                    {msgToast ? <Toast visible message={msgToast} /> : null}
                     <Content>
                         {loading ? <Spinner /> : cards}
                     </Content>

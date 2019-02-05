@@ -75,14 +75,8 @@ class LoginPage extends Component {
 
     render() {
         const { handleSubmit, loading, errorMessage } = this.props;
-        // if (loading) {
-        //     return (
-        //         <ContainerLogin>
-        //             <Spinner />
-        //         </ContainerLogin>
-        //     );
-        // }
-        console.log({ errorMessage });
+
+
         return (
             <ContainerLogin>
                 <Card>

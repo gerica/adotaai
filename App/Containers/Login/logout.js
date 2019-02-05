@@ -41,6 +41,12 @@ class LogoutPage extends Component {
     onSignOut = () => {
         const { signOut, navigation } = this.props;
         signOut();
+        navigation.navigate('homeStack', { msg: 'Logout efetuado com sucesso.' });
+    }
+
+    goHome = () => {
+        // console.log(this.props);
+        const { navigation } = this.props;
         navigation.navigate('Home', { msg: 'Logout efetuado com sucesso.' });
     }
 
@@ -49,6 +55,9 @@ class LogoutPage extends Component {
             <ContainerLogin>
                 <Button full light style={{ marginTop: 20 }} onPress={this.onSignOut}>
                     <Text>Sair</Text>
+                </Button>
+                <Button full light style={{ marginTop: 20 }} onPress={this.goHome}>
+                    <Text>Home</Text>
                 </Button>
             </ContainerLogin >
         );
