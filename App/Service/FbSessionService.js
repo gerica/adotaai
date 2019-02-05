@@ -11,11 +11,17 @@ class FbSessionService {
         return user;
     }
 
-    async logout() {
-        try {
-            await firebase.auth().signOut();
-        } catch (err) {
-            throw err;
+    async signOut() {
+        // this.isSignedIn().then(v => {
+        //     console.log(v);
+        // });
+        if (this.isSignedIn()) {
+            try {
+                console.log('signout fb');
+                await firebase.auth().signOut();
+            } catch (err) {
+                throw err;
+            }
         }
     }
 
@@ -29,5 +35,13 @@ class FbSessionService {
             throw err;
         }
     }
+
+    isSignedIn() {
+        return firebase.auth().currentUser;
+        // return user;
+        // const retorno = await firebase.auth().onAuthStateChanged((user) => user);
+        // console.log(retorno());
+    }
+
 }
 export default new FbSessionService();

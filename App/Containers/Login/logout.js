@@ -9,7 +9,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { TextHeader } from '../styles';
 import { ContainerLogin } from './styles';
 import SessionActions from '../../Stores/Session/actions';
-import * as selectors from '../../Stores/Login/selector';
+import * as selectors from '../../Stores/Session/selector';
 
 class LogoutPage extends Component {
 
@@ -38,16 +38,16 @@ class LogoutPage extends Component {
             </View>
     });
 
-    logout = () => {
-        const { onLogout, navigation } = this.props;
-        onLogout();
+    onSignOut = () => {
+        const { signOut, navigation } = this.props;
+        signOut();
         navigation.navigate('Home', { msg: 'Logout efetuado com sucesso.' });
     }
 
     render() {
         return (
             <ContainerLogin>
-                <Button full light style={{ marginTop: 20 }} onPress={this.logout}>
+                <Button full light style={{ marginTop: 20 }} onPress={this.onSignOut}>
                     <Text>Sair</Text>
                 </Button>
             </ContainerLogin >
@@ -56,7 +56,7 @@ class LogoutPage extends Component {
 }
 
 LogoutPage.propTypes = {
-    onLogout: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -64,7 +64,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLogout: () => dispatch(SessionActions.removeUser()),
+    signOut: () => dispatch(SessionActions.signOutRequest()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogoutPage);

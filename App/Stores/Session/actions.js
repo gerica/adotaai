@@ -1,9 +1,26 @@
 import { createActions } from 'reduxsauce';
 
 const { Types, Creators } = createActions({
+    resetRedux: [],
+    
+    loginRequest: ['email', 'password'],
+    loginSuccess: [],
+    loginFailure: ['error'],
+
+    // Sigbin Google
+    signInGoogleRequest: [],
+    signInGoogleSuccess: [],
+    signInGoogleFailure: ['errorMessage'],
+
+    // adicionar usuário
     addUser: ['user'],
-    removeUser: [],
-    removeUserFailure: ['errorMessage'],
+
+    // SignOut
+    signOutRequest: [],
+    signOutSuccess: [],
+    signOutFailure: ['errorMessage'],
+
+    //Atualizar
     updateRequest: ['payload'],
 
 });

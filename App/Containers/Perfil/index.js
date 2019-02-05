@@ -45,6 +45,9 @@ class PerfilPage extends Component {
 
     render() {
         const { user } = this.props;
+        if (!user) {
+            return null;
+        }
         // console.log(user);
         return (
             <ContainerPerfil>

@@ -28,6 +28,8 @@ class SideMenu extends Component {
                         return false;
                     case 'Perfil':
                         return false;
+                    case 'Cadastro':
+                        return false;
 
                     default:
                         return true;

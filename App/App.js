@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import Reactotron from 'reactotron-react-native';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { reactotronRedux } from 'reactotron-redux';
-
+import { GoogleSignin } from 'react-native-google-signin';
 
 import Fonts from './Theme/Fonts';
 import ApplicationStyles from './Theme/ApplicationStyles';
@@ -13,7 +13,7 @@ import AppNavigator from './Containers/Navigator';
 
 export const reactotron = Reactotron
   .configure({
-    host: '192.168.0.13', //my current wifi local ip in mac
+    host: '192.168.0.10', //my current wifi local ip in mac
     port: 9090,
     name: 'Adota ai|'
   })
@@ -24,6 +24,11 @@ export const reactotron = Reactotron
 type Props = {};
 const { store, persistor } = configureStore();
 export default class App extends Component<Props> {
+
+  componentWillMount() {
+    GoogleSignin.configure();
+  }
+
   render() {
     // Reactotron.log('hello rendering world');
     return (

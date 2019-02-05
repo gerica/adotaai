@@ -11,18 +11,17 @@ import {
     Button,
 
 } from 'native-base';
-// import firebase from 'react-native-firebase';
+import { GoogleSigninButton } from 'react-native-google-signin';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Field, reduxForm } from 'redux-form';
 import { TextHeader } from '../styles';
 import { ContainerLogin } from './styles';
-import LoginActions from '../../Stores/Login/actions';
-import * as selectors from '../../Stores/Login/selector';
+import SessionActions from '../../Stores/Session/actions';
+import * as selectors from '../../Stores/Session/selector';
 import Toast from '../../Components/toast/Toast';
 import { createValidator, required, email, minLengthPassword } from '../../Utils/validation';
-import * as selectorsSession from '../../Stores/Session/selector';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
 
 class LoginPage extends Component {
@@ -53,9 +52,10 @@ class LoginPage extends Component {
     });
 
     shouldComponentUpdate(nextProps) {
-        const { user, navigation } = nextProps;
+        const { user, onResetRedux, reset, navigation } = nextProps;
         if (user) {
-            this.props.reset();
+            reset();
+            onResetRedux();
             navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
             return false;
         }
@@ -68,31 +68,44 @@ class LoginPage extends Component {
         // console.log(values);
     }
 
+    onSignIn = () => {
+        const { onSignIn } = this.props;
+        onSignIn();
+    }
+
     render() {
         const { handleSubmit, loading, errorMessage } = this.props;
-        if (loading) {
-            return (
-                <ContainerLogin>
-                    <Spinner />
-                </ContainerLogin>
-            );
-        }
-
-
+        // if (loading) {
+        //     return (
+        //         <ContainerLogin>
+        //             <Spinner />
+        //         </ContainerLogin>
+        //     );
+        // }
+        console.log({ errorMessage });
         return (
             <ContainerLogin>
                 <Card>
                     <CardItem>
-                        <Body>
-                            {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
-                            <Field name='email' label='E-mail' component={TextInputBaseRedux} />
-                            <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
-                            <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
-                                <Text>Entrar</Text>
-                            </Button>
-                        </Body>
+                        {loading ? <Spinner /> :
+                            <Body>
+                                {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
+                                <Field name='email' label='E-mail' component={TextInputBaseRedux} />
+                                <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
+                                <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
+                                    <Text>Entrar</Text>
+                                </Button>
+                            </Body>
+                        }
                     </CardItem>
                 </Card>
+                <GoogleSigninButton
+                    style={{ width: '100%', height: 50 }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={this.onSignIn}
+                    disabled={loading}
+                />
             </ContainerLogin >
 
         );
@@ -102,6 +115,8 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
+    onSignIn: PropTypes.func.isRequired,
+    onResetRedux: PropTypes.func.isRequired,
     loading: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool
@@ -119,11 +134,13 @@ LoginPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
     loading: selectors.selectorLoading(),
     errorMessage: selectors.selectorErrorMessage(),
-    user: selectorsSession.selectorSessionUser(),
+    user: selectors.selectorSessionUser(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLogin: (payload) => dispatch(LoginActions.loginRequest(payload.email, payload.password)),
+    onLogin: (payload) => dispatch(SessionActions.loginRequest(payload.email, payload.password)),
+    onSignIn: () => dispatch(SessionActions.signInGoogleRequest()),
+    onResetRedux: () => dispatch(SessionActions.resetRedux()),
 });
 
 const validate = createValidator({

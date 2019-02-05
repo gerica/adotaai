@@ -38,7 +38,7 @@ class HomePage extends Component {
             fontWeight: 'bold',
         },
         headerLeft:
-            <View >
+            (<View >
                 <TouchableHighlight
                     onPress={() => navigation.toggleDrawer()}
                     underlayColor={'#e5e5e5'}
@@ -50,7 +50,7 @@ class HomePage extends Component {
                         style={{ marginRight: 5 }}
                     />
                 </TouchableHighlight>
-            </View>
+            </View>),
     });
 
     componentWillMount() {
@@ -78,7 +78,7 @@ class HomePage extends Component {
                 <Card key={key}>
                     <CardItem>
                         {this.getThumbnail(obj)}
-                        <TextItem>{obj.pessoaDoadora}</TextItem>
+                        <TextItem>{obj.nome}</TextItem>
                         <Right>
                             <Button iconRight rounded info onPress={() => this.props.navigation.navigate('detailStack', { doador: obj })}>
                                 <Text>Ver</Text>
