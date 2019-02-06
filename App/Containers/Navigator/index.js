@@ -6,8 +6,7 @@ import {
     reduxifyNavigator,
     createReactNavigationReduxMiddleware
 } from 'react-navigation-redux-helpers';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Icon } from 'native-base';
 
 import HomePage from '../Home';
 import DetailsPage from '../Details';
@@ -21,6 +20,7 @@ import Colors from '../../Theme/Colors';
 import { TextHeader } from '../styles';
 import IconHeaderLeft from '../../Components/header/iconHeaderLeft';
 import IconHeaderRight from '../../Components/header/iconHeaderRight';
+
 
 // Manifest of possible screens
 const stackHome = createStackNavigator({
@@ -53,7 +53,7 @@ const stackLogin = createStackNavigator({
         initialRouteName: 'loginStack',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: ({ navigation }) => ({
-            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai - Login</TextHeader>,
             headerStyle: {
                 backgroundColor: '#2f8fcc',
             },
@@ -74,7 +74,7 @@ const stackLogout = createStackNavigator({
         initialRouteName: 'logoutStack',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: ({ navigation }) => ({
-            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai - Logout</TextHeader>,
             headerStyle: {
                 backgroundColor: '#2f8fcc',
             },
@@ -95,7 +95,7 @@ const stackPerfil = createStackNavigator({
         initialRouteName: 'perfilStack',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: ({ navigation }) => ({
-            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai - Perfil</TextHeader>,
             headerStyle: {
                 backgroundColor: '#2f8fcc',
             },
@@ -116,7 +116,7 @@ const stackPerfilLista = createStackNavigator({
         initialRouteName: 'listaStack',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: ({ navigation }) => ({
-            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai - Lista de pets</TextHeader>,
             headerStyle: {
                 backgroundColor: '#2f8fcc',
             },
@@ -137,7 +137,7 @@ const stackCadastroPet = createStackNavigator({
         initialRouteName: 'cadastroStack',
         /* The header config from HomeScreen is now here */
         defaultNavigationOptions: ({ navigation }) => ({
-            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai - Cadastro</TextHeader>,
             headerStyle: {
                 backgroundColor: '#2f8fcc',
             },
@@ -157,7 +157,9 @@ const tabsPerfil = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
-                <Ionicons name={'ios-home'} size={26} style={{ color: tintColor }} />
+                // <Ionicons name={'ios-home'} size={26} style={{ color: tintColor }} />
+                <Icon type="Ionicons" name="ios-home" style={{ color: tintColor }} />
+
             ),
         },
     },
@@ -166,7 +168,8 @@ const tabsPerfil = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
-                <Ionicons name={'ios-list'} size={26} style={{ color: tintColor }} />
+                // <Ionicons name={'ios-list'} size={26} style={{ color: tintColor }} />
+                <Icon type="Ionicons" name="ios-list" style={{ color: tintColor }} />
             ),
         },
     },
@@ -175,7 +178,7 @@ const tabsPerfil = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
-                <MaterialIcons name={'pets'} size={26} style={{ color: tintColor }} />
+                <Icon type="MaterialIcons" name="pets" style={{ color: tintColor }} />
             ),
         },
     },

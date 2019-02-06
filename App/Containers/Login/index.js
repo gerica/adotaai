@@ -14,9 +14,7 @@ import {
 import { GoogleSigninButton } from 'react-native-google-signin';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Field, reduxForm } from 'redux-form';
-import { TextHeader } from '../styles';
 import { ContainerLogin } from './styles';
 import SessionActions from '../../Stores/Session/actions';
 import * as selectors from '../../Stores/Session/selector';
@@ -25,31 +23,6 @@ import { createValidator, required, email, minLengthPassword } from '../../Utils
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
 
 class LoginPage extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        headerTitle: <TextHeader style={{ color: '#fff' }}>Login</TextHeader>,
-        headerStyle: {
-            backgroundColor: '#2f8fcc',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft:
-            <View >
-                <TouchableHighlight
-                    onPress={() => navigation.toggleDrawer()}
-                    underlayColor={'#e5e5e5'}
-                >
-                    <MaterialIcons
-                        name="menu"
-                        size={35}
-                        color={'#fff'}
-                        style={{ marginRight: 5 }}
-                    />
-                </TouchableHighlight>
-            </View>
-    });
 
     shouldComponentUpdate(nextProps) {
         const { user, onResetRedux, reset, navigation } = nextProps;

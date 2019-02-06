@@ -20,6 +20,7 @@ class IconHeaderRight extends Component {
 
 IconHeaderRight.propTypes = {
     nav: PropTypes.object,
+    user: PropTypes.object
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -17,7 +17,6 @@ import {
     Thumbnail,
 
 } from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStructuredSelector } from 'reselect';
 import Reactotron from 'reactotron-react-native';
 import HomeActions from '../../Stores/Home/actions';
@@ -39,7 +38,7 @@ class HomePage extends Component {
         if (objImg) {
             return <Thumbnail source={objImg.img} />;
         }
-        return <MaterialIcons name="pets" size={30} style={{ margin: 12 }} />;
+        return <Icon type="MaterialIcons" name="pets" />;
     }
 
     componentFocus = ({ action: { type } }) => {
@@ -70,6 +69,7 @@ class HomePage extends Component {
                                 iconRight
                                 rounded
                                 info
+                                success
                                 onPress={() => this.props.navigation.navigate('detailStack', {
                                     doador: obj,
                                     iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,

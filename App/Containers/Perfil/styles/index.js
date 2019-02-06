@@ -30,3 +30,10 @@ export const TextPerfil = styled.Text`
     line-height: 30px;
     font-weight: bold;
 `;
+
+export const TextItem = styled.Text`
+  font-size: 14px;
+  color: ${Colors.text};  
+  padding-left: 5px;  
+`;
+

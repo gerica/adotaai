@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableHighlight } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Icon } from 'native-base';
+import Colors from '../../Theme/Colors';
 
 const IconHeaderLeft = (props) => {
     const { nav } = props;
@@ -11,7 +13,8 @@ const IconHeaderLeft = (props) => {
 
     const icon = (
         iconCustom ||
-        <MaterialIcons name="menu" size={35} color={'#fff'} style={{ marginRight: 5 }} />
+        // <MaterialIcons name="menu" size={35} color={'#fff'} style={{ marginRight: 5 }} />
+        <Icon type="MaterialIcons" name="menu" style={{ marginLeft: 5, color: Colors.white }} />
     );
 
     let onPressDefault;
