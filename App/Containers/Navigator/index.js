@@ -18,31 +18,142 @@ import PerfilPage from '../Perfil';
 import ListaPetPage from '../Perfil/listaPet';
 import CadastroPetPage from '../Perfil/cadastroPet';
 import Colors from '../../Theme/Colors';
+import { TextHeader } from '../styles';
+import IconHeaderLeft from '../../Components/header/iconHeaderLeft';
+import IconHeaderRight from '../../Components/header/iconHeaderRight';
 
 // Manifest of possible screens
-export const stackHome = createStackNavigator({
+const stackHome = createStackNavigator({
     homeStack: { screen: HomePage, key: 'teste' },
     detailStack: { screen: DetailsPage }
-});
+},
+    {
+        initialRouteName: 'homeStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
 
 // Manifest of possible screens
-export const stackLogin = createStackNavigator({
+const stackLogin = createStackNavigator({
     loginStack: { screen: LoginPage },
-});
+},
+    {
+        initialRouteName: 'loginStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
 
-export const stackLogout = createStackNavigator({
+const stackLogout = createStackNavigator({
     logoutStack: { screen: LogoutPage },
-});
+},
+    {
+        initialRouteName: 'logoutStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
+
+const stackPerfil = createStackNavigator({
+    perfilStack: { screen: PerfilPage },
+},
+    {
+        initialRouteName: 'perfilStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
+
+const stackPerfilLista = createStackNavigator({
+    listaStack: { screen: ListaPetPage },
+},
+    {
+        initialRouteName: 'listaStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
 
 const stackCadastroPet = createStackNavigator({
     cadastroStack: { screen: CadastroPetPage },
-});
+},
+    {
+        initialRouteName: 'cadastroStack',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
+            headerStyle: {
+                backgroundColor: '#2f8fcc',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: <IconHeaderLeft nav={navigation} />,
+            headerRight: <IconHeaderRight nav={navigation} />
+        })
+    }
+);
 
 const tabsPerfil = createBottomTabNavigator({
     Perfil: {
-        screen: createStackNavigator({
-            perfilStack: { screen: PerfilPage },
-        }),
+        screen: stackPerfil,
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
@@ -51,9 +162,7 @@ const tabsPerfil = createBottomTabNavigator({
         },
     },
     Lista: {
-        screen: createStackNavigator({
-            listaStack: { screen: ListaPetPage },
-        }),
+        screen: stackPerfilLista,
         navigationOptions: {
             tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
@@ -85,7 +194,7 @@ const tabsPerfil = createBottomTabNavigator({
         },
     });
 
-export const drawerAppNavigator = createDrawerNavigator({
+const drawerAppNavigator = createDrawerNavigator({
     Home: { screen: stackHome },
     Login: { screen: stackLogin },
     Perfil: { screen: tabsPerfil },
@@ -106,13 +215,17 @@ export const drawerAppNavigator = createDrawerNavigator({
 
     });
 
+export const rootStack = createStackNavigator({
+    Drawer: { screen: drawerAppNavigator, navigationOptions: { header: null } }
+});
+
 // Create middleware and connect
 export const appNavigatorMiddleware = createReactNavigationReduxMiddleware(
     'navOpen',
     state => state.nav
 );
 
-const AppNavigator = reduxifyNavigator(drawerAppNavigator, 'navOpen');
+const AppNavigator = reduxifyNavigator(rootStack, 'navOpen');
 const mapStateToProps = (state) => ({
     state: state.nav,
 });

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableHighlight, Text, ScrollView } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Spinner, Card, CardItem, Body } from 'native-base';
 import { createStructuredSelector } from 'reselect';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Field, reduxForm } from 'redux-form';
 // import { NavigationActions, StackActions } from 'react-navigation';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import PerfilActions from '../../Stores/Perfil/actions';
-import { TextHeader } from '../styles';
 import { ContainerPetCadastro } from './styles';
 import { createValidator, required, } from '../../Utils/validation';
 import PickerRedux from '../../Components/input/PickerRedux';
@@ -22,31 +20,6 @@ import Toast from '../../Components/toast/Toast';
 import { tipos } from '../../Assets/Images';
 
 class CadastroPetPage extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        headerTitle: <TextHeader style={{ color: '#fff' }}>Perfil</TextHeader>,
-        headerStyle: {
-            backgroundColor: '#2f8fcc',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft:
-            <View >
-                <TouchableHighlight
-                    onPress={() => navigation.toggleDrawer()}
-                    underlayColor={'#e5e5e5'}
-                >
-                    <MaterialIcons
-                        name="menu"
-                        size={35}
-                        color={'#fff'}
-                        style={{ marginRight: 5 }}
-                    />
-                </TouchableHighlight>
-            </View>
-    });
 
     constructor(props) {
         super(props);

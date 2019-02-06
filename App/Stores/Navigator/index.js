@@ -1,5 +1,5 @@
 import { createNavigationReducer } from 'react-navigation-redux-helpers';
-import { drawerAppNavigator } from '../../Containers/Navigator';
+import { rootStack } from '../../Containers/Navigator';
 
-const navReducer = createNavigationReducer(drawerAppNavigator);
+const navReducer = createNavigationReducer(rootStack);
 export default navReducer;

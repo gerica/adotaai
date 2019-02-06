@@ -56,7 +56,7 @@ class LoginPage extends Component {
         if (user) {
             reset();
             onResetRedux();
-            navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
+            navigation.navigate('homeStack', { msg: 'Login efetuado com sucesso.', user: user.user });
             return false;
         }
         return true;
@@ -65,7 +65,6 @@ class LoginPage extends Component {
     onSubmit = (values) => {
         const { onLogin } = this.props;
         onLogin(values);
-        // console.log(values);
     }
 
     onSignIn = () => {
@@ -75,7 +74,6 @@ class LoginPage extends Component {
 
     render() {
         const { handleSubmit, loading, errorMessage } = this.props;
-
 
         return (
             <ContainerLogin>

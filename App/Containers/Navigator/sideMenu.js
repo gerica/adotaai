@@ -16,7 +16,7 @@ class SideMenu extends Component {
     }
 
     render() {
-        const { items, user } = this.props;
+        const { items, user, ...rest } = this.props;
         let filteredItems;
         // console.log(user.user.email);
         if (user) {
@@ -39,7 +39,7 @@ class SideMenu extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <DrawerItems items={filteredItems} {...this.props} />
+                    <DrawerItems items={filteredItems} {...rest} />
                 </ScrollView>
                 <View style={styles.footerContainer}>
                     {user ? <Text>{user.user.email}</Text> : <Text>Adota ai!</Text>}

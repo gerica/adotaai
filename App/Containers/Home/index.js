@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationEvents } from 'react-navigation';
-import { View, TouchableHighlight, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -23,36 +23,10 @@ import Reactotron from 'reactotron-react-native';
 import HomeActions from '../../Stores/Home/actions';
 import * as selectors from '../../Stores/Home/selector';
 import { TextItem } from './styles';
-import { TextHeader } from '../styles';
 import { getMiniatura } from '../../Assets/Images';
 import Toast from '../../Components/toast/Toast';
 
 class HomePage extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        headerTitle: <TextHeader style={{ color: '#fff' }}>Adota ai</TextHeader>,
-        headerStyle: {
-            backgroundColor: '#2f8fcc',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft:
-            (<View >
-                <TouchableHighlight
-                    onPress={() => navigation.toggleDrawer()}
-                    underlayColor={'#e5e5e5'}
-                >
-                    <MaterialIcons
-                        name="menu"
-                        size={35}
-                        color={'#fff'}
-                        style={{ marginRight: 5 }}
-                    />
-                </TouchableHighlight>
-            </View>),
-    });
 
     componentWillMount() {
         const { fetchDoadores } = this.props;
@@ -72,18 +46,11 @@ class HomePage extends Component {
         const { navigation } = this.props;
         // console.log(msgToast);
         if (type && type === 'Navigation/NAVIGATE') {
-            console.log(navigation.state);
             const msgToast = navigation.getParam('msg');
             console.log(msgToast);
             if (msgToast) {
+                navigation.navigate('homeStack', { msg: null });
                 Toast({ visible: true, message: msgToast });
-                // ToastAndroid.showWithGravityAndOffset(
-                //     msgToast,
-                //     ToastAndroid.LONG,
-                //     ToastAndroid.BOTTOM,
-                //     25,
-                //     50,
-                // );
             }
         }
     }
@@ -99,7 +66,16 @@ class HomePage extends Component {
                         {this.getThumbnail(obj)}
                         <TextItem>{obj.nome}</TextItem>
                         <Right>
-                            <Button iconRight rounded info onPress={() => this.props.navigation.navigate('detailStack', { doador: obj })}>
+                            <Button
+                                iconRight
+                                rounded
+                                info
+                                onPress={() => this.props.navigation.navigate('detailStack', {
+                                    doador: obj,
+                                    iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,
+                                    onPressCustom: 'goBack',
+                                })}
+                            >
                                 <Text>Ver</Text>
                                 <Icon name="arrow-forward" />
                             </Button>

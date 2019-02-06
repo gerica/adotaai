@@ -1,40 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableHighlight, Image } from 'react-native';
+import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right, Text } from 'native-base';
 
 import HomeActions from '../../Stores/Home/actions';
 
 import { InfoReacao, Title, Subtitle } from './styles';
-import { TextHeader } from '../styles';
 import { getNaoDefinido } from '../../Assets/Images';
 
 class DetailsPage extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        headerTitle: <TextHeader style={{ color: '#fff' }}>Voltar</TextHeader>,
-        headerStyle: {
-            backgroundColor: '#2f8fcc',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft:
-            <View >
-                <TouchableHighlight
-                    onPress={() => navigation.goBack()}
-                    underlayColor={'#e5e5e5'}
-                ><Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />
-                </TouchableHighlight>
-            </View>
-    });
-
-    backPage = () => {
-        // this.props.navigation.goBack();
-        this.props.navigation.toggleDrawer();
-    }
 
     render() {
         const { navigation } = this.props;
