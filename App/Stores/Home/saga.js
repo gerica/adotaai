@@ -3,11 +3,6 @@ import firebase from 'react-native-firebase';
 import HomeActions, { HomeTypes } from './actions';
 import FbListaDoacaoService from '../../Service/FbListaDoacaoService';
 
-// eslint-disable-next-line require-yield
-function* initSaga() {
-    console.log('está no saga do home');
-}
-
 function* getImagemPet(payload) {
     try {
         const ref = firebase.storage().ref(payload.object.imagem);
@@ -18,21 +13,17 @@ function* getImagemPet(payload) {
     }
 }
 
-function* fetchDoadores() {
+function* fetchDoadoresRequest() {
     try {
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchAll]);
-        yield put(HomeActions.fetchDoadoresSuccess(values));
+        yield put(HomeActions.fetchDoadoresAbertoSuccess(values));
     } catch (err) {
-        yield put(HomeActions.fetchDoadoresFailure(err));
+        yield put(HomeActions.fetchDoadoresAbertoFailure(err));
     }
 }
 
-export function* watchTakeLatest() {
-    yield takeLatest(HomeTypes.INIT_REDUCER, initSaga);
-}
-
-export function* watchFetchDoadores() {
-    yield takeEvery(HomeTypes.FETCH_DOADORES, fetchDoadores);
+export function* watchFetchDoadoresRequest() {
+    yield takeLatest(HomeTypes.FETCH_DOADORES_ABERTO_REQUEST, fetchDoadoresRequest);
 }
 
 export function* watchgetImagemPet() {
@@ -41,8 +32,7 @@ export function* watchgetImagemPet() {
 
 export default function* homeSaga() {
     yield all([
-        watchTakeLatest(),
-        watchFetchDoadores(),
+        watchFetchDoadoresRequest(),
         watchgetImagemPet(),
     ]);
 }

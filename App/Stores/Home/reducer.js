@@ -7,54 +7,52 @@ import { HomeTypes } from './actions';
 
 const INITIAL_STATE = {
     loading: false,
-    listaDoadores: null,
+    listaDoadoresAberto: null,
     errorMessage: null,
     imagemPet: null,
 };
 
-export const initReducer = (state = INITIAL_STATE) => {
-    console.log('está no reducer');
-    return state.set('obj', { nome: 'rogerio' });
-};
-
 export const changeLoading = (state = INITIAL_STATE, { loading }) => state.set('loading', loading);
 
-export const fetchDoadoresLoading = (state = INITIAL_STATE) => ({ ...state, loadin: true });
+export const fetchDoadoresAbertoRequest = (state = INITIAL_STATE) => ({ ...state, loadin: true });
 
-export const fetchDoadoresSuccess = (state = INITIAL_STATE, { listaDoadores }) => ({ ...state, listaDoadores, loading: false });
+export const fetchDoadoresAbertoSuccess = (state = INITIAL_STATE, { listaDoadoresAberto }) => ({ ...state, listaDoadoresAberto, loading: false });
 
-export const fetchDoadoresFailure = (state = INITIAL_STATE, { errorMessage }) => state.set('errorMessage', errorMessage);
+export const fetchDoadoresAbertoFailure = (state = INITIAL_STATE, { errorMessage }) => ({ ...state, errorMessage });
 
 export const getImagemPetLoading = (state = INITIAL_STATE) => state;
 
 export const getImagemPetSuccess = (state = INITIAL_STATE, { key, imagemPet }) => {
-    // const indexOfListToUpdate = state.get('listaDoadores').findIndex(e => e.pessoaDoadora === key);
-    // return state.setIn(['listaDoadores', indexOfListToUpdate, 'imagemUrl'], imagemPet);
+    // const indexOfListToUpdate = state.get('listaDoadoresAberto').findIndex(e => e.pessoaDoadora === key);
+    // return state.setIn(['listaDoadoresAberto', indexOfListToUpdate, 'imagemUrl'], imagemPet);
     // return state;
-    const listaDoadores = state.get('listaDoadores').slice();
-    const indexOfListToUpdate = listaDoadores.findIndex(e => e.pessoaDoadora === key);
-    listaDoadores[indexOfListToUpdate].imagemUrl = imagemPet;
-    return state.set('listaDoadores', listaDoadores);
+    const listaDoadoresAberto = state.get('listaDoadoresAberto').slice();
+    const indexOfListToUpdate = listaDoadoresAberto.findIndex(e => e.pessoaDoadora === key);
+    listaDoadoresAberto[indexOfListToUpdate].imagemUrl = imagemPet;
+    return state.set('listaDoadoresAberto', listaDoadoresAberto);
 };
 
 export const getImagemPetFailure = (state = INITIAL_STATE, { key, errorMessage }) => {
-    const listaDoadores = state.get('listaDoadores').slice();
-    const indexOfListToUpdate = listaDoadores.findIndex(e => e.pessoaDoadora === key);
-    listaDoadores[indexOfListToUpdate].imagemUrl = 'não encontrado';
-    return state.set('errorMessage', errorMessage).set('listaDoadores', listaDoadores);
+    const listaDoadoresAberto = state.get('listaDoadoresAberto').slice();
+    const indexOfListToUpdate = listaDoadoresAberto.findIndex(e => e.pessoaDoadora === key);
+    listaDoadoresAberto[indexOfListToUpdate].imagemUrl = 'não encontrado';
+    return state.set('errorMessage', errorMessage).set('listaDoadoresAberto', listaDoadoresAberto);
 };
 
+export const reset = (state = INITIAL_STATE) => ({ ...state, errorMessage: null, loading: false });
+
 const homeReducer = createReducer(INITIAL_STATE, {
-    [HomeTypes.INIT_REDUCER]: initReducer,
     [HomeTypes.CHANGE_LOADING]: changeLoading,
     // LISTA DE DOADORES
-    [HomeTypes.FETCH_DOADORES]: fetchDoadoresLoading,
-    [HomeTypes.FETCH_DOADORES_SUCCESS]: fetchDoadoresSuccess,
-    [HomeTypes.FETCH_DOADORES_FAILURE]: fetchDoadoresFailure,
+    [HomeTypes.FETCH_DOADORES_ABERTO_REQUEST]: fetchDoadoresAbertoRequest,
+    [HomeTypes.FETCH_DOADORES_ABERTO_SUCCESS]: fetchDoadoresAbertoSuccess,
+    [HomeTypes.FETCH_DOADORES_ABERTO_FAILURE]: fetchDoadoresAbertoFailure,
     // RECUPAR IMAGENM
     [HomeTypes.GET_IMAGEM_PET]: getImagemPetLoading,
     [HomeTypes.GET_IMAGEM_PET_SUCCESS]: getImagemPetSuccess,
     [HomeTypes.GET_IMAGEM_PET_FAILURE]: getImagemPetFailure,
+    // RESET
+    [HomeTypes.RESET]: reset,
 
 });
 

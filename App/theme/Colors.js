@@ -16,4 +16,7 @@ export default {
   background: '#F5FCFF',
   buttons: '#f7f7f7',
   black: '#808080',
+
+  cardSuccess: '#daeed1',
+  cardFailure: '#f8ccd3',
 };

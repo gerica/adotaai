@@ -5,6 +5,10 @@ const { Types, Creators } = createActions({
     doacaoSuccess: ['payload'],
     doacaoFailure: ['error'],
     resetRedux: [],
+
+    fetchPetPorUserRequest: ['user'],
+    fetchPetPorUserSuccess: ['listaPetPorUser'],
+    fetchPetPorUserFailure: ['errorMessage'],
 });
 
 export const PerfilTypes = Types;

@@ -15,6 +15,7 @@ import {
     CardItem,
     Spinner,
     Thumbnail,
+    Body,
 
 } from 'native-base';
 import { createStructuredSelector } from 'reselect';
@@ -24,16 +25,21 @@ import * as selectors from '../../Stores/Home/selector';
 import { TextItem } from './styles';
 import { getMiniatura } from '../../Assets/Images';
 import Toast from '../../Components/toast/Toast';
+import { NAVIGATON_NAVIGATE } from '../../Utils/constants';
 
 class HomePage extends Component {
 
     componentWillMount() {
-        const { fetchDoadores } = this.props;
-        fetchDoadores();
+        const { fetchDoadoresAberto, reset } = this.props;
+        fetchDoadoresAberto();
+        reset();
         Reactotron.log('chamou o will mount');
     }
 
     getThumbnail(doador) {
+        if (!doador) {
+            return <Icon type="MaterialIcons" name="pets" />;
+        }
         const objImg = getMiniatura(doador);
         if (objImg) {
             return <Thumbnail source={objImg.img} />;
@@ -43,10 +49,8 @@ class HomePage extends Component {
 
     componentFocus = ({ action: { type } }) => {
         const { navigation } = this.props;
-        // console.log(msgToast);
-        if (type && type === 'Navigation/NAVIGATE') {
+        if (type && type === NAVIGATON_NAVIGATE) {
             const msgToast = navigation.getParam('msg');
-            console.log(msgToast);
             if (msgToast) {
                 navigation.navigate('homeStack', { msg: null });
                 Toast({ visible: true, message: msgToast });
@@ -55,10 +59,14 @@ class HomePage extends Component {
     }
 
     render() {
-        const { loading, listaDoadores } = this.props;
+        const { loading, listaDoadores, errorMessage } = this.props;
         let cards;
 
-        if (listaDoadores) {
+        if (errorMessage) {
+            Toast({ visible: true, message: errorMessage.msg || 'Erro ao processar' });
+        }
+
+        if (listaDoadores && listaDoadores.length > 0) {
             cards = listaDoadores.map((obj, key) =>
                 <Card key={key}>
                     <CardItem>
@@ -83,12 +91,27 @@ class HomePage extends Component {
                     </CardItem>
                 </Card>
             );
+        } else {
+            cards = (<Card>
+                <CardItem header>
+                    {this.getThumbnail()}
+                    <Text>Faça a doação do seu pet.</Text>
+                </CardItem>
+                <CardItem>
+                    <Body>
+                        <Text>
+                            Caso você não possa ter mais seu pet, por algum motivo pessoal, tipo mudança ou qualquer outro motivo. Doe. Tem sempre um lar esperando por ele.
+                        </Text>
+                    </Body>
+                </CardItem>
+                <CardItem footer>
+                    <Text>Doe...</Text>
+                </CardItem>
+            </Card>);
         }
         return (
             <ScrollView>
-                <NavigationEvents
-                    onWillFocus={payload => this.componentFocus(payload)}
-                />
+                <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
                 <Container>
                     <Content>
                         {loading ? <Spinner /> : cards}
@@ -102,7 +125,7 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
     initReducer: PropTypes.func,
-    fetchDoadores: PropTypes.func,
+    fetchDoadoresAberto: PropTypes.func,
     getImagemPet: PropTypes.func,
     changeLoading: PropTypes.func,
     loading: PropTypes.oneOfType([
@@ -111,37 +134,25 @@ HomePage.propTypes = {
     ]),
     listaDoadores: PropTypes.array,
     imagemPet: PropTypes.array,
+    errorMessage: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
 };
 
 const mapStateToProps = createStructuredSelector({
-    listaDoadores: selectors.selectorListaDoadores(),
-    // form: selectors.selectorForm(),
+    listaDoadores: selectors.selectorListaDoadoresAberto(),
     // form: selectors.selectorForm(),
     loading: selectors.selectorLoading(),
     imagemPet: selectors.selectorImagemPet(),
+    errorMessage: selectors.selectorErrorMessage(),
 });
-
-// function mapStateToProps(state) {
-//     console.log('estou no state to props');
-//     console.log(state);
-//     console.log('-------');
-//     return {
-//         nameAsProps: state.username,
-//     };
-// }
 
 const mapDispatchToProps = (dispatch) => ({
-    initReducer: () => dispatch(HomeActions.initReducer()),
-    fetchDoadores: () => dispatch(HomeActions.fetchDoadores()),
+    fetchDoadoresAberto: () => dispatch(HomeActions.fetchDoadoresAbertoRequest()),
     getImagemPet: (obj) => dispatch(HomeActions.getImagemPet(obj)),
     changeLoading: (value) => dispatch(HomeActions.changeLoading(value)),
+    reset: () => dispatch(HomeActions.reset()),
 });
-
-// const withConnect = connect(mapStateToProps, mapDispatchToProps);
-// const withReducer = injectReducer({ key: 'home', reducer });
-// const withSaga = injectSaga({ key: 'home', saga });
-
-// export default compose(withReducer, withSaga, withConnect)(HomePage);
-// export default compose(withConnect)(HomePage);
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

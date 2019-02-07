@@ -17,7 +17,6 @@ class PerfilPage extends Component {
         if (!user) {
             return null;
         }
-        // console.log(user);
         return (
             <ContainerPerfil>
                 {/* <Info>

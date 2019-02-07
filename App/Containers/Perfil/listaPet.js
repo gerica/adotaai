@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, CardItem, Right, Button, Icon, Thumbnail, Container, Content, Text } from 'native-base';
+import { Card, CardItem, Right, Button, Icon, Thumbnail, Container, Content, Text, Body, Spinner, Left } from 'native-base';
 import { createStructuredSelector } from 'reselect';
+import { NavigationEvents } from 'react-navigation';
 
-import HomeActions from '../../Stores/Home/actions';
+import PerfilActions from '../../Stores/Perfil/actions';
 import { ContainerPerfil, TextItem } from './styles';
-import * as selectors from '../../Stores/Home/selector';
 import { getMiniatura } from '../../Assets/Images';
 import * as selectorsSession from '../../Stores/Session/selector';
+import * as selectorsPerfil from '../../Stores/Perfil/selector';
+import { NAVIGATON_NAVIGATE, STATUS } from '../../Utils/constants';
+import Colors from '../../Theme/Colors';
 
 class ListaPetPage extends Component {
 
     getThumbnail(doador) {
+        if (!doador) {
+            return <Icon type="MaterialIcons" name="pets" />;
+        }
         const objImg = getMiniatura(doador);
         if (objImg) {
             return <Thumbnail source={objImg.img} />;
@@ -20,20 +26,57 @@ class ListaPetPage extends Component {
         return <Icon type="MaterialIcons" name="pets" />;
     }
 
-    render() {
-        const { listaDoadores, user } = this.props;
-        let cards;
+    componentFocus = ({ action: { type } }) => {
+        const { fetchPetPorUserRequest, user } = this.props;
+        if (user && type && type === NAVIGATON_NAVIGATE) {
+            fetchPetPorUserRequest(user);
+        }
+    }
 
-        if (listaDoadores) {
-            cards = listaDoadores.filter(f => f.user && f.user.id === user.user.id).map((obj, key) =>
-                <Card key={key}>
-                    <CardItem>
-                        {this.getThumbnail(obj)}
-                        <TextItem>{obj.nome}</TextItem>
+    render() {
+        const { loading, listaPetPorUser, user } = this.props;
+
+        let cards;
+        if (!user) {
+            return null;
+        }
+        if (listaPetPorUser && listaPetPorUser.length > 0) {
+            cards = listaPetPorUser.map((obj, key) => {
+                let iconStatus;
+                let infoStatus;
+                switch (obj.status) {
+                    case STATUS[0]: // ABERTO
+                        iconStatus = < Icon type="FontAwesome" name="circle-thin" style={{ fontSize: 20, paddingLeft: 5 }} />;
+                        infoStatus = 'Aberto';
+                        break;
+                    case STATUS[1]: // FECHADO
+                        iconStatus = < Icon type="FontAwesome" name="times-circle-o" style={{ fontSize: 20, paddingLeft: 5, color: Colors.cardFailure }} />;
+                        infoStatus = 'Fechado';
+                        break;
+                    case STATUS[2]: // DOADO
+                        iconStatus = < Icon type="FontAwesome" name="check-circle-o" style={{ fontSize: 20, paddingLeft: 5, color: Colors.cardSuccess }} />;
+                        infoStatus = 'Doado';
+                        break;
+
+                    default:
+                        break;
+                }
+                return (<Card key={key} >
+                    <CardItem >
+                        {/* style={{ backgroundColor: cardColor }} */}
+                        <Left>
+                            {this.getThumbnail(obj)}
+                            <TextItem>{obj.nome}</TextItem>
+                        </Left>
+                        <Body style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', alignItems: 'center' }}>
+                            <Text>{infoStatus}</Text>
+                            {iconStatus}
+                        </Body>
                         <Right>
                             <Button
-                                iconRight
-                                rounded
+                                // iconRight
+                                transparent
+                                primary
                                 info
                                 success
                                 onPress={() => this.props.navigation.navigate('detailStack', {
@@ -42,19 +85,38 @@ class ListaPetPage extends Component {
                                     onPressCustom: 'goBack',
                                 })}
                             >
-                                <Text>Editar</Text>
+                                {/* <Text>Editar</Text> */}
                                 <Icon type="FontAwesome" name="edit" />
                             </Button>
                         </Right>
                     </CardItem>
-                </Card>
+                </Card>);
+            }
             );
+        } else {
+            cards = (<Card>
+                <CardItem header>
+                    {this.getThumbnail()}
+                    <Text>Faça a doação do seu pet.</Text>
+                </CardItem>
+                <CardItem>
+                    <Body >
+                        <Text>
+                            Caso você não possa ter mais seu pet, por algum motivo pessoal, tipo mudança ou qualquer outro motivo. Doe. Tem sempre um lar esperando por ele.
+                        </Text>
+                    </Body>
+                </CardItem>
+                <CardItem footer>
+                    <Text>Doe...</Text>
+                </CardItem>
+            </Card>);
         }
         return (
             <ContainerPerfil>
+                <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
                 <Container>
                     <Content>
-                        {cards || null}
+                        {loading ? <Spinner /> : cards || null}
                     </Content>
                 </Container>
             </ContainerPerfil>
@@ -63,17 +125,20 @@ class ListaPetPage extends Component {
 }
 
 ListaPetPage.propTypes = {
-    listaDoadores: PropTypes.array,
-    user: PropTypes.object
+    listaPetPorUser: PropTypes.array,
+    user: PropTypes.object,
+    loading: PropTypes.bool,
+    fetchPetPorUserRequest: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-    listaDoadores: selectors.selectorListaDoadores(),
+    listaPetPorUser: selectorsPerfil.selectorListaPetPorUser(),
+    loading: selectorsPerfil.selectorLoading(),
     user: selectorsSession.selectorSessionUser(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    initReducer: () => dispatch(HomeActions.initReducer()),
+    fetchPetPorUserRequest: (user) => dispatch(PerfilActions.fetchPetPorUserRequest(user)),
 });
 
 

@@ -51,32 +51,13 @@ class CadastroPetPage extends Component {
                 castrado: 'nao',
                 vermifugado: 'nao',
                 porte: 'medio',
-                raca: 'Selecione'
+                raca: 'Selecione',
             });
-            // navigation.navigate('Home', { msg: 'Login efetuado com sucesso.' });
-            // const resetAction = NavigationActions.reset({
-            //     index: 0,
-            //     actions: [
-            //         NavigationActions.navigate({ routeName: 'stackHome' })
-            //     ]
-            // });
-            // navigation.dispatch(resetAction);
-            // navigation.reset([NavigationActions.navigate({ routeName: 'cadastroStack' })], 0);
-            // const resetAction = StackActions.reset({
-            //     index: 0,
-            //     actions: [NavigationActions.navigate({ routeName: 'cadastroStack' })],
-            // });
-            // navigation.dispatch(resetAction);
 
             return true;
         }
         return true;
     }
-
-    // componentDidUpdate() {
-    //     const { resetRedux } = this.props;
-    //     resetRedux();
-    // }
 
     onSubmit = (values) => {
         const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
@@ -92,8 +73,8 @@ class CadastroPetPage extends Component {
             vermifugado,
             porte,
             raca,
+            status: 'aberto',
         };
-        // console.log(newObj);
         doacaoRequest(newObj);
     }
 
