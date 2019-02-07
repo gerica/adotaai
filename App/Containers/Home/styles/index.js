@@ -6,3 +6,11 @@ export const TextItem = styled.Text`
   color: ${Colors.text};  
   padding-left: 5px;  
 `;
+
+export const ViewCards = styled.View`
+  display: flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  
+`;

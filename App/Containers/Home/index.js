@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationEvents } from 'react-navigation';
-import { ScrollView } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -22,11 +22,12 @@ import { createStructuredSelector } from 'reselect';
 import Reactotron from 'reactotron-react-native';
 import HomeActions from '../../Stores/Home/actions';
 import * as selectors from '../../Stores/Home/selector';
-import { TextItem } from './styles';
+import { TextItem, ViewCards } from './styles';
 import { getMiniatura } from '../../Assets/Images';
 import Toast from '../../Components/toast/Toast';
 import { NAVIGATON_NAVIGATE } from '../../Utils/constants';
 
+const { width } = Dimensions.get('window');
 class HomePage extends Component {
 
     componentWillMount() {
@@ -68,10 +69,18 @@ class HomePage extends Component {
 
         if (listaDoadores && listaDoadores.length > 0) {
             cards = listaDoadores.map((obj, key) =>
-                <Card key={key}>
+                <Card key={key} style={{ width: ((width - 20) / 2) }}>
                     <CardItem>
                         {this.getThumbnail(obj)}
-                        <TextItem>{obj.nome}</TextItem>
+                        <TextItem>{obj.raca}</TextItem>
+                    </CardItem>
+                    <CardItem>
+                        <View style={{ display: 'flex' }}>
+                            <TextItem>Nome: {obj.raca}</TextItem>
+                            <TextItem>Doador: {obj.user.givenName}</TextItem>
+                        </View>
+                    </CardItem>
+                    <CardItem>
                         <Right>
                             <Button
                                 iconRight
@@ -113,9 +122,9 @@ class HomePage extends Component {
             <ScrollView>
                 <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
                 <Container>
-                    <Content>
+                    <ViewCards>
                         {loading ? <Spinner /> : cards}
-                    </Content>
+                    </ViewCards>
                 </Container>
             </ScrollView>
         );
