@@ -8,11 +8,10 @@ import { Field, reduxForm } from 'redux-form';
 // import { NavigationActions, StackActions } from 'react-navigation';
 
 import * as selectorsSession from '../../Stores/Session/selector';
-import PerfilActions from '../../Stores/Perfil/actions';
 import SessionActions from '../../Stores/Session/actions';
 import { createValidator, required, } from '../../Utils/validation';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
-import * as selectors from '../../Stores/Perfil/selector';
+import * as selectors from '../../Stores/Pet/selector';
 // import Toast from '../../Components/toast/Toast';
 
 class EditarPerfilPage extends Component {
@@ -43,7 +42,7 @@ class EditarPerfilPage extends Component {
     }
 
     render() {
-        const { handleSubmit, loading, loadingSession, errorMessage, message } = this.props;
+        const { handleSubmit, loading, loadingSession, error, message } = this.props;
 
         return (
             <ScrollView>
@@ -78,7 +77,7 @@ EditarPerfilPage.propTypes = {
     updateRequest: PropTypes.func,
     loading: PropTypes.bool,
     loadingSession: PropTypes.bool,
-    errorMessage: PropTypes.oneOfType([
+    error: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
     ]),
@@ -90,15 +89,12 @@ EditarPerfilPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
     user: selectorsSession.selectorSessionUser(),
-    loading: selectors.selectorLoading(),
-    loadingSession: selectorsSession.selectorLoading(),
-    message: selectors.selectorMessage(),
-    errorMessage: selectors.selectorErroMessage(),
+    loading: selectorsSession.selectorLoading(),
+    message: selectorsSession.selectorMessage(),
+    error: selectorsSession.selectorError(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    doacaoRequest: (payload) => dispatch(PerfilActions.doacaoRequest(payload)),
-    resetRedux: () => dispatch(PerfilActions.resetRedux()),
     updateRequest: (payload) => dispatch(SessionActions.updateRequest(payload)),
 });
 

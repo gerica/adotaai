@@ -3,7 +3,7 @@ import { reducer as reduxFormReducer } from 'redux-form';
 import homeReducer from './Home/reducer';
 import navReducer from './Navigator';
 import sessionReducer from './Session/reducer';
-import perfilReducer from './Perfil/reducer';
+import perfilReducer from './Pet/reducer';
 
 /**
  * Creates the main reducer with the asynchronously loaded ones

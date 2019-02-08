@@ -5,11 +5,16 @@ const storeSession = state => state.session;
 const storeForm = state => state.form;
 
 const selectorLoading = () => createSelector(storeSession, store => store.loading);
-
-const selectorErrorMessage = () => createSelector(storeSession, store => store.errorMessage);
-
 const selectorSessionUser = () => createSelector(storeSession, store => store.user);
+const selectorError = () => createSelector(storeSession, store => store.errorMessage);
+const selectorMessage = () => createSelector(storeSession, store => store.message);
 
 const selectorForm = () => createSelector(storeForm, form => form);
 
-export { selectorForm, selectorLoading, selectorErrorMessage, selectorSessionUser };
+export {
+    selectorForm,
+    selectorLoading,
+    selectorError,
+    selectorSessionUser,
+    selectorMessage
+};

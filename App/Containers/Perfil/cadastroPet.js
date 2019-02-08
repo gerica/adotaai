@@ -8,14 +8,14 @@ import { Field, reduxForm } from 'redux-form';
 // import { NavigationActions, StackActions } from 'react-navigation';
 
 import * as selectorsSession from '../../Stores/Session/selector';
-import PerfilActions from '../../Stores/Perfil/actions';
 import { ContainerPetCadastro } from './styles';
 import { createValidator, required, } from '../../Utils/validation';
 import PickerRedux from '../../Components/input/PickerRedux';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
 import racasCao from '../../Assets/Images/racasCao';
 import racasGato from '../../Assets/Images/racasGato';
-import * as selectors from '../../Stores/Perfil/selector';
+import PetActions from '../../Stores/Pet/actions';
+import * as selectors from '../../Stores/Pet/selector';
 import Toast from '../../Components/toast/Toast';
 import { tipos } from '../../Assets/Images';
 
@@ -234,8 +234,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    doacaoRequest: (payload) => dispatch(PerfilActions.doacaoRequest(payload)),
-    resetRedux: () => dispatch(PerfilActions.resetRedux()),
+    doacaoRequest: (payload) => dispatch(PetActions.doacaoRequest(payload)),
+    resetRedux: () => dispatch(PetActions.resetRedux()),
 });
 
 const validate = createValidator({

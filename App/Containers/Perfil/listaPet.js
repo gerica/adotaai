@@ -5,11 +5,11 @@ import { Card, CardItem, Right, Button, Icon, Thumbnail, Container, Content, Tex
 import { createStructuredSelector } from 'reselect';
 import { NavigationEvents } from 'react-navigation';
 
-import PerfilActions from '../../Stores/Perfil/actions';
+import PetActions from '../../Stores/Pet/actions';
 import { ContainerPerfil, TextItem } from './styles';
 import { getMiniatura } from '../../Assets/Images';
 import * as selectorsSession from '../../Stores/Session/selector';
-import * as selectorsPerfil from '../../Stores/Perfil/selector';
+import * as selectorsPet from '../../Stores/Pet/selector';
 import { NAVIGATON_NAVIGATE, STATUS } from '../../Utils/constants';
 import Colors from '../../Theme/Colors';
 
@@ -132,13 +132,13 @@ ListaPetPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-    listaPetPorUser: selectorsPerfil.selectorListaPetPorUser(),
-    loading: selectorsPerfil.selectorLoading(),
+    listaPetPorUser: selectorsPet.selectorListaPetPorUser(),
+    loading: selectorsPet.selectorLoading(),
     user: selectorsSession.selectorSessionUser(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchPetPorUserRequest: (user) => dispatch(PerfilActions.fetchPetPorUserRequest(user)),
+    fetchPetPorUserRequest: (user) => dispatch(PetActions.fetchPetPorUserRequest(user)),
 });
 
 

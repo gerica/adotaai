@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 import * as homeSaga from './Home/saga';
-import * as perfilSaga from './Perfil/saga';
+import * as petSaga from './Pet/saga';
 import * as sessionSaga from './Session/saga';
 
 // notice how we now only export the rootSaga
@@ -10,8 +10,8 @@ export default function* rootSaga() {
         homeSaga.watchFetchDoadoresRequest(),
         homeSaga.watchgetImagemPet(),
 
-        perfilSaga.watchDoacaoRequest(),
-        perfilSaga.watchFetchPetPorUserRequest(),
+        petSaga.watchDoacaoRequest(),
+        petSaga.watchFetchPetPorUserRequest(),
 
         sessionSaga.watchLoginRequest(),
         sessionSaga.watchSignInGoogleRequest(),

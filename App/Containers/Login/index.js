@@ -97,7 +97,7 @@ LoginPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
     loading: selectors.selectorLoading(),
-    errorMessage: selectors.selectorErrorMessage(),
+    errorMessage: selectors.selectorError(),
     user: selectors.selectorSessionUser(),
 });
 
