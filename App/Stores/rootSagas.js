@@ -9,10 +9,13 @@ export default function* rootSaga() {
     yield all([
         homeSaga.watchFetchDoadoresRequest(),
         homeSaga.watchgetImagemPet(),
+
         perfilSaga.watchDoacaoRequest(),
         perfilSaga.watchFetchPetPorUserRequest(),
+
         sessionSaga.watchLoginRequest(),
         sessionSaga.watchSignInGoogleRequest(),
         sessionSaga.watchSignOutRequest(),
+        sessionSaga.watchUpdateRequest(),
     ]);
 }

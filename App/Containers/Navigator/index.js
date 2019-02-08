@@ -16,6 +16,7 @@ import LogoutPage from '../Login/logout';
 import PerfilPage from '../Perfil';
 import ListaPetPage from '../Perfil/listaPet';
 import CadastroPetPage from '../Perfil/cadastroPet';
+import EditarPerfilPage from '../Perfil/editarPerfil';
 import Colors from '../../Theme/Colors';
 import { TextHeader } from '../styles';
 import IconHeaderLeft from '../../Components/header/iconHeaderLeft';
@@ -90,6 +91,7 @@ const stackLogout = createStackNavigator({
 
 const stackPerfil = createStackNavigator({
     perfilStack: { screen: PerfilPage },
+    editarPerfilStack: { screen: EditarPerfilPage },
 },
     {
         initialRouteName: 'perfilStack',

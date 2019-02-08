@@ -21,13 +21,13 @@ export const fetchPetPorUserFailure = (state = INITIAL_STATE, { errorMessage }) 
 export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, errorMessage: null, message: null });
 
 const perfilReducer = createReducer(INITIAL_STATE, {
+    //RESET
+    [PerfilTypes.RESET_REDUX]: resetRedux,
+
     // DOACAO
     [PerfilTypes.DOACAO_REQUEST]: doacaoRequest,
     [PerfilTypes.DOACAO_SUCCESS]: doacaoSuccess,
     [PerfilTypes.DOACAO_FAILURE]: doacaoFailure,
-
-    //RESET
-    [PerfilTypes.RESET_REDUX]: resetRedux,
 
     // FEATCH PETS
     [PerfilTypes.FETCH_PET_POR_USER_REQUEST]: fetchPetPorUserRequest,

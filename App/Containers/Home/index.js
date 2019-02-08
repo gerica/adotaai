@@ -6,7 +6,6 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
-    Content,
     Button,
     Icon,
     Right,

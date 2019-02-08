@@ -2,6 +2,7 @@ import { takeLatest, all, call, put } from 'redux-saga/effects';
 import SessionActions, { SessionTypes } from './actions';
 import FbSessionService from '../../Service/FbSessionService';
 import GoogleSigninService from '../../Service/GoogleSigninService';
+import { MSG_001 } from '../../Utils/constants';
 
 function* signOutRequest() {
     try {
@@ -13,12 +14,17 @@ function* signOutRequest() {
     }
 }
 
-function* update(action) {
+/**
+ * Alterar informações do usuário
+ * @param {usuario} action 
+ */
+function* updateRequest({ payload }) {
     try {
-        const { payload } = action;
+        console.log(payload);
         yield call([FbSessionService, FbSessionService.update], payload);
+        yield put(SessionActions.success(MSG_001));
     } catch (err) {
-        yield put(SessionActions.signOutFailure(err));
+        yield put(SessionActions.failure(err));
     }
 }
 
@@ -51,7 +57,7 @@ export function* watchSignOutRequest() {
 }
 
 export function* watchUpdateRequest() {
-    yield takeLatest(SessionTypes.UPDATE_REQUEST, update);
+    yield takeLatest(SessionTypes.UPDATE_REQUEST, updateRequest);
 }
 
 export function* watchSignInGoogleRequest() {
@@ -63,5 +69,6 @@ export default function* sessionSaga() {
         watchLoginRequest(),
         watchSignInGoogleRequest(),
         watchSignOutRequest(),
+        watchUpdateRequest(),
     ]);
 }

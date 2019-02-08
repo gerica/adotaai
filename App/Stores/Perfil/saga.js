@@ -3,6 +3,10 @@ import PerfilActions, { PerfilTypes } from './actions';
 import HomeActions from '../Home/actions';
 import FbListaDoacaoService from '../../Service/FbListaDoacaoService';
 
+/**
+ * Adicionar uma doação
+ * @param {pet para doação} action 
+ */
 function* doacaoRequest(action) {
     try {
         yield call([FbListaDoacaoService, FbListaDoacaoService.save], action.payload);
@@ -14,6 +18,10 @@ function* doacaoRequest(action) {
     }
 }
 
+/**
+ * Recuperar pet por usuário
+ * @param {user} param0 
+ */
 function* fetchPetPorUserRequest({ user }) {
     try {
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchByUser], user);
@@ -30,6 +38,7 @@ export function* watchDoacaoRequest() {
 export function* watchFetchPetPorUserRequest() {
     yield takeLatest(PerfilTypes.FETCH_PET_POR_USER_REQUEST, fetchPetPorUserRequest);
 }
+
 
 export default function* perfilSaga() {
     yield all([

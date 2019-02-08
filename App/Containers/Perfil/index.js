@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Card, CardItem, Button, Left, Right } from 'native-base';
+import { Card, CardItem, Button, Left, Right, Icon } from 'native-base';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import HomeActions from '../../Stores/Home/actions';
@@ -13,7 +13,7 @@ import Colors from '../../Theme/Colors';
 class PerfilPage extends Component {
 
     render() {
-        const { user } = this.props;
+        const { user, navigation } = this.props;
         if (!user) {
             return null;
         }
@@ -29,7 +29,7 @@ class PerfilPage extends Component {
                 <Card>
                     <CardItem cardBody>
                         <Info>
-                            <TextPerfil>Nome: {user.user.name}</TextPerfil>
+                            <TextPerfil>Nome: {user.user.name || user.user.displayName}</TextPerfil>
                             <TextPerfil>E-mail: {user.user.email}</TextPerfil>
                             <TextPerfil>Contato: {user.user.tel}</TextPerfil>
                         </Info>
@@ -37,7 +37,14 @@ class PerfilPage extends Component {
                     <CardItem>
                         <Left />
                         <Right>
-                            <Button block light>
+                            <Button
+                                block
+                                light
+                                onPress={() => navigation.navigate('editarPerfilStack', {
+                                    iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,
+                                    onPressCustom: 'goBack',
+                                })}
+                            >
                                 <Text style={{ color: Colors.black, fontWeight: 'bold' }}>Editar</Text>
                             </Button>
                         </Right>

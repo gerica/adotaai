@@ -25,8 +25,21 @@ class FbSessionService {
         const userRef = firebase.auth().currentUser;
         // displayName: 'Jane Q. User',
         // photoURL: 'https://example.com/jane-q-user/profile.jpg'
+        // console.log({ userRef });
+        // console.log({ payload });
         try {
-            return await userRef.updateProfile(payload);
+            await userRef.updateProfile({ displayName: payload.nome });
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async refresh({ uid }) {
+        // const userRef = firebase.auth().currentUser;
+        const ref = firebase.auth();
+        console.log({ uid });
+        try {
+            return await ref.getUser(uid);
         } catch (err) {
             throw err;
         }

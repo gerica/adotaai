@@ -7,19 +7,25 @@ import { SessionTypes } from './actions';
 
 const INITIAL_STATE = {
     user: undefined,
-    errorMessage: undefined,
+    error: undefined,
     loading: false,
+    message: undefined,
 };
+
+// GERAL
+export const request = (state = INITIAL_STATE) => ({ ...state, loading: true });
+export const success = (state = INITIAL_STATE, { message }) => ({ ...state, message, loading: false, error: null });
+export const failure = (state = INITIAL_STATE, { error }) => ({ ...state, loading: false, error });
 
 // Login
 export const loginRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const loginSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, errorMessage: null });
-export const loginFailure = (state = INITIAL_STATE, payload) => ({ ...state, errorMessage: payload.error, loading: false });
+export const loginSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null });
+export const loginFailure = (state = INITIAL_STATE, payload) => ({ ...state, error: payload.error, loading: false });
 
 //Signing google
 export const signInGoogleRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const signInGoogleSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, errorMessage: null });
-export const signInGoogleFailure = (state = INITIAL_STATE, { errorMessage }) => ({ ...state, loading: false, errorMessage });
+export const signInGoogleSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null });
+export const signInGoogleFailure = (state = INITIAL_STATE, { error }) => ({ ...state, loading: false, error });
 
 // adicionar usuário
 export const addUser = (state = INITIAL_STATE, { user }) => ({ ...state, user });
@@ -27,20 +33,23 @@ export const addUser = (state = INITIAL_STATE, { user }) => ({ ...state, user })
 // SignOut
 export const signOutRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
 export const signOutSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, user: null });
-export const signOutFailure = (state = INITIAL_STATE, { errorMessage }) => ({ ...state, user: null, errorMessage, loading: false });
+export const signOutFailure = (state = INITIAL_STATE, { error }) => ({ ...state, user: null, error, loading: false });
 
-export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, errorMessage: null, message: null });
-
-//Atualizar
-export const updateRequest = (state = INITIAL_STATE) => ({ ...state, user: null, loading: true });
+export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null, message: null });
 
 const sessionReducer = createReducer(INITIAL_STATE, {
-    // LOGIN
+    // geral
+    [SessionTypes.REQUEST]: request,
+    [SessionTypes.SUCCESS]: success,
+    [SessionTypes.FAILURE]: failure,
+    [SessionTypes.RESET_REDUX]: resetRedux,
+
+    // Login
     [SessionTypes.LOGIN_REQUEST]: loginRequest,
     [SessionTypes.LOGIN_SUCCESS]: loginSuccess,
     [SessionTypes.LOGIN_FAILURE]: loginFailure,
 
-    // SIGNIG GOOGLE
+    // Sigin Google
     [SessionTypes.SIGN_IN_GOOGLE_REQUEST]: signInGoogleRequest,
     [SessionTypes.SIGN_IN_GOOGLE_SUCCESS]: signInGoogleSuccess,
     [SessionTypes.SIGN_IN_GOOGLE_FAILURE]: signInGoogleFailure,
@@ -53,11 +62,8 @@ const sessionReducer = createReducer(INITIAL_STATE, {
     [SessionTypes.SIGN_OUT_SUCCESS]: signOutSuccess,
     [SessionTypes.SIGN_OUT_FAILURE]: signOutFailure,
 
-    // atualizar
-    [SessionTypes.UPDATE_REQUEST]: updateRequest,
-
-    [SessionTypes.RESET_REDUX]: resetRedux,
-
+    // Atualizar 
+    [SessionTypes.UPDATE_REQUEST]: request,
 });
 
 export default sessionReducer;

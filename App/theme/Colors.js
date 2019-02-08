@@ -19,4 +19,5 @@ export default {
 
   cardSuccess: '#daeed1',
   cardFailure: '#f8ccd3',
+  disabled: '#bad2e2',
 };

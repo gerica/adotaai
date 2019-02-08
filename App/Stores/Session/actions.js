@@ -1,8 +1,13 @@
 import { createActions } from 'reduxsauce';
 
 const { Types, Creators } = createActions({
+
+    //Geral
     resetRedux: [],
-    
+    request: ['payload'],
+    success: ['message'],
+    failure: ['error'],
+
     loginRequest: ['email', 'password'],
     loginSuccess: [],
     loginFailure: ['error'],
@@ -22,7 +27,6 @@ const { Types, Creators } = createActions({
 
     //Atualizar
     updateRequest: ['payload'],
-
 });
 
 export const SessionTypes = Types;
