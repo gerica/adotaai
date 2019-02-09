@@ -8,7 +8,8 @@ const { Types, Creators } = createActions({
     success: ['message'],
     failure: ['error'],
 
-    loginRequest: ['email', 'password'],
+    // Login
+    loginRequest: ['username', 'password'],
     loginSuccess: [],
     loginFailure: ['error'],
 

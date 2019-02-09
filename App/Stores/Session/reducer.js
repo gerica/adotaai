@@ -17,11 +17,6 @@ export const request = (state = INITIAL_STATE) => ({ ...state, loading: true });
 export const success = (state = INITIAL_STATE, { message }) => ({ ...state, message, loading: false, error: null });
 export const failure = (state = INITIAL_STATE, { error }) => ({ ...state, loading: false, error });
 
-// Login
-export const loginRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const loginSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null });
-export const loginFailure = (state = INITIAL_STATE, payload) => ({ ...state, error: payload.error, loading: false });
-
 //Signing google
 export const signInGoogleRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
 export const signInGoogleSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null });
@@ -45,9 +40,7 @@ const sessionReducer = createReducer(INITIAL_STATE, {
     [SessionTypes.RESET_REDUX]: resetRedux,
 
     // Login
-    [SessionTypes.LOGIN_REQUEST]: loginRequest,
-    [SessionTypes.LOGIN_SUCCESS]: loginSuccess,
-    [SessionTypes.LOGIN_FAILURE]: loginFailure,
+    [SessionTypes.LOGIN_REQUEST]: request,
 
     // Sigin Google
     [SessionTypes.SIGN_IN_GOOGLE_REQUEST]: signInGoogleRequest,

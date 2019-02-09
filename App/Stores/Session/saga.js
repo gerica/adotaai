@@ -32,9 +32,9 @@ function* loginRequest(payload) {
     try {
         const values = yield call([FbSessionService, FbSessionService.login], payload);
         yield put(SessionActions.addUser(values));
-        yield put(SessionActions.loginSuccess());
+        yield put(SessionActions.success());
     } catch (err) {
-        yield put(SessionActions.loginFailure(err));
+        yield put(SessionActions.failure(err));
     }
 }
 
