@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Thumbnail } from 'native-base';
+import { Thumbnail, Icon } from 'native-base';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import * as selectorsSession from '../../Stores/Session/selector';
@@ -8,11 +8,14 @@ import * as selectorsSession from '../../Stores/Session/selector';
 class IconHeaderRight extends Component {
 
     render() {
-        const { user } = this.props;
+        const { user: { user } } = this.props;
         if (user) {
-            return (
-                <Thumbnail source={{ uri: user.user.photo }} style={{ height: 50, width: 50, marginRight: 5 }} />
-            );
+            if (user.photo) {
+                return (
+                    <Thumbnail source={{ uri: user.photo }} style={{ height: 50, width: 50, marginRight: 5 }} />
+                );
+            }
+            return <Icon type="Ionicons" name="person" />;
         }
         return null;
     }

@@ -25,7 +25,7 @@ class EditarPerfilPage extends Component {
     }
 
     handleInitialize() {
-        const { initialize, user: { user } } = this.props;
+        const { initialize, user } = this.props;
         let nameUser;
         let emailUser;
         if (user) {

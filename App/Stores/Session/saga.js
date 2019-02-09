@@ -20,8 +20,9 @@ function* signOutRequest() {
  */
 function* updateRequest({ payload }) {
     try {
-        console.log(payload);
         yield call([FbSessionService, FbSessionService.update], payload);
+        const values = yield call([FbSessionService, FbSessionService.refresh]);
+        yield put(SessionActions.addUser(values));
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
         yield put(SessionActions.failure(err));

@@ -1,10 +1,10 @@
 import firebase from 'react-native-firebase';
 
 class FbSessionService {
-    async login({ email, password }) {
+    async login({ username, password }) {
         let user = null;
         try {
-            user = await firebase.auth().signInWithEmailAndPassword(email, password);
+            user = await firebase.auth().signInWithEmailAndPassword(username, password);
         } catch (err) {
             throw err;
         }
@@ -22,24 +22,21 @@ class FbSessionService {
     }
 
     async update(payload) {
+        const { nome, contato } = payload;
         const userRef = firebase.auth().currentUser;
-        // displayName: 'Jane Q. User',
-        // photoURL: 'https://example.com/jane-q-user/profile.jpg'
-        // console.log({ userRef });
-        // console.log({ payload });
         try {
-            await userRef.updateProfile({ displayName: payload.nome });
+            await userRef.updateProfile({ displayName: nome, contact: contato });
         } catch (err) {
             throw err;
         }
     }
 
-    async refresh({ uid }) {
-        // const userRef = firebase.auth().currentUser;
-        const ref = firebase.auth();
-        console.log({ uid });
+    async refresh() {
+        const userRef = firebase.auth().currentUser;
         try {
-            return await ref.getUser(uid);
+            // return await ref.getUser(uid);
+            await userRef.reload();
+            return firebase.auth().currentUser;
         } catch (err) {
             throw err;
         }
