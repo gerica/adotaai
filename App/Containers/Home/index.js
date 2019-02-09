@@ -5,7 +5,6 @@ import { NavigationEvents } from 'react-navigation';
 import { View, ScrollView, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import {
-    Container,
     Button,
     Icon,
     Right,
@@ -120,11 +119,9 @@ class HomePage extends Component {
         return (
             <ScrollView>
                 <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
-                <Container>
-                    <ViewCards>
-                        {loading ? <Spinner /> : cards}
-                    </ViewCards>
-                </Container>
+                <ViewCards>
+                    {loading ? <Spinner /> : cards}
+                </ViewCards>
             </ScrollView>
         );
     }
