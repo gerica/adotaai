@@ -6,7 +6,6 @@ import { createStructuredSelector } from 'reselect';
 import { Card, CardItem, Button, Left, Right, Icon } from 'native-base';
 
 import * as selectorsSession from '../../Stores/Session/selector';
-import HomeActions from '../../Stores/Home/actions';
 import { ContainerPerfil, Info, TextPerfil } from './styles';
 import Colors from '../../Theme/Colors';
 
@@ -71,9 +70,6 @@ const mapStateToProps = createStructuredSelector({
     user: selectorsSession.selectorSessionUser(),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    initReducer: () => dispatch(HomeActions.initReducer()),
-});
+// const mapDispatchToProps = () => ({});
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(PerfilPage);
+export default connect(mapStateToProps, null)(PerfilPage);

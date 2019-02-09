@@ -45,7 +45,7 @@ class LoginPage extends Component {
     }
 
     render() {
-        const { handleSubmit, loading, errorMessage } = this.props;
+        const { handleSubmit, loading, error } = this.props;
 
         return (
             <ContainerLogin>
@@ -53,7 +53,7 @@ class LoginPage extends Component {
                     <CardItem>
                         {loading ? <Spinner /> :
                             <Body>
-                                {errorMessage ? <Toast visible message={errorMessage.code} /> : null}
+                                {error ? <Toast visible message={error.code} /> : null}
                                 <Field name='email' label='E-mail' component={TextInputBaseRedux} />
                                 <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
                                 <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
@@ -85,7 +85,7 @@ LoginPage.propTypes = {
         PropTypes.object,
         PropTypes.bool
     ]),
-    errorMessage: PropTypes.oneOfType([
+    error: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
     ]),
@@ -97,7 +97,7 @@ LoginPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
     loading: selectors.selectorLoading(),
-    errorMessage: selectors.selectorError(),
+    error: selectors.selectorError(),
     user: selectors.selectorSessionUser(),
 });
 

@@ -7,13 +7,16 @@ const { Types, Creators } = createActions({
     failure: ['error'],
 
     // CADASTRAR PET PARA DOAÇÃO
-    cadastroDoacaoRequest: ['payload'],    
+    cadastroDoacaoRequest: ['payload'],
 
     // RECUPERAR PET POR USUÁRIO
     fetchPetPorUserRequest: ['user'],
     fetchPetPorUserSuccess: ['listaPetPorUser'],
-    
+
+    fetchPetAbertoRequest: null,
+    fetchPetAbertoSuccess: ['listaPetAberto'],
+
 });
 
-export const PerfilTypes = Types;
+export const PetTypes = Types;
 export default Creators;

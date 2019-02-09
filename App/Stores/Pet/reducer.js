@@ -1,9 +1,10 @@
 import { createReducer } from 'reduxsauce';
-import { PerfilTypes } from './actions';
+import { PetTypes } from './actions';
 
 const INITIAL_STATE = {
     loading: false,
     listaPetPorUser: null,
+    listaPetAberto: null,
     error: null,
     message: null,
 };
@@ -22,18 +23,25 @@ export const fetchPetPorUserSuccess = (state = INITIAL_STATE, { listaPetPorUser 
 // Reset
 export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null, message: null });
 
+export const fetchPetAbertoRequest = (state = INITIAL_STATE) => ({ ...state, loadin: true });
+export const fetchPetAbertoSuccess = (state = INITIAL_STATE, { listaPetAberto }) => ({ ...state, listaPetAberto, loading: false });
+
 const perfilReducer = createReducer(INITIAL_STATE, {
     //RESET
-    [PerfilTypes.RESET_REDUX]: resetRedux,
-    [PerfilTypes.SUCCESS]: success,
-    [PerfilTypes.FAILURE]: failure,
+    [PetTypes.RESET_REDUX]: resetRedux,
+    [PetTypes.SUCCESS]: success,
+    [PetTypes.FAILURE]: failure,
 
     // DOACAO
-    [PerfilTypes.CADASTRO_DOACAO_REQUEST]: cadastroDoacaoRequest,
+    [PetTypes.CADASTRO_DOACAO_REQUEST]: cadastroDoacaoRequest,
 
-    // FEATCH PETS
-    [PerfilTypes.FETCH_PET_POR_USER_REQUEST]: fetchPetPorUserRequest,
-    [PerfilTypes.FETCH_PET_POR_USER_SUCCESS]: fetchPetPorUserSuccess,
+    // Fetch pet por usuario
+    [PetTypes.FETCH_PET_POR_USER_REQUEST]: fetchPetPorUserRequest,
+    [PetTypes.FETCH_PET_POR_USER_SUCCESS]: fetchPetPorUserSuccess,
+
+    // Fetch
+    [PetTypes.FETCH_PET_ABERTO_REQUEST]: fetchPetAbertoRequest,
+    [PetTypes.FETCH_PET_ABERTO_SUCCESS]: fetchPetAbertoSuccess,
 
 });
 

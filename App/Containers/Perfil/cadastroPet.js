@@ -222,7 +222,10 @@ CadastroPetPage.propTypes = {
     cadastroDoacaoRequest: PropTypes.func,
     resetRedux: PropTypes.func,
     loading: PropTypes.bool,
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     message: PropTypes.string,
 };
 

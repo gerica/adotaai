@@ -5,6 +5,7 @@ const storePet = state => state.pet;
 const storeForm = state => state.form;
 
 const selectorListaPetPorUser = () => createSelector(storePet, store => store.listaPetPorUser);
+const selectorListaPetAberto = () => createSelector(storePet, store => store.listaPetAberto);
 const selectorLoading = () => createSelector(storePet, store => store.loading);
 const selectorError = () => createSelector(storePet, store => store.error);
 const selectorMessage = () => createSelector(storePet, store => store.message);
@@ -16,5 +17,6 @@ export {
     selectorLoading,
     selectorError,
     selectorMessage,
-    selectorListaPetPorUser
+    selectorListaPetPorUser,
+    selectorListaPetAberto,
 };

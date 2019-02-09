@@ -19,8 +19,8 @@ import {
 } from 'native-base';
 import { createStructuredSelector } from 'reselect';
 import Reactotron from 'reactotron-react-native';
-import HomeActions from '../../Stores/Home/actions';
-import * as selectors from '../../Stores/Home/selector';
+import PetActions from '../../Stores/Pet/actions';
+import * as selectors from '../../Stores/Pet/selector';
 import { TextItem, ViewCards } from './styles';
 import { getMiniatura } from '../../Assets/Images';
 import Toast from '../../Components/toast/Toast';
@@ -30,8 +30,8 @@ const { width } = Dimensions.get('window');
 class HomePage extends Component {
 
     componentWillMount() {
-        const { fetchDoadoresAberto, reset } = this.props;
-        fetchDoadoresAberto();
+        const { fetchPetAbertoRequest, reset } = this.props;
+        fetchPetAbertoRequest();
         reset();
         Reactotron.log('chamou o will mount');
     }
@@ -59,15 +59,15 @@ class HomePage extends Component {
     }
 
     render() {
-        const { loading, listaDoadores, errorMessage } = this.props;
+        const { loading, listaPetAberto, error } = this.props;
         let cards;
 
-        if (errorMessage) {
-            Toast({ visible: true, message: errorMessage.msg || 'Erro ao processar' });
+        if (error) {
+            Toast({ visible: true, message: error.msg || 'Erro ao processar' });
         }
 
-        if (listaDoadores && listaDoadores.length > 0) {
-            cards = listaDoadores.map((obj, key) =>
+        if (listaPetAberto && listaPetAberto.length > 0) {
+            cards = listaPetAberto.map((obj, key) =>
                 <Card key={key} style={{ width: ((width - 20) / 2) }}>
                     <CardItem>
                         {this.getThumbnail(obj)}
@@ -75,7 +75,7 @@ class HomePage extends Component {
                     </CardItem>
                     <CardItem>
                         <View style={{ display: 'flex' }}>
-                            <TextItem>Nome: {obj.raca}</TextItem>
+                            <TextItem>Nome: {obj.nome}</TextItem>
                             <TextItem>Doador: {obj.user.givenName}</TextItem>
                         </View>
                     </CardItem>
@@ -132,35 +132,28 @@ class HomePage extends Component {
 
 
 HomePage.propTypes = {
-    initReducer: PropTypes.func,
-    fetchDoadoresAberto: PropTypes.func,
-    getImagemPet: PropTypes.func,
-    changeLoading: PropTypes.func,
+    fetchPetAbertoRequest: PropTypes.func,
     loading: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.bool
     ]),
-    listaDoadores: PropTypes.array,
-    imagemPet: PropTypes.array,
-    errorMessage: PropTypes.oneOfType([
+    listaPetAberto: PropTypes.array,
+    error: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
     ]),
 };
 
 const mapStateToProps = createStructuredSelector({
-    listaDoadores: selectors.selectorListaDoadoresAberto(),
+    listaPetAberto: selectors.selectorListaPetAberto(),
     // form: selectors.selectorForm(),
     loading: selectors.selectorLoading(),
-    imagemPet: selectors.selectorImagemPet(),
-    errorMessage: selectors.selectorErrorMessage(),
+    error: selectors.selectorError(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchDoadoresAberto: () => dispatch(HomeActions.fetchDoadoresAbertoRequest()),
-    getImagemPet: (obj) => dispatch(HomeActions.getImagemPet(obj)),
-    changeLoading: (value) => dispatch(HomeActions.changeLoading(value)),
-    reset: () => dispatch(HomeActions.reset()),
+    fetchPetAbertoRequest: () => dispatch(PetActions.fetchPetAbertoRequest()),
+    reset: () => dispatch(PetActions.resetRedux()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

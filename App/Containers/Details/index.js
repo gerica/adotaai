@@ -4,8 +4,6 @@ import { Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right, Text } from 'native-base';
 
-import HomeActions from '../../Stores/Home/actions';
-
 import { InfoReacao, Title, Subtitle } from './styles';
 import { getNaoDefinido } from '../../Assets/Images';
 
@@ -64,9 +62,6 @@ DetailsPage.propTypes = {
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-    initReducer: () => dispatch(HomeActions.initReducer()),
-});
-
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailsPage);
