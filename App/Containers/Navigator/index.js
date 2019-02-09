@@ -186,6 +186,8 @@ const tabsPerfil = createBottomTabNavigator({
     },
 }, {
         order: ['Perfil', 'Lista', 'Cadastro'],
+        initialRouteName: 'Perfil',
+        initialRoute: 'stackPerfil',
         tabBarOptions: {
             showLabel: false,
             activeTintColor: Colors.primary,

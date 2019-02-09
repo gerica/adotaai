@@ -1,6 +1,7 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 import PetActions, { PetTypes } from './actions';
 import FbListaDoacaoService from '../../Service/FbListaDoacaoService';
+import { MSG_001 } from '../../Utils/constants';
 
 /**
  * Adicionar uma doação
@@ -8,11 +9,10 @@ import FbListaDoacaoService from '../../Service/FbListaDoacaoService';
  */
 function* cadastroDoacaoRequest({ payload }) {
     try {
-        console.log(payload);
         yield call([FbListaDoacaoService, FbListaDoacaoService.save], payload);
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchAll]);
         yield put(PetActions.fetchPetAbertoRequest(values));
-        yield put(PetActions.success());
+        yield put(PetActions.success(MSG_001));
     } catch (err) {
         console.log({ err });
         yield put(PetActions.failure(err));
@@ -23,7 +23,7 @@ function* cadastroDoacaoRequest({ payload }) {
  * Recuperar pet por usuário
  * @param {user} param0 
  */
-function* fetchPetPorUserRequest({ user }) {
+function* fetchPetPorUserRequest({ user: { user } }) {
     try {
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchByUser], user);
         yield put(PetActions.fetchPetPorUserSuccess(values));

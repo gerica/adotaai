@@ -19,6 +19,10 @@ import * as selectors from '../../Stores/Pet/selector';
 import Toast from '../../Components/toast/Toast';
 import { tipos } from '../../Assets/Images';
 
+const itensTipo = [{ label: 'Cão', value: tipos[0] }, { label: 'Gato', value: tipos[1] }];
+const itensSexo = [{ label: 'Macho', value: 'macho' }, { label: 'Femea', value: 'femea' }];
+const itensSN = [{ label: 'Sim', value: 'sim' }, { label: 'Não', value: 'nao' }];
+const itensPorte = [{ label: 'Pequeno', value: 'pequeno' }, { label: 'Médio', value: 'medio' }, { label: 'Grande', value: 'grande' }];
 class CadastroPetPage extends Component {
 
     constructor(props) {
@@ -41,7 +45,11 @@ class CadastroPetPage extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const { message, resetRedux } = nextProps;
+        const { message, error, resetRedux, navigation } = nextProps;
+        const msgToast = message || (error && error.code);
+        if (msgToast) {
+            Toast({ visible: true, message: msgToast });
+        }
         if (message) {
             this.props.reset();
             resetRedux();
@@ -53,7 +61,7 @@ class CadastroPetPage extends Component {
                 porte: 'medio',
                 raca: 'Selecione',
             });
-
+            navigation.navigate('listaStack');
             return true;
         }
         return true;
@@ -61,11 +69,11 @@ class CadastroPetPage extends Component {
 
     onSubmit = (values) => {
         const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
-        const { cadastroDoacaoRequest } = this.props;
+        const { cadastroDoacaoRequest, user: { user } } = this.props;
         const newObj = {
             createdAt: new Date(),
             updatedA: new Date(),
-            user: this.props.user.user,
+            user,
             ...values,
             tipo,
             sexo,
@@ -128,7 +136,8 @@ class CadastroPetPage extends Component {
     }
 
     render() {
-        const { handleSubmit, loading, error, message } = this.props;
+        const { handleSubmit, loading } = this.props;
+
         if (loading) {
             return (
                 <ContainerPetCadastro>
@@ -136,19 +145,9 @@ class CadastroPetPage extends Component {
                 </ContainerPetCadastro>
             );
         }
-        const itensTipo = [{ label: 'Cão', value: tipos[0] }, { label: 'Gato', value: tipos[1] }];
-        const itensSexo = [{ label: 'Macho', value: 'macho' }, { label: 'Femea', value: 'femea' }];
-        const itensSN = [{ label: 'Sim', value: 'sim' }, { label: 'Não', value: 'nao' }];
-        const itensPorte = [{ label: 'Pequeno', value: 'pequeno' }, { label: 'Médio', value: 'medio' }, { label: 'Grande', value: 'grande' }];
-        let msg;
-        if (message) {
-            msg = message;
-        } else if (error) {
-            msg = error.code;
-        }
+
         return (
             <ScrollView>
-                {msg ? <Toast visible message={msg} /> : null}
                 <Card>
                     <CardItem>
                         <Body>
@@ -203,13 +202,6 @@ class CadastroPetPage extends Component {
                                 <Text>Salvar</Text>
                             </Button>
                         </Body>
-                        {/* <Left />
-                        <Right>
-                            <Button block light>
-                                <Text style={{ color: Colors.black, fontWeight: 'bold' }}>Editar</Text>
-                            </Button>
-                        </Right> */}
-
                     </CardItem>
                 </Card>
             </ScrollView>

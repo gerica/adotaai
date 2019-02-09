@@ -44,19 +44,23 @@ class FbListaDoacaoService {
             throw new Error('usuário não pode ser nulo.');
         }
         const result = [];
-        let idUser;
-
-        if (user && user.user && user.user.id) {
-            idUser = user.user.id;
-        } else {
-            throw new Error('Não foi encontrado o id do usuário.');
+        try {
+            if (user.id) {
+                await this.ref.where('user.id', '==', user.id).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        result.push({ id: doc.id, ...doc.data() });
+                    });
+                });
+            } else {
+                await this.ref.where('user.uid', '==', user.uid).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        result.push({ id: doc.id, ...doc.data() });
+                    });
+                });
+            }
+        } catch (err) {
+            throw new Error('usuário não pode ser nulo.');
         }
-
-        await this.ref.where('user.id', '==', idUser).get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                result.push({ id: doc.id, ...doc.data() });
-            });
-        });
         return result;
     }
 }

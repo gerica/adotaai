@@ -46,6 +46,13 @@ class HomePage extends Component {
         return <Icon type="MaterialIcons" name="pets" />;
     }
 
+    getRacaDescricao(raca) {
+        if (raca) {
+            return raca.length > 10 ? `${raca.substr(0, 10)}...` : raca;
+        }
+        return '';
+    }
+
     componentFocus = ({ action: { type } }) => {
         const { navigation } = this.props;
         if (type && type === NAVIGATON_NAVIGATE) {
@@ -70,7 +77,7 @@ class HomePage extends Component {
                 <Card key={key} style={{ width: ((width - 20) / 2) }}>
                     <CardItem>
                         {this.getThumbnail(obj)}
-                        <TextItem>{obj.raca}</TextItem>
+                        <TextItem>{this.getRacaDescricao(obj.raca)}</TextItem>
                     </CardItem>
                     <CardItem>
                         <View style={{ display: 'flex' }}>

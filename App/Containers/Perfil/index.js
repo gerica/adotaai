@@ -10,26 +10,21 @@ import { ContainerPerfil, Info, TextPerfil } from './styles';
 import Colors from '../../Theme/Colors';
 
 class PerfilPage extends Component {
-
+    
+    
     render() {
-        const { user: { user }, navigation } = this.props;
+        const { user, navigation } = this.props;
         if (!user) {
             return null;
         }
+
         return (
             <ContainerPerfil>
-                {/* <Info>
-                    <TextPerfil>Nome: {user.user.name}</TextPerfil>
-                    <TextPerfil>E-mail: {user.user.email}</TextPerfil>
-                    <TextPerfil>Contato: {user.user.tel}</TextPerfil>
-                </Info>
-                <ButtonPrimary /> */}
-
                 <Card>
                     <CardItem cardBody>
                         <Info>
-                            <TextPerfil>Nome: {user.name || user.displayName}</TextPerfil>
-                            <TextPerfil>E-mail: {user.email}</TextPerfil>
+                            <TextPerfil>Nome: {user.user.name || user.user.displayName}</TextPerfil>
+                            <TextPerfil>E-mail: {user.user.email}</TextPerfil>
                             <TextPerfil>Contato: {user.tel}</TextPerfil>
                         </Info>
                     </CardItem>

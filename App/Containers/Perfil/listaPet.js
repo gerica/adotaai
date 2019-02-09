@@ -26,12 +26,28 @@ class ListaPetPage extends Component {
         return <Icon type="MaterialIcons" name="pets" />;
     }
 
-    componentFocus = ({ action: { type } }) => {
+    componentWillFocus = ({ action: { type } }) => {
         const { fetchPetPorUserRequest, user } = this.props;
         if (user && type && type === NAVIGATON_NAVIGATE) {
             fetchPetPorUserRequest(user);
         }
     }
+
+    // componentDidBlur = ({ action: { type } }) => {
+    //     console.log({ type });
+    //     if (type === NAVIGATON_NAVIGATE) {
+    //         console.log('matou');
+    //         // const navigateAction = NavigationActions.navigate({
+    //         //     routeName: 'Perfil',
+    //         //     params: {},
+    //         //     action: NavigationActions.navigate({ routeName: 'perfilStack' })
+    //         // });
+    //         // this.props.navigation.dispatch(navigateAction);
+    //         const { navigation } = this.props;
+    //         navigation.dismiss();
+    //         // navigation.reset();
+    //     }
+    // }
 
     render() {
         const { loading, listaPetPorUser, user } = this.props;
@@ -113,7 +129,10 @@ class ListaPetPage extends Component {
         }
         return (
             <ContainerPerfil>
-                <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
+                <NavigationEvents
+                    onWillFocus={payload => this.componentWillFocus(payload)}
+                    onDidBlur={payload => this.componentDidBlur(payload)}
+                />
                 <Container>
                     <Content>
                         {loading ? <Spinner /> : cards || null}
