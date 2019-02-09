@@ -1,20 +1,20 @@
 
 import { createSelector } from 'reselect';
 
-const storePerfil = state => state.perfil;
+const storePet = state => state.pet;
 const storeForm = state => state.form;
 
-const selectorListaPetPorUser = () => createSelector(storePerfil, store => store.listaPetPorUser);
-const selectorLoading = () => createSelector(storePerfil, store => store.loading);
-const selectorErroMessage = () => createSelector(storePerfil, store => store.errorMessage);
-const selectorMessage = () => createSelector(storePerfil, store => store.message);
+const selectorListaPetPorUser = () => createSelector(storePet, store => store.listaPetPorUser);
+const selectorLoading = () => createSelector(storePet, store => store.loading);
+const selectorError = () => createSelector(storePet, store => store.error);
+const selectorMessage = () => createSelector(storePet, store => store.message);
 
 const selectorForm = () => createSelector(storeForm, form => form);
 
 export {
     selectorForm,
     selectorLoading,
-    selectorErroMessage,
+    selectorError,
     selectorMessage,
     selectorListaPetPorUser
 };

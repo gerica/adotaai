@@ -32,7 +32,7 @@ LogoutPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-    errorMessage: selectors.selectorError(),
+    error: selectors.selectorError(),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -10,7 +10,7 @@ export default function* rootSaga() {
         homeSaga.watchFetchDoadoresRequest(),
         homeSaga.watchgetImagemPet(),
 
-        petSaga.watchDoacaoRequest(),
+        petSaga.watchCadastroDoacaoRequest(),
         petSaga.watchFetchPetPorUserRequest(),
 
         sessionSaga.watchLoginRequest(),

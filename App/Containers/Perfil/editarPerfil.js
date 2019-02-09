@@ -11,7 +11,6 @@ import * as selectorsSession from '../../Stores/Session/selector';
 import SessionActions from '../../Stores/Session/actions';
 import { createValidator, required, } from '../../Utils/validation';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
-import * as selectors from '../../Stores/Pet/selector';
 // import Toast from '../../Components/toast/Toast';
 
 class EditarPerfilPage extends Component {
@@ -42,7 +41,8 @@ class EditarPerfilPage extends Component {
     }
 
     render() {
-        const { handleSubmit, loading, loadingSession, error, message } = this.props;
+        const { handleSubmit, loading, loadingSession } = this.props;
+        // , error, message 
 
         return (
             <ScrollView>
@@ -72,7 +72,6 @@ class EditarPerfilPage extends Component {
 
 EditarPerfilPage.propTypes = {
     user: PropTypes.object,
-    doacaoRequest: PropTypes.func,
     resetRedux: PropTypes.func,
     updateRequest: PropTypes.func,
     loading: PropTypes.bool,

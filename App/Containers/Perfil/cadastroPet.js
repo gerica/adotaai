@@ -61,7 +61,7 @@ class CadastroPetPage extends Component {
 
     onSubmit = (values) => {
         const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
-        const { doacaoRequest } = this.props;
+        const { cadastroDoacaoRequest } = this.props;
         const newObj = {
             createdAt: new Date(),
             updatedA: new Date(),
@@ -75,7 +75,7 @@ class CadastroPetPage extends Component {
             raca,
             status: 'aberto',
         };
-        doacaoRequest(newObj);
+        cadastroDoacaoRequest(newObj);
     }
 
     onChangeTipo = (value) => {
@@ -128,7 +128,7 @@ class CadastroPetPage extends Component {
     }
 
     render() {
-        const { handleSubmit, loading, errorMessage, message } = this.props;
+        const { handleSubmit, loading, error, message } = this.props;
         if (loading) {
             return (
                 <ContainerPetCadastro>
@@ -143,8 +143,8 @@ class CadastroPetPage extends Component {
         let msg;
         if (message) {
             msg = message;
-        } else if (errorMessage) {
-            msg = errorMessage.code;
+        } else if (error) {
+            msg = error.code;
         }
         return (
             <ScrollView>
@@ -219,10 +219,10 @@ class CadastroPetPage extends Component {
 
 CadastroPetPage.propTypes = {
     user: PropTypes.object,
-    doacaoRequest: PropTypes.func,
+    cadastroDoacaoRequest: PropTypes.func,
     resetRedux: PropTypes.func,
     loading: PropTypes.bool,
-    errorMessage: PropTypes.string,
+    error: PropTypes.string,
     message: PropTypes.string,
 };
 
@@ -230,11 +230,11 @@ const mapStateToProps = createStructuredSelector({
     user: selectorsSession.selectorSessionUser(),
     loading: selectors.selectorLoading(),
     message: selectors.selectorMessage(),
-    errorMessage: selectors.selectorErroMessage(),
+    error: selectors.selectorError(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    doacaoRequest: (payload) => dispatch(PetActions.doacaoRequest(payload)),
+    cadastroDoacaoRequest: (payload) => dispatch(PetActions.cadastroDoacaoRequest(payload)),
     resetRedux: () => dispatch(PetActions.resetRedux()),
 });
 

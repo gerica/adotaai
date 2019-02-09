@@ -4,35 +4,36 @@ import { PerfilTypes } from './actions';
 const INITIAL_STATE = {
     loading: false,
     listaPetPorUser: null,
-    errorMessage: null,
+    error: null,
     message: null,
 };
 
-//CADASTRAR UMA DOAÇÃO
-export const doacaoRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const doacaoSuccess = (state = INITIAL_STATE) => ({ ...state, loading: false, message: 'Operação realizada com sucesso.' });
-export const doacaoFailure = (state = INITIAL_STATE, { errorMessage }) => ({ ...state, loading: false, errorMessage });
+// Geral
+export const success = (state = INITIAL_STATE, { message }) => ({ ...state, loading: false, message });
+export const failure = (state = INITIAL_STATE, { error }) => ({ ...state, loading: false, error });
+
+// Cadastrar doação
+export const cadastroDoacaoRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
 
 // FETCH OS PETS
 export const fetchPetPorUserRequest = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const fetchPetPorUserSuccess = (state = INITIAL_STATE, { listaPetPorUser }) => ({ ...state, loading: false, listaPetPorUser, errorMessage: null });
-export const fetchPetPorUserFailure = (state = INITIAL_STATE, { errorMessage }) => ({ ...state, loading: false, errorMessage });
+export const fetchPetPorUserSuccess = (state = INITIAL_STATE, { listaPetPorUser }) => ({ ...state, loading: false, listaPetPorUser, error: null });
 
-export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, errorMessage: null, message: null });
+// Reset
+export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null, message: null });
 
 const perfilReducer = createReducer(INITIAL_STATE, {
     //RESET
     [PerfilTypes.RESET_REDUX]: resetRedux,
+    [PerfilTypes.SUCCESS]: success,
+    [PerfilTypes.FAILURE]: failure,
 
     // DOACAO
-    [PerfilTypes.DOACAO_REQUEST]: doacaoRequest,
-    [PerfilTypes.DOACAO_SUCCESS]: doacaoSuccess,
-    [PerfilTypes.DOACAO_FAILURE]: doacaoFailure,
+    [PerfilTypes.CADASTRO_DOACAO_REQUEST]: cadastroDoacaoRequest,
 
     // FEATCH PETS
     [PerfilTypes.FETCH_PET_POR_USER_REQUEST]: fetchPetPorUserRequest,
     [PerfilTypes.FETCH_PET_POR_USER_SUCCESS]: fetchPetPorUserSuccess,
-    [PerfilTypes.FETCH_PET_POR_USER_FAILURE]: fetchPetPorUserFailure,
 
 });
 

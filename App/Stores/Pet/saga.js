@@ -7,14 +7,14 @@ import FbListaDoacaoService from '../../Service/FbListaDoacaoService';
  * Adicionar uma doação
  * @param {pet para doação} action 
  */
-function* doacaoRequest(action) {
+function* cadastroDoacaoRequest(action) {
     try {
         yield call([FbListaDoacaoService, FbListaDoacaoService.save], action.payload);
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchAll]);
         yield put(HomeActions.fetchDoadoresAbertoSuccess(values));
-        yield put(PerfilActions.doacaoSuccess());
+        yield put(PerfilActions.success());
     } catch (err) {
-        yield put(PerfilActions.doacaoFailure(err));
+        yield put(PerfilActions.failure(err));
     }
 }
 
@@ -27,12 +27,12 @@ function* fetchPetPorUserRequest({ user }) {
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchByUser], user);
         yield put(PerfilActions.fetchPetPorUserSuccess(values));
     } catch (err) {
-        yield put(PerfilActions.fetchPetPorUserFailure(err));
+        yield put(PerfilActions.failure(err));
     }
 }
 
-export function* watchDoacaoRequest() {
-    yield takeLatest(PerfilTypes.DOACAO_REQUEST, doacaoRequest);
+export function* watchCadastroDoacaoRequest() {
+    yield takeLatest(PerfilTypes.CADASTRO_DOACAO_REQUEST, cadastroDoacaoRequest);
 }
 
 export function* watchFetchPetPorUserRequest() {
@@ -42,7 +42,7 @@ export function* watchFetchPetPorUserRequest() {
 
 export default function* perfilSaga() {
     yield all([
-        watchDoacaoRequest(),
+        watchCadastroDoacaoRequest(),
         watchFetchPetPorUserRequest(),
     ]);
 }
