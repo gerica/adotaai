@@ -16,8 +16,13 @@ class FbUsuarioService {
         }
     }
 
-    async updadte({ id, dados }) {
-        return await this.ref.doc(id).update(dados);
+    async update({ user: { userCustom: { idDoc } }, dados }) {
+        try {
+            await this.ref.doc(idDoc).update(dados);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 
     async getByIdUser(user) {
@@ -28,7 +33,7 @@ class FbUsuarioService {
                     return null;
                 case 1: {
                     let result;
-                    fbUser.forEach(doc => (result = { ...doc.data() }));
+                    fbUser.forEach(doc => (result = { idDoc: doc.id, ...doc.data() }));
                     return result;
                 }
                 default:
@@ -41,18 +46,18 @@ class FbUsuarioService {
         }
     }
 
-    async load(id) {
-        const doc = await this.ref.doc(id).get();
-        // var query = citiesRef.where("state", "==", "CA");
-        if (doc.exists) {
-            return doc.data();
+    async load({ id }) {
+        try {
+            const doc = await this.ref.doc(id).get();
+            // var query = citiesRef.where("state", "==", "CA");
+            if (doc.exists) {
+                return { idDoc: doc.id, ...doc.data() };
+            }
+            return null;
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
-        const defaultDoc = {
-            name: 'ABC',
-            age: 2
-        };
-        await this.ref.doc(id).set(defaultDoc);
-        return doc;
     }
 
     async fetchAll() {

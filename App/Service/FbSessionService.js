@@ -49,6 +49,7 @@ class FbSessionService {
             await userRef.reload();
             return firebase.auth().currentUser;
         } catch (err) {
+            console.log(err);
             throw err;
         }
     }

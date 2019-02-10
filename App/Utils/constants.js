@@ -1,4 +1,5 @@
 export const NAVIGATON_NAVIGATE = 'Navigation/NAVIGATE';
+export const NAVIGATON_BACK = 'Navigation/BACK';
 
 //
 export const STATUS = ['aberto', 'fechado', 'doado'];

@@ -24,11 +24,14 @@ function* signOutRequest() {
  */
 function* updateRequest({ payload }) {
     try {
-        yield call([FbSessionService, FbSessionService.update], payload);
-        const user = yield call([FbSessionService, FbSessionService.refresh]);
+        yield call([FbUsuarioService, FbUsuarioService.update], payload);
+        const { user, dados } = payload;
+        user.userCustom.contato = dados.contato;
+
         yield put(SessionActions.addUser(user));
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
+        console.log(err);
         yield put(SessionActions.failure(err));
     }
 }

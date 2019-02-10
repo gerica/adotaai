@@ -11,6 +11,8 @@ import * as selectorsSession from '../../Stores/Session/selector';
 import SessionActions from '../../Stores/Session/actions';
 import { createValidator, required, } from '../../Utils/validation';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
+import { Info, TextPerfil } from './styles';
+import Toast from '../../Components/toast/Toast';
 // import Toast from '../../Components/toast/Toast';
 
 class EditarPerfilPage extends Component {
@@ -19,38 +21,45 @@ class EditarPerfilPage extends Component {
         this.handleInitialize();
     }
 
+    shouldComponentUpdate(nextProps) {
+        const { message, error } = nextProps;
+        const msgToast = message || (error && error.code);
+        if (msgToast) {
+            Toast({ visible: true, message: msgToast });
+        }
+        return true;
+    }
+
     onSubmit = (values) => {
-        const { updateRequest } = this.props;
-        updateRequest(values);
+        const { updateRequest, user } = this.props;
+        updateRequest({ user, dados: { ...values } });
     }
 
     handleInitialize() {
-        const { initialize, user } = this.props;
-        let nameUser;
-        let emailUser;
-        if (user) {
-            emailUser = user.email;
-            nameUser = user.name || user.displayName;
-        }
+        const { initialize, user: { userCustom } } = this.props;
+
         const initData = {
-            nome: nameUser,
-            email: emailUser,
+            contato: userCustom.contato,
         };
 
         initialize(initData);
     }
 
     render() {
-        const { handleSubmit, loading, loadingSession } = this.props;
+        const { handleSubmit, loading, loadingSession, user: { userCustom } } = this.props;
         // , error, message 
 
         return (
             <ScrollView>
                 <Card>
+                    <CardItem cardBody>
+                        <Info>
+                            <TextPerfil>Nome: {userCustom.name} </TextPerfil>
+                            <TextPerfil>E-mail: {userCustom.email}</TextPerfil>
+                        </Info>
+                    </CardItem>
                     <CardItem>
                         <Body>
-                            <Field name='nome' label='Nome' component={TextInputBaseRedux} />
-                            <Field name='email' label='E-mail' disabled component={TextInputBaseRedux} />
                             <Field name='contato' label='Contato' component={TextInputBaseRedux} />
                         </Body>
                     </CardItem>
@@ -98,7 +107,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const validate = createValidator({
-    nome: [required],
+    contato: [required],
 });
 
 

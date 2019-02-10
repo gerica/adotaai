@@ -4,12 +4,21 @@ import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Card, CardItem, Button, Left, Right, Icon } from 'native-base';
+import { NavigationEvents } from 'react-navigation';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import { ContainerPerfil, Info, TextPerfil } from './styles';
 import Colors from '../../Theme/Colors';
+import { NAVIGATON_BACK } from '../../Utils/constants';
 
 class PerfilPage extends Component {
+
+    componentWillFocus = ({ action: { type } }) => {
+        const { user } = this.props;
+        if (user && type && type === NAVIGATON_BACK) {
+            this.forceUpdate();
+        }
+    }
 
 
     render() {
@@ -17,15 +26,18 @@ class PerfilPage extends Component {
         if (!user) {
             return null;
         }
-
+        const { userCustom } = user;
         return (
             <ContainerPerfil>
+                <NavigationEvents
+                    onWillFocus={payload => this.componentWillFocus(payload)}
+                />
                 <Card>
                     <CardItem cardBody>
                         <Info>
-                            <TextPerfil>Nome: {user.name || user.displayName}</TextPerfil>
-                            <TextPerfil>E-mail: {user.email}</TextPerfil>
-                            <TextPerfil>Contato: {user.tel}</TextPerfil>
+                            <TextPerfil>Nome: {userCustom.name}</TextPerfil>
+                            <TextPerfil>E-mail: {userCustom.email}</TextPerfil>
+                            <TextPerfil>Contato: {userCustom.contato}</TextPerfil>
                         </Info>
                     </CardItem>
                     <CardItem>
