@@ -39,25 +39,26 @@ class FbListaDoacaoService {
         return result;
     }
 
-    async fetchByUser(user) {
-        if (!user) {
+    async fetchByUser({ userCustom }) {
+        if (!userCustom) {
             throw new Error('usuário não pode ser nulo.');
         }
         const result = [];
         try {
-            if (user.id) {
-                await this.ref.where('user.id', '==', user.id).get().then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        result.push({ id: doc.id, ...doc.data() });
-                    });
-                });
-            } else {
-                await this.ref.where('user.uid', '==', user.uid).get().then((querySnapshot) => {
+            if (userCustom.id) {
+                await this.ref.where('user.id', '==', userCustom.id).get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         result.push({ id: doc.id, ...doc.data() });
                     });
                 });
             }
+            // else {
+            //     await this.ref.where('user.uid', '==', user.uid).get().then((querySnapshot) => {
+            //         querySnapshot.forEach((doc) => {
+            //             result.push({ id: doc.id, ...doc.data() });
+            //         });
+            //     });
+            // }
         } catch (err) {
             throw new Error('usuário não pode ser nulo.');
         }

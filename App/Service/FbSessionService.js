@@ -16,6 +16,7 @@ class FbSessionService {
         try {
             user = await firebase.auth().signInWithEmailAndPassword(username, password);
         } catch (err) {
+            console.log(err);
             throw err;
         }
         return user;
@@ -26,6 +27,7 @@ class FbSessionService {
             try {
                 await firebase.auth().signOut();
             } catch (err) {
+                console.log(err);
                 throw err;
             }
         }

@@ -5,6 +5,9 @@ import GoogleSigninService from '../../Service/GoogleSigninService';
 import { MSG_001 } from '../../Utils/constants';
 import FbUsuarioService from '../../Service/FbUsuarioService';
 
+/**
+ * Sair da aplicação
+ */
 function* signOutRequest() {
     try {
         yield call([FbSessionService, FbSessionService.signOut]);
@@ -30,19 +33,36 @@ function* updateRequest({ payload }) {
     }
 }
 
+/**
+ * Logar na aplicação
+ * @param {email, password} payload 
+ */
 function* loginRequest(payload) {
     try {
         const { user } = yield call([FbSessionService, FbSessionService.login], payload);
-        yield put(SessionActions.addUser(user));
+        const userCustom = yield call([FbUsuarioService, FbUsuarioService.getByIdUser], user);
+        // eslint-disable-next-line no-underscore-dangle
+        const newUser = { ...user._user, userCustom };
+        user.userCustom = userCustom;
+
+        yield put(SessionActions.addUser(newUser));
         yield put(SessionActions.success());
     } catch (err) {
         yield put(SessionActions.failure(err));
     }
 }
 
+/**
+ * Signing pela conta do google
+ */
 function* signInGoogleRequest() {
     try {
         const { user } = yield call([GoogleSigninService, GoogleSigninService.signIn]);
+        let userCustom = yield call([FbUsuarioService, FbUsuarioService.getByIdUser], user);
+        if (!userCustom) {
+            userCustom = yield* criarUserCustom(user);
+        }
+        user.userCustom = userCustom;
         yield put(SessionActions.addUser(user));
         yield put(SessionActions.signInGoogleSuccess());
     } catch (err) {
@@ -50,30 +70,36 @@ function* signInGoogleRequest() {
     }
 }
 
+/**
+ * Signin manual
+ * @param {email, password, nome, contato} param0 
+ */
 function* signInRequest({ payload }) {
     try {
         // console.log({ payload });
         yield call([FbSessionService, FbSessionService.signIn], payload);
         yield call([FbSessionService, FbSessionService.update], payload);
         const { _user } = yield call([FbSessionService, FbSessionService.refresh]);
+        const userCustom = yield* criarUserCustom(_user, payload);
+        _user.userCustom = userCustom;
+
         yield put(SessionActions.addUser(_user));
-
-        if (payload.contato) {
-            const docUser = {
-                createdAt: new Date(),
-                updatedA: new Date(),
-                id: _user.uid,
-                name: _user.displayName,
-                email: _user.email,
-                contato: payload.contato
-            };
-            yield call([FbUsuarioService, FbUsuarioService.save], docUser);
-        }
-
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
         yield put(SessionActions.failure(err));
     }
+}
+
+function* criarUserCustom(user, payload) {
+    const docUser = {
+        createdAt: new Date(),
+        updatedA: new Date(),
+        id: user.uid || user.id,
+        name: user.displayName || user.name,
+        email: user.email,
+        contato: payload && payload.contato,
+    };
+    return yield call([FbUsuarioService, FbUsuarioService.save], docUser);
 }
 
 export function* watchLoginRequest() {

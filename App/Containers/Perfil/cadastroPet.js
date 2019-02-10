@@ -73,7 +73,7 @@ class CadastroPetPage extends Component {
         const newObj = {
             createdAt: new Date(),
             updatedA: new Date(),
-            user,
+            user: user.userCustom,
             ...values,
             tipo,
             sexo,
@@ -83,6 +83,7 @@ class CadastroPetPage extends Component {
             raca,
             status: 'aberto',
         };
+        // console.log({ newObj });
         cadastroDoacaoRequest(newObj);
     }
 
@@ -234,8 +235,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const validate = createValidator({
-    email: [required],
-    password: [required],
+    nome: [required],
+    resumo: [required],
 });
 
 

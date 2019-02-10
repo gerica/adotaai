@@ -82,7 +82,7 @@ class HomePage extends Component {
                     <CardItem>
                         <View style={{ display: 'flex' }}>
                             <TextItem>Nome: {obj.nome}</TextItem>
-                            <TextItem>Doador: {obj.user.givenName}</TextItem>
+                            <TextItem>Doador: {obj.user && obj.user.name}</TextItem>
                         </View>
                     </CardItem>
                     <CardItem>

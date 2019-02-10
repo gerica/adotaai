@@ -6,11 +6,39 @@ class FbUsuarioService {
     }
 
     async save(payload) {
-        await this.ref.add(payload);
+        try {
+            const docUser = await this.ref.add(payload);
+            const getUser = await docUser.get();
+            return { ...getUser.data() };
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 
     async updadte({ id, dados }) {
         return await this.ref.doc(id).update(dados);
+    }
+
+    async getByIdUser(user) {
+        try {
+            const fbUser = await this.ref.where('id', '==', user.id || user.uid).get();
+            switch (fbUser.size) {
+                case 0:
+                    return null;
+                case 1: {
+                    let result;
+                    fbUser.forEach(doc => (result = { ...doc.data() }));
+                    return result;
+                }
+                default:
+                    throw new Error('Existe mais de um usuário com o id informado');
+
+            }
+        } catch (error) {
+            console.log(error);
+            throw (error);
+        }
     }
 
     async load(id) {
