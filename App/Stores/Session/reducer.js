@@ -57,6 +57,9 @@ const sessionReducer = createReducer(INITIAL_STATE, {
 
     // Atualizar 
     [SessionTypes.UPDATE_REQUEST]: request,
+
+    //Signin manual
+    [SessionTypes.SIGN_IN_REQUEST]: request,
 });
 
 export default sessionReducer;

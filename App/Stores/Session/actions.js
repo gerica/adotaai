@@ -13,10 +13,13 @@ const { Types, Creators } = createActions({
     loginSuccess: [],
     loginFailure: ['error'],
 
-    // Sigbin Google
+    // Signin Google
     signInGoogleRequest: [],
     signInGoogleSuccess: [],
     signInGoogleFailure: ['errorMessage'],
+
+    // Signin manual
+    signInRequest: ['payload'],
 
     // adicionar usuário
     addUser: ['user'],

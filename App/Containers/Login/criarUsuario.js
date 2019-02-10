@@ -9,10 +9,8 @@ import {
     Spinner,
     // Text,
     Button,
-    Icon,
 
 } from 'native-base';
-import { GoogleSigninButton } from 'react-native-google-signin';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -23,27 +21,12 @@ import Toast from '../../Components/toast/Toast';
 import { createValidator, required, email, minLengthPassword } from '../../Utils/validation';
 import TextInputBaseRedux from '../../Components/input/TextInputBaseRedux';
 
-class LoginPage extends Component {
+class CriarUsuarioPage extends Component {
 
-    shouldComponentUpdate(nextProps) {
-        const { user, onResetRedux, reset, navigation } = nextProps;
-        if (user) {
-            reset();
-            onResetRedux();
-            navigation.navigate('homeStack', { msg: 'Login efetuado com sucesso.', user });
-            return false;
-        }
-        return true;
-    }
 
     onSubmit = (values) => {
-        const { onLogin } = this.props;
-        onLogin(values);
-    }
-
-    onSignIn = () => {
         const { onSignIn } = this.props;
-        onSignIn();
+        onSignIn(values);
     }
 
     render() {
@@ -56,44 +39,26 @@ class LoginPage extends Component {
                         {loading ? <Spinner /> :
                             <Body>
                                 {error ? <Toast visible message={error.code} /> : null}
+                                <Field name='name' label='Nome' component={TextInputBaseRedux} />
                                 <Field name='email' label='E-mail' component={TextInputBaseRedux} />
                                 <Field name='password' label='Senha' component={TextInputBaseRedux} secureTextEntry />
+                                <Field name='contato' label='Contato' component={TextInputBaseRedux} />
                                 <Button full light style={{ marginTop: 20 }} onPress={handleSubmit(this.onSubmit)}>
-                                    <Text>Entrar</Text>
-                                </Button>
-                                <Button
-                                    transparent
-                                    style={{ marginTop: 5 }}
-                                    onPress={() => this.props.navigation.navigate('criarUsuarioStack',
-                                        {
-                                            iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,
-                                            onPressCustom: 'goBack'
-                                        }
-                                    )}
-                                >
-                                    <Text>Criar usuário</Text>
+                                    <Text>Salvar</Text>
                                 </Button>
                             </Body>
                         }
                     </CardItem>
                 </Card>
 
-                <GoogleSigninButton
-                    style={{ width: '100%', height: 50 }}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={this.onSignIn}
-                    disabled={loading}
-                />
             </ContainerLogin >
 
         );
     }
 }
 
-LoginPage.propTypes = {
+CriarUsuarioPage.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    onLogin: PropTypes.func.isRequired,
     onSignIn: PropTypes.func.isRequired,
     onResetRedux: PropTypes.func.isRequired,
     loading: PropTypes.oneOfType([
@@ -104,28 +69,23 @@ LoginPage.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
-    user: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string
-    ]),
 };
 
 const mapStateToProps = createStructuredSelector({
     loading: selectors.selectorLoading(),
     error: selectors.selectorError(),
-    user: selectors.selectorSessionUser(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onLogin: (payload) => dispatch(SessionActions.loginRequest(payload.email, payload.password)),
-    onSignIn: () => dispatch(SessionActions.signInGoogleRequest()),
+    onSignIn: (payload) => dispatch(SessionActions.signInRequest(payload)),
     onResetRedux: () => dispatch(SessionActions.resetRedux()),
 });
 
 const validate = createValidator({
+    name: [required],
     email: [required, email],
     password: [required, minLengthPassword],
 });
 
-const loginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPage);
-export default reduxForm({ form: 'loginPage', validate, })(loginPage);
+const criarUsuarioPage = connect(mapStateToProps, mapDispatchToProps)(CriarUsuarioPage);
+export default reduxForm({ form: 'criarUsuarioPage', validate, })(criarUsuarioPage);

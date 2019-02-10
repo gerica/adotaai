@@ -15,5 +15,6 @@ export default function* rootSaga() {
         sessionSaga.watchSignInGoogleRequest(),
         sessionSaga.watchSignOutRequest(),
         sessionSaga.watchUpdateRequest(),
+        sessionSaga.watchSignInRequest(),
     ]);
 }

@@ -131,7 +131,6 @@ class ListaPetPage extends Component {
             <ContainerPerfil>
                 <NavigationEvents
                     onWillFocus={payload => this.componentWillFocus(payload)}
-                    onDidBlur={payload => this.componentDidBlur(payload)}
                 />
                 <Container>
                     <Content>

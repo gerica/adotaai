@@ -69,7 +69,7 @@ class CadastroPetPage extends Component {
 
     onSubmit = (values) => {
         const { tipo, sexo, castrado, vermifugado, porte, raca } = this.state;
-        const { cadastroDoacaoRequest, user: { user } } = this.props;
+        const { cadastroDoacaoRequest, user } = this.props;
         const newObj = {
             createdAt: new Date(),
             updatedA: new Date(),

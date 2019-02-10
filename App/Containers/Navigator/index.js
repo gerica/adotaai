@@ -11,6 +11,7 @@ import { Icon } from 'native-base';
 import HomePage from '../Home';
 import DetailsPage from '../Details';
 import LoginPage from '../Login';
+import CriarUsuarioPage from '../Login/criarUsuario';
 import SideMenu from './sideMenu';
 import LogoutPage from '../Login/logout';
 import PerfilPage from '../Perfil';
@@ -49,6 +50,7 @@ const stackHome = createStackNavigator({
 // Manifest of possible screens
 const stackLogin = createStackNavigator({
     loginStack: { screen: LoginPage },
+    criarUsuarioStack: { screen: CriarUsuarioPage },
 },
     {
         initialRouteName: 'loginStack',

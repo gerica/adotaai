@@ -1,6 +1,16 @@
 import firebase from 'react-native-firebase';
 
 class FbSessionService {
+    async signIn({ email, password }) {
+        let user = null;
+        try {
+            user = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        } catch (err) {
+            throw err;
+        }
+        return user;
+    }
+
     async login({ username, password }) {
         let user = null;
         try {
@@ -21,11 +31,10 @@ class FbSessionService {
         }
     }
 
-    async update(payload) {
-        const { nome, contato } = payload;
+    async update({ name }) {
         const userRef = firebase.auth().currentUser;
         try {
-            await userRef.updateProfile({ displayName: nome, contact: contato });
+            await userRef.updateProfile({ displayName: name });
         } catch (err) {
             throw err;
         }

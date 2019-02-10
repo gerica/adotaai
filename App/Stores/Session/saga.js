@@ -41,11 +41,24 @@ function* loginRequest(payload) {
 
 function* signInGoogleRequest() {
     try {
-        const values = yield call([GoogleSigninService, GoogleSigninService.signIn]);
-        yield put(SessionActions.addUser(values));
+        const { user } = yield call([GoogleSigninService, GoogleSigninService.signIn]);
+        yield put(SessionActions.addUser(user));
         yield put(SessionActions.signInGoogleSuccess());
     } catch (err) {
         yield put(SessionActions.loginFailure(err));
+    }
+}
+
+function* signInRequest({ payload }) {
+    try {
+        console.log(payload);
+        yield call([FbSessionService, FbSessionService.signIn], payload);
+        yield call([FbSessionService, FbSessionService.update], payload);
+        const values = yield call([FbSessionService, FbSessionService.refresh]);
+        yield put(SessionActions.addUser(values));
+        yield put(SessionActions.success(MSG_001));
+    } catch (err) {
+        yield put(SessionActions.failure(err));
     }
 }
 
@@ -65,11 +78,16 @@ export function* watchSignInGoogleRequest() {
     yield takeLatest(SessionTypes.SIGN_IN_GOOGLE_REQUEST, signInGoogleRequest);
 }
 
+export function* watchSignInRequest() {
+    yield takeLatest(SessionTypes.SIGN_IN_REQUEST, signInRequest);
+}
+
 export default function* sessionSaga() {
     yield all([
         watchLoginRequest(),
         watchSignInGoogleRequest(),
         watchSignOutRequest(),
         watchUpdateRequest(),
+        watchSignInRequest(),
     ]);
 }

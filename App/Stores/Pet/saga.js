@@ -23,7 +23,7 @@ function* cadastroDoacaoRequest({ payload }) {
  * Recuperar pet por usuário
  * @param {user} param0 
  */
-function* fetchPetPorUserRequest({ user: { user } }) {
+function* fetchPetPorUserRequest({ user }) {
     try {
         const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchByUser], user);
         yield put(PetActions.fetchPetPorUserSuccess(values));
