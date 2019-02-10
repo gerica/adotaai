@@ -3,6 +3,7 @@ import SessionActions, { SessionTypes } from './actions';
 import FbSessionService from '../../Service/FbSessionService';
 import GoogleSigninService from '../../Service/GoogleSigninService';
 import { MSG_001 } from '../../Utils/constants';
+import FbUsuarioService from '../../Service/FbUsuarioService';
 
 function* signOutRequest() {
     try {
@@ -21,8 +22,8 @@ function* signOutRequest() {
 function* updateRequest({ payload }) {
     try {
         yield call([FbSessionService, FbSessionService.update], payload);
-        const values = yield call([FbSessionService, FbSessionService.refresh]);
-        yield put(SessionActions.addUser(values));
+        const user = yield call([FbSessionService, FbSessionService.refresh]);
+        yield put(SessionActions.addUser(user));
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
         yield put(SessionActions.failure(err));
@@ -31,8 +32,8 @@ function* updateRequest({ payload }) {
 
 function* loginRequest(payload) {
     try {
-        const values = yield call([FbSessionService, FbSessionService.login], payload);
-        yield put(SessionActions.addUser(values));
+        const { user } = yield call([FbSessionService, FbSessionService.login], payload);
+        yield put(SessionActions.addUser(user));
         yield put(SessionActions.success());
     } catch (err) {
         yield put(SessionActions.failure(err));
@@ -51,11 +52,24 @@ function* signInGoogleRequest() {
 
 function* signInRequest({ payload }) {
     try {
-        console.log(payload);
+        // console.log({ payload });
         yield call([FbSessionService, FbSessionService.signIn], payload);
         yield call([FbSessionService, FbSessionService.update], payload);
-        const values = yield call([FbSessionService, FbSessionService.refresh]);
-        yield put(SessionActions.addUser(values));
+        const { _user } = yield call([FbSessionService, FbSessionService.refresh]);
+        yield put(SessionActions.addUser(_user));
+
+        if (payload.contato) {
+            const docUser = {
+                createdAt: new Date(),
+                updatedA: new Date(),
+                id: _user.uid,
+                name: _user.displayName,
+                email: _user.email,
+                contato: payload.contato
+            };
+            yield call([FbUsuarioService, FbUsuarioService.save], docUser);
+        }
+
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
         yield put(SessionActions.failure(err));
