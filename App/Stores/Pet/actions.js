@@ -9,6 +9,9 @@ const { Types, Creators } = createActions({
     // CADASTRAR PET PARA DOAÇÃO
     cadastroDoacaoRequest: ['payload'],
 
+    // ATUALIZAR PET
+    updateDoacaoRequest: ['payload'],
+
     // RECUPERAR PET POR USUÁRIO
     fetchPetPorUserRequest: ['user'],
     fetchPetPorUserSuccess: ['listaPetPorUser'],

@@ -9,18 +9,38 @@ class FbListaDoacaoService {
         return result;
     }
 
-    async load(id) {
-        const doc = await this.ref.doc(id).get();
-        // var query = citiesRef.where("state", "==", "CA");
-        if (doc.exists) {
-            return doc.data();
+    async update({ payload }) {
+        try {
+            const values = await this.fetchByUser(payload);
+            // console.log(payload);
+            // console.log('-----------');
+            // console.log(values);
+            if (values && values.length > 0) {
+                const { userCustom } = payload;
+                for (const doacao of values) {
+                    const doacaoDoc = await this.ref.doc(doacao.id);
+                    await doacaoDoc.update({ user: userCustom });
+                }
+            }
+            // const userRef = firebase.auth().currentUser;
+            //     await userRef.updateProfile({ displayName: name });
+        } catch (err) {
+            throw err;
         }
-        const defaultDoc = {
-            name: 'ABC',
-            age: 2
-        };
-        await this.ref.doc(id).set(defaultDoc);
-        return doc;
+    }
+
+    async load(id) {
+        return await this.ref.doc(id).get();
+        // var query = citiesRef.where("state", "==", "CA");
+        // if (doc.exists) {
+        //     return doc.data();
+        // }
+        // const defaultDoc = {
+        //     name: 'ABC',
+        //     age: 2
+        // };
+        // await this.ref.doc(id).set(defaultDoc);
+        // return doc;
     }
 
     async fetchAll() {

@@ -32,6 +32,7 @@ class HomePage extends Component {
         const { fetchPetAbertoRequest, reset } = this.props;
         fetchPetAbertoRequest();
         reset();
+        console.log('chamout o mount');
         Reactotron.log('chamou o will mount');
     }
 
@@ -54,8 +55,10 @@ class HomePage extends Component {
     }
 
     componentFocus = ({ action: { type } }) => {
-        const { navigation } = this.props;
         if (type && type === NAVIGATON_NAVIGATE) {
+            const { fetchPetAbertoRequest, reset, navigation } = this.props;
+            fetchPetAbertoRequest();
+            reset();
             const msgToast = navigation.getParam('msg');
             if (msgToast) {
                 navigation.navigate('homeStack', { msg: null });
@@ -67,7 +70,6 @@ class HomePage extends Component {
     render() {
         const { loading, listaPetAberto, error } = this.props;
         let cards;
-
         if (error) {
             Toast({ visible: true, message: error.msg || 'Erro ao processar' });
         }

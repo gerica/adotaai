@@ -20,6 +20,23 @@ function* cadastroDoacaoRequest({ payload }) {
 }
 
 /**
+ * Atualizar informações da doação
+ * @param {*} param0 
+ */
+function* updateDoacaoRequest({ payload }) {
+    try {
+        yield call([FbListaDoacaoService, FbListaDoacaoService.update], { payload });
+        // yield call([FbListaDoacaoService, FbListaDoacaoService.save], payload);
+        // const values = yield call([FbListaDoacaoService, FbListaDoacaoService.fetchAll]);
+        // yield put(PetActions.fetchPetAbertoRequest(values));
+        yield put(PetActions.success(MSG_001));
+    } catch (err) {
+        console.log({ err });
+        yield put(PetActions.failure(err));
+    }
+}
+
+/**
  * Recuperar pet por usuário
  * @param {user} param0 
  */
@@ -68,11 +85,16 @@ export function* watchFetchPetPorUserRequest() {
     yield takeLatest(PetTypes.FETCH_PET_POR_USER_REQUEST, fetchPetPorUserRequest);
 }
 
+export function* watchUpdateDoacaoRequest() {
+    yield takeLatest(PetTypes.UPDATE_DOACAO_REQUEST, updateDoacaoRequest);
+}
+
 
 export default function* petSaga() {
     yield all([
         watchCadastroDoacaoRequest(),
         watchFetchPetPorUserRequest(),
         watchFetchPetAbertoRequest(),
+        watchUpdateDoacaoRequest(),
     ]);
 }

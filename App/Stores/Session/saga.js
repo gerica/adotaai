@@ -1,5 +1,6 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 import SessionActions, { SessionTypes } from './actions';
+import PetActions from '../Pet/actions';
 import FbSessionService from '../../Service/FbSessionService';
 import GoogleSigninService from '../../Service/GoogleSigninService';
 import { MSG_001 } from '../../Utils/constants';
@@ -28,6 +29,7 @@ function* updateRequest({ payload }) {
         const { user, dados } = payload;
         user.userCustom.contato = dados.contato;
 
+        yield put(PetActions.updateDoacaoRequest(user));
         yield put(SessionActions.addUser(user));
         yield put(SessionActions.success(MSG_001));
     } catch (err) {
@@ -101,6 +103,7 @@ function* criarUserCustom(user, payload) {
         name: user.displayName || user.name,
         email: user.email,
         contato: payload && payload.contato,
+        photo: user.photo || user.photoURL
     };
     return yield call([FbUsuarioService, FbUsuarioService.save], docUser);
 }
