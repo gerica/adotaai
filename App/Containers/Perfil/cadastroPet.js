@@ -22,7 +22,7 @@ import { tipos } from '../../Assets/Images';
 const itensTipo = [{ label: 'Cão', value: tipos[0] }, { label: 'Gato', value: tipos[1] }];
 const itensSexo = [{ label: 'Macho', value: 'macho' }, { label: 'Femea', value: 'femea' }];
 const itensSN = [{ label: 'Sim', value: 'sim' }, { label: 'Não', value: 'nao' }];
-const itensPorte = [{ label: 'Pequeno', value: 'pequeno' }, { label: 'Médio', value: 'medio' }, { label: 'Grande', value: 'grande' }];
+const itensPorte = [{ label: 'Pequeno', value: 'Pequeno' }, { label: 'Médio', value: 'Médio' }, { label: 'Grande', value: 'Grande' }];
 class CadastroPetPage extends Component {
 
     constructor(props) {

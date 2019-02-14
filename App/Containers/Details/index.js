@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, View } from 'react-native';
+import { Image, View, Dimensions, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right, Text } from 'native-base';
 import { createStructuredSelector } from 'reselect';
@@ -8,8 +8,10 @@ import moment from 'moment';
 
 import * as selectorsSession from '../../Stores/Session/selector';
 import { InfoReacao, Title, Subtitle } from './styles';
-import { getNaoDefinido } from '../../Assets/Images';
+import { getMiniatura } from '../../Assets/Images';
 import Colors from '../../Theme/Colors';
+
+const { width } = Dimensions.get('window');
 
 class DetailsPage extends Component {
 
@@ -17,14 +19,38 @@ class DetailsPage extends Component {
         const { navigation } = this.props;
         const doador = navigation.getParam('doador');
         if (doador) {
-            if (doador.photo) {
+            if (doador.user.photo) {
                 return (
-                    <Thumbnail source={{ uri: doador.photo }} style={{ height: 50, width: 50, marginRight: 5 }} />
+                    <Thumbnail source={{ uri: doador.user.photo }} style={{ height: 50, width: 50, marginRight: 5 }} />
                 );
             }
             return <Icon type="Ionicons" name="person" style={{ marginRight: 10, color: Colors.black }} />;
         }
         return null;
+    }
+
+    getThumbnail(doador) {
+        if (!doador) {
+            return <Icon type="MaterialIcons" name="pets" />;
+        }
+        const objImg = getMiniatura(doador);
+        if (objImg) {
+            return (
+                <View style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                    <Image source={objImg.img} style={{ width: width - 30, height: 280 }} />
+                </View>
+            );
+        }
+        return <Icon type="MaterialIcons" name="pets" />;
+    }
+
+    contactar = (text, doador) => {
+        const { user } = doador;
+        if (user.contato) {
+            Linking.openURL(`whatsapp://send?text=${text}&phone=${user.contato}`);
+        } else {
+            Linking.openURL(`mailto:${user.email}?subject=Adota ai&body=${text}`);
+        }
     }
 
     render() {
@@ -39,12 +65,12 @@ class DetailsPage extends Component {
         if (diffDays > 0) {
             descTime = `${diffDays} dia atrás`;
         } else {
-            const diffHours = Math.floor(diffDias.asHours());            
+            const diffHours = Math.floor(diffDias.asHours());
             if (diffHours > 0) {
                 descTime = `${diffHours} hora(s) atrás`;
             } else {
                 const diffMinutes = Math.floor(diffDias.asMinutes());
-                descTime = `${diffMinutes} minuto(s) atrás`;
+                descTime = `${diffMinutes} min(s) atrás`;
             }
         }
 
@@ -70,24 +96,49 @@ class DetailsPage extends Component {
                             </Right>
                         </CardItem>
                         <CardItem cardBody>
-                            <Image source={getNaoDefinido()} style={{ width: null, flex: 1 }} />
+                            {/* <Image source={getNaoDefinido()} style={{ width: null, flex: 1 }} /> */}
+                            {this.getThumbnail(doador)}
                         </CardItem>
                         <CardItem>
                             <Left>
-                                <Button transparent>
+                                <Icon type="MaterialIcons" active name="pets" style={{ color: Colors.primary }} />
+                                {/* <Button transparent>
                                     <Icon active name="thumbs-up" />
-                                    <InfoReacao>12 </InfoReacao>
-                                </Button>
-                                <Button transparent>
+                                    <InfoReacao>{Math.floor(Math.random() * 10) * 3} </InfoReacao>
+                                </Button> */}
+                                {/* <Button transparent>
                                     <Icon active name="chatbubbles" />
                                     <InfoReacao>4 Comentários</InfoReacao>
-                                </Button>
+                                </Button> */}
                             </Left>
                             <Body>
-                                <Button block success>
-                                    <Text>Adotar</Text>
+                                <Button
+                                    block
+                                    success
+                                    onPress={() => this.contactar('Olá, Gostaria de adotar seu pet.', doador)}
+                                >
+                                    <Text>Contactar</Text>
                                 </Button>
                             </Body>
+                        </CardItem>
+                        <CardItem>
+                            <View style={{ width: '100%' }}>
+                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <View >
+                                        <Title>Nome: {doador.nome}</Title>
+                                        <Text>Porte: {doador.porte}</Text>
+                                        <Text>Raça: {doador.raca}</Text>
+                                    </View>
+                                    <View>
+                                        <Text>Sexo: {doador.sexo}</Text>
+                                        <Text>Castrado: {doador.castrado}</Text>
+                                        <Text>Vermifugado: {doador.vermifugado}</Text>
+                                    </View>
+                                </View>
+                                <View>
+                                    <Text>Resumo: {doador.resumo}</Text>
+                                </View>
+                            </View>
 
                         </CardItem>
                     </Card>
