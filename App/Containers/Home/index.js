@@ -32,7 +32,6 @@ class HomePage extends Component {
         const { fetchPetAbertoRequest, reset } = this.props;
         fetchPetAbertoRequest();
         reset();
-        console.log('chamout o mount');
         Reactotron.log('chamou o will mount');
     }
 
@@ -129,7 +128,8 @@ class HomePage extends Component {
             <ScrollView>
                 <NavigationEvents onWillFocus={payload => this.componentFocus(payload)} />
                 <ViewCards>
-                    {loading ? <Spinner /> : cards}
+                    {loading ? <Spinner /> : null}
+                    {cards}
                 </ViewCards>
             </ScrollView>
         );

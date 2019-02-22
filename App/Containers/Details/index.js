@@ -44,6 +44,28 @@ class DetailsPage extends Component {
         return <Icon type="MaterialIcons" name="pets" />;
     }
 
+    getButtons() {
+        const { user, navigation } = this.props;
+        const doador = navigation.getParam('doador');
+        if (user) {
+            return (
+                <Button
+                    block
+                    success
+                    onPress={() => this.contactar('Olá, Gostaria de adotar seu pet.', doador)}
+                >
+                    <Text>Contactar</Text>
+                </Button>
+            );
+        }
+
+        return (
+            <Button block info onPress={() => navigation.navigate('Login')}>
+                <Text>Logar</Text>
+            </Button>
+        );
+    }
+
     contactar = (text, doador) => {
         const { user } = doador;
         if (user.contato) {
@@ -112,13 +134,7 @@ class DetailsPage extends Component {
                                 </Button> */}
                             </Left>
                             <Body>
-                                <Button
-                                    block
-                                    success
-                                    onPress={() => this.contactar('Olá, Gostaria de adotar seu pet.', doador)}
-                                >
-                                    <Text>Contactar</Text>
-                                </Button>
+                                {this.getButtons()}
                             </Body>
                         </CardItem>
                         <CardItem>

@@ -10,7 +10,7 @@ import { ContainerPerfil, TextItem } from './styles';
 import { getMiniatura } from '../../Assets/Images';
 import * as selectorsSession from '../../Stores/Session/selector';
 import * as selectorsPet from '../../Stores/Pet/selector';
-import { NAVIGATON_NAVIGATE, STATUS } from '../../Utils/constants';
+import { NAVIGATON_NAVIGATE, STATUS, NAVIGATON_BACK } from '../../Utils/constants';
 import Colors from '../../Theme/Colors';
 
 class ListaPetPage extends Component {
@@ -26,9 +26,34 @@ class ListaPetPage extends Component {
         return <Icon type="MaterialIcons" name="pets" />;
     }
 
+    getButoes(doador) {
+        const { navigation } = this.props;
+        if (doador.status === STATUS[2] || doador.status === STATUS[3]) {
+            return null;
+        }
+
+        return (
+            <Button
+                // iconRight
+                transparent
+                primary
+                info
+                success
+                onPress={() => navigation.navigate('editarPetStack', {
+                    iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,
+                    onPressCustom: 'goBack',
+                    doador
+                })}
+            >
+                <Icon type="FontAwesome" name="edit" />
+            </Button>
+        );
+    }
+
     componentWillFocus = ({ action: { type } }) => {
         const { fetchPetPorUserRequest, user } = this.props;
-        if (user && type && type === NAVIGATON_NAVIGATE) {
+        if (user && type &&
+            (type === NAVIGATON_NAVIGATE || type === NAVIGATON_BACK)) {
             fetchPetPorUserRequest(user);
         }
     }
@@ -48,6 +73,8 @@ class ListaPetPage extends Component {
     //         // navigation.reset();
     //     }
     // }
+
+
 
     render() {
         const { loading, listaPetPorUser, user } = this.props;
@@ -73,6 +100,10 @@ class ListaPetPage extends Component {
                         iconStatus = < Icon type="FontAwesome" name="check-circle-o" style={{ fontSize: 20, paddingLeft: 5, color: Colors.cardSuccess }} />;
                         infoStatus = 'Doado';
                         break;
+                    case STATUS[3]: // APAGADO
+                        iconStatus = < Icon type="FontAwesome" name="check-circle-o" style={{ fontSize: 20, paddingLeft: 5, color: Colors.cardFailure }} />;
+                        infoStatus = 'Apagado';
+                        break;
 
                     default:
                         break;
@@ -89,21 +120,7 @@ class ListaPetPage extends Component {
                             {iconStatus}
                         </Body>
                         <Right>
-                            <Button
-                                // iconRight
-                                transparent
-                                primary
-                                info
-                                success
-                                onPress={() => this.props.navigation.navigate('detailStack', {
-                                    doador: obj,
-                                    iconCustom: <Icon name="arrow-back" style={{ marginLeft: 5, fontSize: 35, color: '#fff' }} />,
-                                    onPressCustom: 'goBack',
-                                })}
-                            >
-                                {/* <Text>Editar</Text> */}
-                                <Icon type="FontAwesome" name="edit" />
-                            </Button>
+                            {this.getButoes(obj)}
                         </Right>
                     </CardItem>
                 </Card>);
@@ -134,7 +151,8 @@ class ListaPetPage extends Component {
                 />
                 <Container>
                     <Content>
-                        {loading ? <Spinner /> : cards || null}
+                        {loading ? <Spinner /> : null}
+                        {cards || null}
                     </Content>
                 </Container>
             </ContainerPerfil>
@@ -152,6 +170,8 @@ ListaPetPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
     listaPetPorUser: selectorsPet.selectorListaPetPorUser(),
     loading: selectorsPet.selectorLoading(),
+    message: selectorsPet.selectorMessage(),
+    error: selectorsPet.selectorError(),
     user: selectorsSession.selectorSessionUser(),
 });
 

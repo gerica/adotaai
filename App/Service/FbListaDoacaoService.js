@@ -29,6 +29,18 @@ class FbListaDoacaoService {
         }
     }
 
+    async updateInfo({ payload }) {
+        try {
+            const { doacao, status } = payload;
+
+            const doacaoDoc = await this.ref.doc(doacao.id);
+            await doacaoDoc.update({ status });
+            console.log('alterado');
+        } catch (err) {
+            throw err;
+        }
+    }
+
     async load(id) {
         return await this.ref.doc(id).get();
         // var query = citiesRef.where("state", "==", "CA");

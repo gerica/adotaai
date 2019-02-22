@@ -22,6 +22,7 @@ import Colors from '../../Theme/Colors';
 import { TextHeader } from '../styles';
 import IconHeaderLeft from '../../Components/header/iconHeaderLeft';
 import IconHeaderRight from '../../Components/header/iconHeaderRight';
+import EditarPetPage from '../Perfil/editarPet';
 
 
 // Manifest of possible screens
@@ -115,7 +116,9 @@ const stackPerfil = createStackNavigator({
 
 const stackPerfilLista = createStackNavigator({
     listaStack: { screen: ListaPetPage },
+    editarPetStack: { screen: EditarPetPage },
 },
+
     {
         initialRouteName: 'listaStack',
         /* The header config from HomeScreen is now here */

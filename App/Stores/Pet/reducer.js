@@ -11,7 +11,10 @@ const INITIAL_STATE = {
 
 // Geral
 export const request = (state = INITIAL_STATE) => ({ ...state, loading: true });
-export const success = (state = INITIAL_STATE, { message }) => ({ ...state, loading: false, message });
+export const success = (state = INITIAL_STATE, { message }) => {
+    console.log(message);
+    return { ...state, loading: false, message };
+};
 export const failure = (state = INITIAL_STATE, { error }) => ({ ...state, loading: false, error });
 
 // Cadastrar doação
@@ -21,7 +24,7 @@ export const cadastroDoacaoRequest = (state = INITIAL_STATE) => ({ ...state, loa
 export const fetchPetPorUserSuccess = (state = INITIAL_STATE, { listaPetPorUser }) => ({ ...state, loading: false, listaPetPorUser, error: null });
 
 // Reset
-export const resetRedux = (state = INITIAL_STATE) => ({ ...state, loading: false, error: null, message: null });
+export const resetRedux = (state = INITIAL_STATE) => ({ ...state, error: null, message: null });
 
 export const fetchPetAbertoSuccess = (state = INITIAL_STATE, { listaPetAberto }) => ({ ...state, listaPetAberto, loading: false });
 
@@ -34,6 +37,7 @@ const perfilReducer = createReducer(INITIAL_STATE, {
     // DOACAO
     [PetTypes.CADASTRO_DOACAO_REQUEST]: cadastroDoacaoRequest,
     [PetTypes.UPDATE_DOACAO_REQUEST]: request,
+    [PetTypes.UPDATE_DOACAO_INFO_REQUEST]: request,
 
     // Fetch pet por usuario
     [PetTypes.FETCH_PET_POR_USER_REQUEST]: request,

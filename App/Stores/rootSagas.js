@@ -11,6 +11,7 @@ export default function* rootSaga() {
         petSaga.watchFetchPetPorUserRequest(),
         petSaga.watchFetchPetAbertoRequest(),
         petSaga.watchUpdateDoacaoRequest(),
+        petSaga.watchUpdateDoacaoInfoRequest(),
 
         sessionSaga.watchLoginRequest(),
         sessionSaga.watchSignInGoogleRequest(),
