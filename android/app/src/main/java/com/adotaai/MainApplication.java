@@ -3,6 +3,14 @@ package com.adotaai;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.database.RNFirebaseDatabasePackage; 
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +30,15 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+            new RNGoogleSigninPackage(),
+            new RNFirebasePackage(),
+            new VectorIconsPackage(),
+            new RNGestureHandlerPackage(),
+            new RNFirebaseStoragePackage(),
+            new RNFirebaseDatabasePackage(),
+            new RNFirebaseFirestorePackage(),
+            new RNFirebaseAuthPackage()
       );
     }
 

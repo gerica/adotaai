@@ -1,22 +1,43 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Reactotron from 'reactotron-react-native';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { reactotronRedux } from 'reactotron-redux';
+import { GoogleSignin } from 'react-native-google-signin';
 
-import store from './Store';
-import HomePage from './Containers/Home';
-// import configureStore from './utils/configureStore';
+import Fonts from './Theme/Fonts';
+import ApplicationStyles from './Theme/ApplicationStyles';
+import configureStore from './Stores';
+import AppNavigator from './Containers/Navigator';
 
-// const store = configureStore();
+export const reactotron = Reactotron
+  .configure({
+    host: '192.168.0.10', //my current wifi local ip in mac
+    port: 9090,
+    name: 'Adota ai|'
+  })
+  .useReactNative()
+  .use(reactotronRedux())
+  .connect();
 
 type Props = {};
+const { store, persistor } = configureStore();
 export default class App extends Component<Props> {
+
+  componentWillMount() {
+    GoogleSignin.configure();
+  }
+
   render() {
+    // Reactotron.log('hello rendering world');
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>Teste 25</Text>
-          <HomePage />
-        </View>
+        <PersistGate loading={null} persistor={persistor}>
+          <View style={styles.container}>
+            <AppNavigator />
+          </View>
+        </PersistGate>
       </Provider>
     );
   }
@@ -24,19 +45,19 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
+    ...ApplicationStyles.screen.container,
+    margin: '1%',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
+  title: {
+    ...Fonts.style.h2,
     textAlign: 'center',
-    margin: 10,
+    marginBottom: 10,
   },
-  instructions: {
+  text: {
+    ...Fonts.style.normal,
     textAlign: 'center',
-    color: '#333333',
     marginBottom: 5,
   },
 });
